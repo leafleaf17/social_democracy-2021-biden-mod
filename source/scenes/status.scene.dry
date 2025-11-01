@@ -59,8 +59,7 @@ Reichstag composition:
 # 1928: 9, 1930: 10
 Others: [+ other_r +]%
 
-[? if spd_in_government = 1 : Budget: [+ budget +] ?]
-
+Political Capital: [+ political_capital +]
 Next election: [+ next_election_month : month +] [+ next_election_year +]
 
 = Economics

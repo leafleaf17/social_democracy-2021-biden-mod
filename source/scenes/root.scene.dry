@@ -368,6 +368,8 @@ Q.in_minority_government = 0;
 
 // if you're in a coalition, this is an incremental counter for how many times dissent has happened from the right.
 Q.coalition_dissent = 0;
+Q.political_capital = 5;
+
 // dissent from the KPD, in a popular front or left front government
 Q.kpd_coalition_dissent = 0;
 
