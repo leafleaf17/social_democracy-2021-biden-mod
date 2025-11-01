@@ -34,6 +34,7 @@ Internal dissent: [+ dissent_percent : dissent +]
 President: [+ president +]
 
 Speaker of the House: [+ house_speaker +]
+
 Senate Majority Leader: [+ senate_leader +]
 
 Reichstag composition:
