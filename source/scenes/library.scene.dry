@@ -91,10 +91,10 @@ NSDAP: [+ nsdap_r +]%
 # 1928: 9, 1930: 10
 Others: [+ other_r +]%
 
-Congressional_position = 
-    [? if democratic_trifecta : <span style="color:#2CA02C">Democratic Trifecta</span> ?]
-    [? if democratic_divided_government : <span style="color:#FFCC00">Split Control</span> ?]
-    [? if democratic_lost_government : <span style="color:#D62728">Republican Control</span> ?]
+Congressional position: 
+[? if democratic_trifecta : <span style="color:#2CA02C">Democratic Trifecta</span> ?]
+[? if democratic_divided_government : <span style="color:#FFCC00">Split Control</span> ?]
+[? if democratic_lost_government : <span style="color:#D62728">Republican Control</span> ?]
 
 [? if spd_in_government and not in_spd_majority and not in_left_front : Coalition dissent: [+ coalition_dissent : coalition_dissent +] ?]
 
