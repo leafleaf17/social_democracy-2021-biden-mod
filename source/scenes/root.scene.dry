@@ -338,7 +338,15 @@ Q.president = '<span style="color:#1F77B4">Bernie Sanders</span>';
 // starting chancellor: Wilhelm Marx
 Q.chancellor = "Marx";
 Q.chancellor_party = 'Z';
+//state of the democrat party
 Q.spd_in_government = 1;
+Q.democratic_trifecta = 1;
+Q.democratic_divided_government = 0;
+Q.democratic_lost_government = 0;
+
+
+
+
 Q.z_in_government = 1;
 Q.ddp_in_government = 0;
 Q.dvp_in_government = 1;
