@@ -65,9 +65,7 @@ go-to: cabinet if spd_in_government; menu if not spd_in_government
 
 = Current Government
 
-// Congressional leaders
-Q.house_speaker = '<span style="color:#6495ED">Nancy Pelosi</span>';
-Q.senate_leader = '<span style="color:#6495ED">Chuck Schumer</span>';
+
 President: [+ president +]
 
 Chancellor: [+ chancellor +] ([+ chancellor_party +])
