@@ -41,15 +41,15 @@ Senate Majority Leader: [+ senate_leader +]
 
 Senate composition:
 
-{!<span class="tooltip-text" title="Democrats including independents caucusing with them">Democrats</span>!}: [+ senate_dem_seats +]  
-{!<span class="tooltip-text" title="Republicans">Republicans</span>!}: [+ senate_rep_seats +]  
-{!<span class="tooltip-text" title="Other/Independents">Others</span>!}: [+ senate_other_seats +]  
+{!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ senate_dem_seats +]  
+{!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ senate_rep_seats +]  
+{!<span style="color:#808080">Others</span>!}: [+ senate_other_seats +]  
 
 House composition:
 
-{!<span class="tooltip-text" title="Democrats">Democrats</span>!}: [+ house_dem_seats +]  
-{!<span class="tooltip-text" title="Republicans">Republicans</span>!}: [+ house_rep_seats +]  
-{!<span class="tooltip-text" title="Other/Independents">Others</span>!}: [+ house_other_seats +]  
+{!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ house_dem_seats +]  
+{!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ house_rep_seats +]  
+{!<span style="color:#808080">Others</span>!}: [+ house_other_seats +]  
 
 Political Capital: [+ political_capital +]
 
