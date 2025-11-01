@@ -334,8 +334,8 @@ Q.economic_records = [];
 Q.president = "Hindenburg";
 // starting chancellor: Wilhelm Marx
 Q.chancellor = "Marx";
-Q.house_speaker = "<span style="color: ##6495ED;">**Nancy Pelosi**</span>; 
-Q.senate_leader = "<span style="color: ##6495ED;">**Chuck Shumer**</span>; 
+Q.house_speaker = "<span style="color: #6495ED;">**Nancy Pelosi**</span>; 
+Q.senate_leader = "<span style="color: #6495ED;">**Chuck Shumer**</span>; 
 Q.chancellor_party = 'Z';
 Q.spd_in_government = 0;
 Q.z_in_government = 1;
