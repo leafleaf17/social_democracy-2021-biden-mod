@@ -65,9 +65,9 @@ go-to: cabinet if spd_in_government; menu if not spd_in_government
 
 = Current Government
 
-President: [+ president +]
+President: [+ house_speaker +]
 
-Chancellor: [+ chancellor +] ([+ chancellor_party +])
+Chancellor: [+ senate_leader +] ([+ chancellor_party +])
 
 Reichstag composition:
 
