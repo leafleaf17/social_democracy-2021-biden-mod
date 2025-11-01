@@ -21,7 +21,7 @@ on-arrival: {!
 Q.started = 1;
 // time elapsed (in months)
 Q.time = 1;
-Q.year = 1928;
+Q.year = 2021;
 Q.month = 1;
 // how many actions have been taken this month?
 Q.month_actions = 0;
@@ -37,6 +37,8 @@ Q.use_decimals = 0;
 
 // party resources
 Q.resources = 2;
+
+Q.approval_rating = 57;
 // party dues
 Q.dues = 2;
 
