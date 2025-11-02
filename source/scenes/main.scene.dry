@@ -44,7 +44,7 @@ max-cards: 4
 
 - @party
 - @govt
--@covidcard
+- @covidcard
 - #advisor
 - @shuffle_leadership_pinned
 
