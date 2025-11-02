@@ -17,7 +17,7 @@ Yet, as impeachment attempts against Former President Trump continue in the sena
 - @attack_maga: We should increase our attacks on Trump, to try and unite Republicans behind defending this historically unpopular man.
 
 @let_them_meet
-subtitle: Trump is an anchor. If the Republicans attach themselves to him, they will sink and down.
+subtitle: Trump is an anchor. If the Republicans attach themselves to him, they will sink and down!
 on-arrival: old_middle_nsdap += 5; new_middle_nsdap += 4; workers_nsdap += 2; unemployed_nsdap += 2; sa_strength += 50; nationalism += 6; pro_republic -= 5
 
 The Trump world, silent since January 6th, has used this event to claim Trump is more popular then ever. It seems this man really is going to try and make a comeback, somehow.
