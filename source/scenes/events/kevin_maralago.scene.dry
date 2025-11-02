@@ -25,14 +25,14 @@ The Trump world, silent since January 6th, has used this event to claim Trump is
 
 @tear_republicans_away
 subtitle: -1 Political Capital. Of course Bernie would never be able to convince moderate Republicans to listen to him, but perhaps Nancy Pelosi and Chuck Shumer could?
-on-arrival: pro_republic += 2; Q.right_radicalization += 1; republican_relationship -= 0.5; political_capital -= 1
+on-arrival: pro_republic += 2; right_radicalization += 1; republican_relationship -= 0.5; political_capital -= 1
 
 Several moderate Republicans offer a soft condemnation of the meetings, yet take no real action. 
 
 
 @attack_maga
 subtitle: This will definitely make future attempts to pass bipartisan legislation harder.
-on-arrival: pro_republic += 4; Q.right_radicalization += 3.5; republican_relationship -= 3
+on-arrival: pro_republic += 4; right_radicalization += 3.5; republican_relationship -= 3
 
 We intensify our attacks on Trump greatly. Mitch Mcconnell wastes no time to come to his defense.
  
