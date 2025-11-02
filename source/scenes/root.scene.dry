@@ -513,6 +513,10 @@ Q.covid_mandates = 0;
 Q.covid_mandates_2 = 0;
 Q.right_radicalization = 25;
 // polling suff
+Q.nj_dem_bonus_temp = 5;   // temporary NJ bonus for 1 turn
+Q.nj_rep_bonus_temp = 0;   // temporary NJ bonus for 1 turn
+Q.va_dem_bonus_temp = 0;   // temporary VA bonus for 1 turn
+Q.va_rep_bonus_temp = 0;   // temporary VA bonus for 1 turn
 Q.republican_relationship = 25;
 Q.vigrinia_democrats_poll = 52.8;
 Q.vigrinia_republicans_poll = 44.2;
