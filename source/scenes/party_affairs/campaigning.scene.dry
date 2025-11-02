@@ -23,53 +23,33 @@ Whether or not we are in an electoral campaign, the party is always trying to br
 subtitle: -1 resources
 choose-if: resources >= 1
 unavailable-subtitle: Not enough resources.
-on-arrival: 
-    lower_income_dem += 2*(1-dissent)
-    lower_income_rep -= 1*(1-dissent)
-    resources -= 1
-
+on-arrival: lower_income_dem += 2*(1-dissent); lower_income_rep -= 1*(1-dissent); resources -= 1
 We have increased our campaigning among lower-income Americans. [? if unemployment_rate >= 10: High unemployment makes this group harder to persuade. ?]
 
 @lower_middle_income
 subtitle: -1 resources
 choose-if: resources >= 1
 unavailable-subtitle: Not enough resources.
-on-arrival: 
-    lower_middle_income_dem += 2*(1-dissent)
-    lower_middle_income_rep -= 1*(1-dissent)
-    resources -= 1
-
+on-arrival: lower_middle_income_dem += 2*(1-dissent); lower_middle_income_rep -= 1*(1-dissent); resources -= 1
 We have increased our campaigning among lower-middle-income Americans. [? if wage_growth < 2: Low wage growth makes this group less receptive. ?]
 
 @middle_income
 subtitle: -1 resources
 choose-if: resources >= 1
 unavailable-subtitle: Not enough resources.
-on-arrival: 
-    middle_income_dem += 2*(1-dissent)
-    middle_income_rep -= 1*(1-dissent)
-    resources -= 1
-
+on-arrival: middle_income_dem += 2*(1-dissent); middle_income_rep -= 1*(1-dissent); resources -= 1
 We have increased our campaigning among middle-income Americans. [? if inflation > 3: Rising costs make this group more skeptical. ?]
 
 @upper_middle_income
 subtitle: -1 resources
 choose-if: resources >= 1
 unavailable-subtitle: Not enough resources.
-on-arrival: 
-    upper_middle_income_dem += 1*(1-dissent)
-    upper_middle_income_rep -= 1*(1-dissent)
-    resources -= 1
-
+on-arrival: upper_middle_income_dem += 1*(1-dissent); upper_middle_income_rep -= 1*(1-dissent); resources -= 1
 We have increased our campaigning among upper-middle-income Americans. [? if economic_growth < 1: Sluggish growth makes this group less enthusiastic. ?]
 
 @upper_income
 subtitle: -1 resources
 choose-if: resources >= 1
 unavailable-subtitle: Not enough resources.
-on-arrival: 
-    upper_income_dem += 1*(1-dissent)
-    upper_income_rep -= 1*(1-dissent)
-    resources -= 1
-
+on-arrival: upper_income_dem += 1*(1-dissent); upper_income_rep -= 1*(1-dissent); resources -= 1
 We have increased our campaigning among upper-income Americans. [? if government_deficit > 10: Fiscal concerns make this group wary. ?]
