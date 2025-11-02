@@ -108,29 +108,24 @@ if (Q.sa_strength) {
 }
 !}
 
-= Paramilitaries
+= State of the Union
 
 Inflation: [+ inflation_2 +]%
 
-Unemployment: [+ unemployed_2 +]% 
+Unemployment: [+ unemployment_rate +]% 
 
 Economic growth: [+ economic_growth_2 +]%
 
-{!<span class="tooltip-text" title="The Reichsbanner Schwarz-Rot-Gold is a popular organization for defending democracy, mostly affiliated with the SPD.">Reichsbanner</span>!} Strength: [+ rb_strength_2 +] thousand
+Real GDP Growth: [+ real_gdp_growth +]%
 
-Reichsbanner Militarization: [+ rb_militancy : militancy +]
+Government Deficit: [+ government_deficit +]%
 
-{!<span class="tooltip-text" title="The RFB (Rotfrontkämpferbund) is a communist group associated with the KPD.">RFB</span>!} Strength: [+ rfb_strength_2 +] thousand
+Wage Growth: [+ wage_growth +]%
 
-RFB Militarization: [+ rfb_militancy : militancy +]
+Poverty Rate: [+ poverty_rate +]%
 
-{!<span class="tooltip-text" title="The Stahlhelm is a right-wing organization of war veterans associated with the DNVP.">Stahlhelm</span>!} Strength: [+ sh_strength_2 +] thousand
+Consumer Confidence: [+ consumer_confidence +]%
 
-Stahlhelm Militarization: [+ sh_militancy : militancy +]
-
-{!<span class="tooltip-text" title="The SA (Sturmabteilung) is the Nazi paramilitary.">SA</span>!} Strength: [+ sa_strength_2 +] thousand
-
-SA Militarization: [+ sa_militancy : militancy +]
 
 = Official military/paramilitaries
 
