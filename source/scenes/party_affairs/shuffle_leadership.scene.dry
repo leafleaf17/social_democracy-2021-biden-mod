@@ -155,7 +155,7 @@ Woytinsky has been removed as an advisor. The Labor faction disapproves.
 title: Remove Levi
 view-if: levi_advisor = 1
 tags: remove_advisor
-on-arrival: levi_advisor = 0; left_dissent += 5; n_advisors -= 1
+on-arrival: levi_advisor = 0; dove_dissent += 5; n_advisors -= 1
 go-to: rm_main
 
 Levi has been removed as an advisor. The Leftist faction disapproves.
@@ -164,7 +164,7 @@ Levi has been removed as an advisor. The Leftist faction disapproves.
 title: Remove Sender
 view-if: sender_advisor = 1
 tags: remove_advisor
-on-arrival: sender_advisor = 0; left_dissent += 3; n_advisors -= 1
+on-arrival: sender_advisor = 0; dove_dissent += 3; n_advisors -= 1
 go-to: rm_main
 
 Sender has been removed as an advisor. The Leftist faction disapproves.
@@ -173,7 +173,7 @@ Sender has been removed as an advisor. The Leftist faction disapproves.
 title: Remove Rosenfeld
 view-if: rosenfeld_advisor = 1
 tags: remove_advisor
-on-arrival: rosenfeld_advisor = 0; left_dissent += 3; n_advisors -= 1
+on-arrival: rosenfeld_advisor = 0; dove_dissent += 3; n_advisors -= 1
 go-to: rm_main
 
 Rosenfeld has been removed as an advisor. The Leftist faction disapproves.
@@ -182,7 +182,7 @@ Rosenfeld has been removed as an advisor. The Leftist faction disapproves.
 title: Remove Seydewitz
 view-if: seydewitz_advisor = 1
 tags: remove_advisor
-on-arrival: seydewitz_advisor = 0; left_dissent += 3; n_advisors -= 1
+on-arrival: seydewitz_advisor = 0; dove_dissent += 3; n_advisors -= 1
 go-to: rm_main
 
 Seydewitz has been removed as an advisor. The Leftist faction disapproves.
@@ -191,7 +191,7 @@ Seydewitz has been removed as an advisor. The Leftist faction disapproves.
 title: Remove Siemsen
 view-if: siemsen_advisor = 1
 tags: remove_advisor
-on-arrival: siemsen_advisor = 0; left_dissent += 3; n_advisors -= 1
+on-arrival: siemsen_advisor = 0; dove_dissent += 3; n_advisors -= 1
 go-to: rm_main
 
 Siemsen has been removed as an advisor. The Leftist faction disapproves.
@@ -438,7 +438,7 @@ subtitle: Paul Levi is a former KPD leader who was purged for criticizing Commun
 is-card: true
 card-image: img/portraits/LeviPaul.jpg
 view-if: levi_advisor = 0 and levi_dead = 0 and n_advisors < 3 and left_split = 0
-on-arrival: levi_advisor = 1; n_advisors += 1; left_strength += 5
+on-arrival: levi_advisor = 1; n_advisors += 1; dove_strength += 5
 go-to: advisor_menu
 tags: left_advisor
 
@@ -450,7 +450,7 @@ subtitle: Toni Sender is an anti-war and womens' rights advocate, and Reichstag 
 is-card: true
 card-image: img/portraits/SenderToni.jpg
 view-if: sender_advisor = 0 and n_advisors < 3
-on-arrival: sender_advisor = 1; n_advisors += 1; left_strength += 5
+on-arrival: sender_advisor = 1; n_advisors += 1; dove_strength += 5
 go-to: advisor_menu
 tags: left_advisor
 
@@ -462,7 +462,7 @@ subtitle: Kurt Rosenfeld is a lawyer, anti-militarist activist, and Reichstag me
 is-card: true
 card-image: img/portraits/RosenfeldKurt.jpg
 view-if: rosenfeld_advisor = 0 and n_advisors < 3 and left_split = 0
-on-arrival: rosenfeld_advisor = 1; n_advisors += 1; left_strength += 5
+on-arrival: rosenfeld_advisor = 1; n_advisors += 1; dove_strength += 5
 go-to: advisor_menu
 tags: left_advisor
 
@@ -474,7 +474,7 @@ subtitle: Max Seydewitz is a former leader of the youth wing, current supporter 
 is-card: true
 card-image: img/portraits/SeydewitzMax.jpg
 view-if: seydewitz_advisor = 0 and n_advisors < 3 and left_split = 0
-on-arrival: seydewitz_advisor = 1; n_advisors += 1; left_strength += 5
+on-arrival: seydewitz_advisor = 1; n_advisors += 1; dove_strength += 5
 go-to: advisor_menu
 tags: left_advisor
 
@@ -486,7 +486,7 @@ subtitle: Anna Siemsen is an and educational reform advocate and pacifist, who w
 is-card: true
 card-image: img/portraits/SiemsenAnna.jpg
 view-if: siemsen_advisor = 0 and n_advisors < 3 and left_split = 0
-on-arrival: siemsen_advisor = 1; n_advisors += 1; left_strength += 5
+on-arrival: siemsen_advisor = 1; n_advisors += 1; dove_strength += 5
 go-to: advisor_menu
 tags: left_advisor
 
