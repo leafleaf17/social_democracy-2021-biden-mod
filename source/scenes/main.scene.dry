@@ -18,6 +18,8 @@ max-cards: 3
 
 - @party
 - @govt
+-@covidcard
+
 - #advisor
 - @shuffle_leadership_pinned
 
@@ -41,6 +43,7 @@ max-cards: 4
 
 - @party
 - @govt
+-@covidcard
 - #advisor
 - @shuffle_leadership_pinned
 
@@ -58,9 +61,12 @@ view-if: time >= -1
 card-image: img/reichstag_2.jpg
 is-deck: true
 
+- #govt_affairs
+
 @covidcard
 title: Covid-19
 view-if: covid_state > 0
 card-image: img/reichstag_2.jpg
 is-deck: true
 
+- #covid_affairs
