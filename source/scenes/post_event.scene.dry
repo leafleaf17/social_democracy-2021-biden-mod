@@ -203,7 +203,7 @@ Q.jersey_democrats_poll =
     Q.nj_middle_share       * Q.middle_income_dem +
     Q.nj_uppermiddle_share  * Q.upper_middle_income_dem +
     Q.nj_upper_share        * Q.upper_income_dem +
-    Q.nj_dem_bonus_temp;
+    Q.nj_dem_bonus;  // permanent bonus for Democrats
 
 Q.jersey_republicans_poll = 
     Q.nj_lower_share        * Q.lower_income_rep +
@@ -211,13 +211,9 @@ Q.jersey_republicans_poll =
     Q.nj_middle_share       * Q.middle_income_rep +
     Q.nj_uppermiddle_share  * Q.upper_middle_income_rep +
     Q.nj_upper_share        * Q.upper_income_rep +
-    Q.nj_rep_bonus_temp;
+    Q.nj_rep_bonus; // permanent bonus for Republicans
 
 
-
-// Reset temporary bonuses
-Q.nj_dem_bonus_temp = 0;
-Q.nj_rep_bonus_temp = 0;
 
 // === Virginia Poll Calculation ===
 Q.vigrinia_democrats_poll = 
@@ -226,7 +222,7 @@ Q.vigrinia_democrats_poll =
     Q.va_middle_share       * Q.middle_income_dem +
     Q.va_uppermiddle_share  * Q.upper_middle_income_dem +
     Q.va_upper_share        * Q.upper_income_dem +
-    Q.va_dem_bonus_temp;
+    Q.va_dem_bonus;  // permanent bonus for Democrats
 
 Q.vigrinia_republicans_poll = 
     Q.va_lower_share        * Q.lower_income_rep +
@@ -234,12 +230,10 @@ Q.vigrinia_republicans_poll =
     Q.va_middle_share       * Q.middle_income_rep +
     Q.va_uppermiddle_share  * Q.upper_middle_income_rep +
     Q.va_upper_share        * Q.upper_income_rep +
-    Q.va_rep_bonus_temp;
+    Q.va_rep_bonus; // permanent bonus for Republicans
 
 
-// Reset temporary bonuses
-Q.va_dem_bonus_temp = 0;
-Q.va_rep_bonus_temp = 0;
+
 
 // Optional: Normalize so sum <= 100% (for Other parties)
 let va_total = Q.vigrinia_democrats_poll + Q.vigrinia_republicans_poll;
