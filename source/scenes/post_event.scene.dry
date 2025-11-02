@@ -105,6 +105,7 @@ if (Q.month_actions >= 1) {
       Q.week += 2;  
 
     if (Q.week > 4) {  // roughly 4 weeks in a month
+    Q.week = 4;
         Q.week -= 4;
         Q.month += 1;
     }
