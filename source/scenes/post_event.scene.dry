@@ -565,6 +565,11 @@ Q.poverty_rate = Math.min(100, Q.poverty_rate);
         }
     }
 }
+for (let key in Q) {
+    if (key.endsWith('_poll')) {
+        Q[key] = Math.round(Q[key] * 100) / 100;
+    }
+}
 Q.has_event = 0;
 // check if there are any cards in #event, and then go to main if not.
 var scene = this.game.scenes['post_event.events_choice'];
