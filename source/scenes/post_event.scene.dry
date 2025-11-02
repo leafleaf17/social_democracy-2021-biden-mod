@@ -133,78 +133,74 @@ if (Q.month_actions >= 1) {
                              'unemployment': Q.unemployed});
     // change economic stats...
     // we're basically implicity drawing a Philips curve
-    const ideal_unemployment   = 5;   // %
-const ideal_inflation      = 2;   // %
-const ideal_growth         = 2;   // %
-const ideal_deficit        = 5;   // %
-const ideal_wage_growth    = 2;   // %
-const ideal_poverty        = 10;  // %
-const ideal_consumer_conf  = 70;  // index
-const ideal_interest_rate  = 1;   // %
+   // === Ideal Economic Baselines (Realistic U.S. Benchmarks) ===
+const ideal_unemployment   = 4.5;   // %
+const ideal_inflation      = 2;     // %
+const ideal_growth         = 2.5;   // %
+const ideal_deficit        = 4;     // % of GDP
+const ideal_wage_growth    = 3;     // %
+const ideal_poverty        = 9;     // %
+const ideal_consumer_conf  = 105;   // index (100 = OK, 120 = excellent)
+const ideal_interest_rate  = 2;     // %
 
-function quadraticEffect(actual, ideal, multiplier) {
-    // deviation squared times multiplier
-    // negative multiplier = penalty for being above ideal, positive = bonus
+function quadraticEffect(actual, ideal, multiplier, inverted = false) {
+    // Penalizes deviation from ideal; inverted=true means higher-than-ideal is good (e.g. growth)
     const deviation = actual - ideal;
-    return -1 * multiplier * deviation * deviation;
+    return (inverted ? 1 : -1) * multiplier * (deviation ** 2);
 }
 
-// Apply economic effects dynamically
+// === Approval Effects (Smoothed Quadratic Model) ===
 Q.approval_rating += quadraticEffect(Q.unemployment_rate, ideal_unemployment, 0.5);
 Q.approval_rating += quadraticEffect(Q.inflation, ideal_inflation, 0.3);
-Q.approval_rating += quadraticEffect(Q.economic_growth, ideal_growth, -0.4); // growth above ideal = bonus
-Q.approval_rating += quadraticEffect(Q.government_deficit, ideal_deficit, 0.2);
-Q.approval_rating += quadraticEffect(Q.wage_growth, ideal_wage_growth, -0.3); // more wage growth = bonus
+Q.approval_rating += quadraticEffect(Q.economic_growth, ideal_growth, 0.35, true); // growth above ideal = bonus
+Q.approval_rating += quadraticEffect(Q.government_deficit, ideal_deficit, 0.15);
+Q.approval_rating += quadraticEffect(Q.wage_growth, ideal_wage_growth, 0.25, true); // higher wage growth = bonus
 Q.approval_rating += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.25);
-Q.approval_rating += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, -0.05); // higher confidence = bonus
+Q.approval_rating += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, 0.015, true); // higher confidence = good
 Q.approval_rating += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.1);
 
-// Clamp approval rating between 0 and 100
+// Clamp approval to within reasonable bounds (game realism)
 if (Q.approval_rating !== undefined) {
     Q.approval_rating = Math.max(32, Math.min(65, Q.approval_rating));
 }
-// === Passive Economic Effects per Turn (Economic Only) ===
 
-// 1. Interest Rate Effects (1/4th strength)
-// Low interest rates stimulate growth and wage growth; high rates dampen them
-Q.economic_growth += 0.0125 * Math.max(0, 2 - Q.interest_rate); // Boost growth if interest rate < 2
-Q.wage_growth += 0.005 * Math.max(0, 2 - Q.interest_rate);      // Slight boost to wages
-Q.inflation -= 0.005 * Q.interest_rate;                           // Each point of interest rate lowers inflation slightly
+// === Passive Macro Effects per Turn ===
 
-// 2. Inflation Effects (1/4th strength)
-// Inflation above target (2%) hurts consumer confidence and reduces wage real value
-Q.consumer_confidence -= 0.015 * Math.max(0, Q.inflation - 2); 
-Q.wage_growth -= 0.0025 * Math.max(0, Q.inflation - 2);          // Inflation erodes wage gains
+// 1. Interest Rate Feedback (1/4 strength)
+// Low rates stimulate; high rates cool growth and inflation
+Q.economic_growth += 0.015 * Math.max(0, 3 - Q.interest_rate);
+Q.wage_growth     += 0.0075 * Math.max(0, 3 - Q.interest_rate);
+Q.inflation       -= 0.01 * Q.interest_rate;
 
-// 3. Economic Growth Effects (1/4th strength)
-// Positive growth boosts consumer confidence and slightly reduces unemployment
-Q.consumer_confidence += 0.01 * Q.economic_growth;
-Q.unemployment_rate -= 0.0125 * Q.economic_growth;
+// 2. Inflation Feedback
+Q.consumer_confidence -= 0.05 * Math.max(0, Q.inflation - 3);   // persistent inflation hurts confidence
+Q.wage_growth -= 0.003 * Math.max(0, Q.inflation - 3);
 
-// 4. Unemployment Effects (1/4th strength)
-// Higher unemployment reduces consumer confidence and increases poverty
-Q.consumer_confidence -= 0.01 * Q.unemployment_rate;
-Q.poverty_rate += 0.05 * Q.unemployment_rate;
+// 3. Growth Feedback
+Q.consumer_confidence += 0.1 * Q.economic_growth;              // growth boosts confidence
+Q.unemployment_rate   -= 0.05 * Q.economic_growth;             // growth lowers unemployment
 
-// 5. Wage Growth Effects (1/4th strength)
-// Higher wages reduce poverty and increase consumer confidence
-Q.poverty_rate -= 0.0375 * Q.wage_growth;
-Q.consumer_confidence += 0.01 * Q.wage_growth;
+// 4. Unemployment Feedback
+Q.consumer_confidence -= 0.4 * (Q.unemployment_rate - 4.5);    // joblessness hurts confidence
+Q.poverty_rate        += 0.1 * (Q.unemployment_rate - 4.5);    // more jobless = more poverty
 
-// 6. Poverty Rate Effects (1/4th strength)
-// Higher poverty decreases consumer confidence and depresses economic growth slightly
-Q.consumer_confidence -= 0.005 * Q.poverty_rate;
-Q.economic_growth -= 0.0125 * Q.poverty_rate;
+// 5. Wage Feedback
+Q.poverty_rate        -= 0.05 * Q.wage_growth;
+Q.consumer_confidence += 0.2 * Q.wage_growth;
 
-// 7. Clamp Metrics to Reasonable Bounds
-Q.unemployment_rate = Math.max(0, Q.unemployment_rate);
-Q.inflation = Math.max(-5, Q.inflation);  // allow slight deflation
-Q.wage_growth = Math.max(0, Q.wage_growth);
-Q.poverty_rate = Math.max(0, Q.poverty_rate);
-Q.consumer_confidence = Math.max(0, Math.min(100, Q.consumer_confidence));
-Q.economic_growth = Math.max(-5, Q.economic_growth);
+// 6. Poverty Feedback
+Q.consumer_confidence -= 0.25 * (Q.poverty_rate - 9);
+Q.economic_growth     -= 0.05 * (Q.poverty_rate - 9);
 
-// 8. Round all economic values to 2 decimals
+// === Clamp Metrics to Realistic Bounds ===
+Q.unemployment_rate   = Math.max(0, Math.min(25, Q.unemployment_rate));
+Q.inflation           = Math.max(-2, Math.min(15, Q.inflation));
+Q.wage_growth         = Math.max(0, Math.min(8, Q.wage_growth));
+Q.poverty_rate        = Math.max(0, Math.min(50, Q.poverty_rate));
+Q.consumer_confidence = Math.max(40, Math.min(150, Q.consumer_confidence));
+Q.economic_growth     = Math.max(-10, Math.min(10, Q.economic_growth));
+
+// === Round for Display ===
 let roundKeys = ['_rate', '_growth', '_deficit', '_inflation', '_confidence', '_poverty', '_wage'];
 for (let key in Q) {
     if (roundKeys.some(suffix => key.endsWith(suffix))) {
@@ -212,22 +208,20 @@ for (let key in Q) {
     }
 }
 Q.approval_rating = Math.max(0, Math.min(100, Q.approval_rating));
-    // budget deficits lead to some inflation
-    if (Q.budget <= 0 && Q.budget > -2 && Q.inflation < 2.5) {
-        Q.inflation += 0.1;
-    }
-    if (Q.budget <= -2 && Q.budget > -5 && Q.inflation < 5) {
-        Q.inflation += 0.2;
-        if (Q.unemployed >= 12) {
-            Q.inflation -= 0.1;
-        }
-    }
-    if (Q.budget <= -5 && Q.inflation < 10) {
-        Q.inflation += 0.3;
-        if (Q.unemployed >= 15) {
-            Q.inflation -= 0.1;
-        }
-    }
+
+// === Fiscal Pressure → Inflation Link ===
+if (Q.budget <= 0 && Q.budget > -2 && Q.inflation < 3)
+    Q.inflation += 0.1;
+
+if (Q.budget <= -2 && Q.budget > -5 && Q.inflation < 6) {
+    Q.inflation += 0.2;
+    if (Q.unemployment_rate >= 10) Q.inflation -= 0.1;
+}
+
+if (Q.budget <= -5 && Q.inflation < 10) {
+    Q.inflation += 0.3;
+    if (Q.unemployment_rate >= 15) Q.inflation -= 0.1;
+}
     // Passive COVID-19 economic effects
 if (Q.covid_state > 0) {
     // Unemployment rises with higher COVID severity
