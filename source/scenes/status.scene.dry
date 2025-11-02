@@ -150,23 +150,6 @@ Q.socialism_disp = Math.round(Q.socialism);
 [? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : 
 {!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ jersey_republicans_poll +]% ?]
 
-SPD: [+ spd_votes +]%
-
-[? if sapd_formed: SAPD: [+ sapd_votes +]% ?]
-
-Z + BVP: [+ z_votes +]%
-
-KPD: [+ kpd_votes +]%
-
-[? if not ddp_name: DDP?][? if ddp_name != 0 : [+ ddp_name +]?]: [+ ddp_votes +]%
-
-DVP: [+ dvp_votes +]%
-
-DNVP: [+ dnvp_votes +]%
-
-NSDAP: [+ nsdap_votes +]%
-
-Others: [+ other_votes +]%
 
 **Detailed results for each demographic**
 
