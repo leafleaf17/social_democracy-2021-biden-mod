@@ -24,6 +24,7 @@ subtitle: -1 resources
 choose-if: resources >= 1
 unavailable-subtitle: Not enough resources.
 on-arrival: lower_income_dem += 2*(1-dissent); lower_income_rep -= 1*(1-dissent); resources -= 1
+
 We have increased our campaigning among lower-income Americans. [? if unemployment_rate >= 10: High unemployment makes this group harder to persuade. ?]
 
 @lower_middle_income
