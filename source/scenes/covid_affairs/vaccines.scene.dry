@@ -1,7 +1,6 @@
 title: Expanding Vaccination
 new-page: true
 view-if: covid_state > 0 and vaccine_policy_timer <= 0
-
 frequency: 3
 is-card: true
 card-image: img/poster_2.jpg
