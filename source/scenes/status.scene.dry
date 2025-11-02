@@ -136,15 +136,19 @@ Q.socialism_disp = Math.round(Q.socialism);
 
 [? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : Virginia Governor Election: ?]
 
-[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : Democrats: [+ vigrinia_democrats_poll +]% ?]
+[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : 
+{!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!}: [+ vigrinia_democrats_poll +]% ?]
 
-[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : Democrats: [+ vigrinia_republicans_poll +]% ?]
+[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : 
+{!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ vigrinia_republicans_poll +]% ?]
 
 [? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : New Jersey Governor Election: ?]
 
-[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : Democrats: [+ jersey_democrats_poll +]% ?]
+[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : 
+{!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!}: [+ jersey_democrats_poll +]% ?]
 
-[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : Democrats: [+ jersey_republicans_poll +]% ?]
+[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : 
+{!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ jersey_republicans_poll +]% ?]
 
 SPD: [+ spd_votes +]%
 
