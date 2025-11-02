@@ -13,7 +13,7 @@ Trump's political career is widely seen as dead in the aftermath of the failed J
 Yet, as impeachment attempts against Former President Trump continue in the senate, some top Republicans are fearing that if the party attempts to cast Trump asside, he may split off and form his own party, surely taking a large percentage of Republican voters with him. In an attempt to placate Trump, Kevin McCarthy has decided to visit Trump's estate as Mar-a-Lago, perhaps signaling the Trump's influence in the Republican party is not fading away anytime soon 
 
 - @let_them_meet: There's no way they'd try and rehabilitate this man!
-- @tear_republicans_away: Can we draw a wedge between {!<span style="color:#FF6961">Moderate</span> <span style="color:#D62728">Republicans</span>!} and {!<span style="color:#D62728">MAGA Republicans</span>!}?
+- @tear_republicans_away: Can we drive a wedge between {!<span style="color:#FF6961">Moderate</span> <span style="color:#D62728">Republicans</span>!} and {!<span style="color:#D62728">MAGA Republicans</span>!}?
 - @attack_maga: We should increase our attacks on Trump, to try and unite Republicans behind defending this historically unpopular man.
 
 @let_them_meet
@@ -24,7 +24,7 @@ When we ban the film, the Nazis immediately celebrate it as a major victory; the
 
 
 @tear_republicans_away
-subtitle: -1 Political Capital. Of course Bernie would never be able to convince moderate Republicans, but perhaps Nancy Pelosi and Chuck Shumer could?
+subtitle: -1 Political Capital. Of course Bernie would never be able to convince moderate Republicans to listen to him, but perhaps Nancy Pelosi and Chuck Shumer could?
 on-arrival: nationalism += 3; old_middle_nsdap += 4; new_middle_nsdap += 3; workers_nsdap += 1; sa_strength += 15; pro_republic -= 3; strife += 1
 
 While we allow the film, showings are marred by violence. Showings of the film eventually stop, and the Nazis claim victory.
