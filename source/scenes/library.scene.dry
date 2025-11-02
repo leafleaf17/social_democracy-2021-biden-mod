@@ -281,7 +281,7 @@ go-to: neorevisionists if neorevisionism > 0; menu if neorevisionism <= 0
 
 Overall dissent: [+ dissent_percent : dissent +]
 
-**Left**
+**Doves**
 
 Many leftists are former members of the USPD (the left-wing, anti-war Independent Social Democratic Party), or are young radicals. Many are interested in closer cooperation with the KPD, and some support extraparliamentary action.
 
@@ -289,13 +289,13 @@ Strength: [+ dove_strength : strength +]
 
 Dissent: [+ dove_dissent : dissent +]
 
-**Centrists**
+**Minorities**
 
 Centrists in the SPD are followers of the doctrine of orthodox Marxism as expounded by Karl Kautsky and later Rudolf Hilferding. They seek a middle course between reform and revolution, while defending the democratic state.
 
-Strength: [+ center_strength : strength +]
+Strength: [+ minority_strength : strength +]
 
-Dissent: [+ center_dissent : dissent +]
+Dissent: [+ minority_dissent : dissent +]
 
 **Labor**
 
@@ -305,13 +305,13 @@ Strength: [+ labor_strength : strength +]
 
 Dissent: [+ labor_dissent : dissent +]
 
-**Reformists**
+**Youth**
 
 Reformists are pragmatic participants in government, and seek to expand the welfare state and defend democracy against the far right and left. [? if spd_prussia : They are dominant in the state government of Prussia. ?]
 
-Strength: [+ reformist_strength : strength +]
+Strength: [+ youth_strength : strength +]
 
-Dissent: [+ reformist_dissent : dissent +]
+Dissent: [+ youth_dissent : dissent +]
 
 @neorevisionists
 go-to: menu

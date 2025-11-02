@@ -76,16 +76,16 @@ if (Q.unemployed <= 1) {
 }
 
 // re-calculate dissent.
-var total_strength = Q.dove_strength + Q.center_strength + Q.labor_strength + Q.reformist_strength + Q.neorevisionist_strength;
+var total_strength = Q.dove_strength + Q.minority_strength + Q.labor_strength + Q.youth_strength + Q.neorevisionist_strength;
 
 // normalize strength for the different factions
 Q.dove_strength = 100*Q.dove_strength/total_strength;
-Q.center_strength = 100*Q.center_strength/total_strength;
+Q.minority_strength = 100*Q.minority_strength/total_strength;
 Q.labor_strength = 100*Q.labor_strength/total_strength;
-Q.reformist_strength = 100*Q.reformist_strength/total_strength;
+Q.youth_strength = 100*Q.youth_strength/total_strength;
 Q.neorevisionist_strength = 100*Q.neorevisionist_strength/total_strength;
 
-var total_dissent = Q.dove_strength*Q.dove_dissent + Q.center_strength*Q.center_dissent + Q.labor_strength*Q.labor_dissent + Q.reformist_strength*Q.reformist_dissent + Q.neorevisionist_strength*Q.neorevisionist_dissent;
+var total_dissent = Q.dove_strength*Q.dove_dissent + Q.minority_strength*Q.minority_dissent + Q.labor_strength*Q.labor_dissent + Q.youth_strength*Q.youth_dissent + Q.neorevisionist_strength*Q.neorevisionist_dissent;
 
 
 Q.dissent = 0.01*total_dissent/total_strength;

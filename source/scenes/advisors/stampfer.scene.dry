@@ -45,7 +45,7 @@ on-arrival: dove_dissent -= 8; dove_strength += 8
 Vorwärts prints editorials in support of Left positions.
 
 @support_center
-on-arrival: center_dissent -= 8; center_strength += 8
+on-arrival: minority_dissent -= 8; minority_strength += 8
 
 Vorwärts prints editorials in support of centrist positions.
 
@@ -55,7 +55,7 @@ on-arrival: labor_dissent -= 8; labor_strength += 8
 Vorwärts prints editorials in support of the policies of the trade unions.
 
 @support_reform
-on-arrival: reformist_dissent -= 8; reformist_strength += 8;
+on-arrival: youth_dissent -= 8; youth_strength += 8;
 
 Vorwärts prints editorials in support of the reformist policies.
 
@@ -70,6 +70,6 @@ title: Cooperation with the KPD
 subtitle: Could we build closer ties with the KPD?
 unavailable-subtitle: [? if advisor_action_timer > 0 : [+ advisor_action_timer +] months before next advisor action. ?]
 choose-if: advisor_action_timer = 0
-on-arrival: advisor_action_timer = 6; dove_strength += 2; kpd_relation += 4*(1-dissent); reformist_dissent += 2
+on-arrival: advisor_action_timer = 6; dove_strength += 2; kpd_relation += 4*(1-dissent); youth_dissent += 2
 
 Stampfer works towards closer ties with the KPD through our media.

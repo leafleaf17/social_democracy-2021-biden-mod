@@ -38,7 +38,7 @@ if (Q.ideology && Q.ideology != "centrist") {
 }
 !}
 go-to: changed if changed = 1
-on-departure: ideology = "centrist"; center_strength += 10; center_dissent -= 10; dove_dissent -= 5; reformist_dissent -= 5
+on-departure: ideology = "centrist"; minority_strength += 10; minority_dissent -= 10; dove_dissent -= 5; youth_dissent -= 5
 
 The Center Marxists, represented by Kautsky and Hilferding, support a middle course of preparing for revolution while building up the consciousness of the working class.
 
@@ -60,11 +60,11 @@ if (Q.ideology && Q.ideology != "reformist") {
 }
 !}
 go-to: changed if changed = 1
-on-departure: ideology = "reformist"; reformist_strength += 10; democratization += 1; reformist_dissent -= 5; z_relation += 5; dvp_relation += 5; kpd_relation -= 8; moderate_plan_support += 1
+on-departure: ideology = "reformist"; youth_strength += 10; democratization += 1; youth_dissent -= 5; z_relation += 5; dvp_relation += 5; kpd_relation -= 8; moderate_plan_support += 1
 
 The reformist wing of the party seeks to preserve the Republic and the democratic system of government, and is most supportive of coalitions with the other pro-democracy parties.
 
 @changed
-on-arrival: dove_dissent += 5; center_dissent += 5; labor_dissent += 5; reformist_dissent += 5
+on-arrival: dove_dissent += 5; minority_dissent += 5; labor_dissent += 5; youth_dissent += 5
 
 We have changed ideologies. Many in the party feel unmoored.
