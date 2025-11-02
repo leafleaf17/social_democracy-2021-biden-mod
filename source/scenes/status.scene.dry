@@ -134,10 +134,17 @@ Q.socialism_disp = Math.round(Q.socialism);
 
 (if the election were to be held now):
 
-[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : Virginia: ?]
+[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : Virginia Governor Election: ?]
 
-[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : Democrats: ?]
+[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : Democrats: [+ vigrinia_democrats_poll +] ?]
 
+[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : Democrats: [+ vigrinia_republicans_poll +] ?]
+
+[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : New Jersey Governor Election: ?]
+
+[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : Democrats: [+ jersey_democrats_poll +] ?]
+
+[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : Democrats: [+ jersey_republicans_poll +] ?]
 
 SPD: [+ spd_votes +]%
 
