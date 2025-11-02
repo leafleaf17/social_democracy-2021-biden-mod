@@ -133,6 +133,38 @@ if (Q.month_actions >= 1) {
                              'unemployment': Q.unemployed});
     // change economic stats...
     // we're basically implicity drawing a Philips curve
+    const ideal_unemployment   = 5;   // %
+const ideal_inflation      = 2;   // %
+const ideal_growth         = 2;   // %
+const ideal_deficit        = 5;   // %
+const ideal_wage_growth    = 2;   // %
+const ideal_poverty        = 10;  // %
+const ideal_consumer_conf  = 70;  // index
+const ideal_interest_rate  = 1;   // %
+
+function quadraticEffect(actual, ideal, multiplier) {
+    // deviation squared times multiplier
+    // negative multiplier = penalty for being above ideal, positive = bonus
+    const deviation = actual - ideal;
+    return -1 * multiplier * deviation * deviation;
+}
+
+// Apply economic effects dynamically
+Q.approval_rating += quadraticEffect(Q.unemployment_rate, ideal_unemployment, 0.5);
+Q.approval_rating += quadraticEffect(Q.inflation, ideal_inflation, 0.3);
+Q.approval_rating += quadraticEffect(Q.economic_growth, ideal_growth, -0.4); // growth above ideal = bonus
+Q.approval_rating += quadraticEffect(Q.government_deficit, ideal_deficit, 0.2);
+Q.approval_rating += quadraticEffect(Q.wage_growth, ideal_wage_growth, -0.3); // more wage growth = bonus
+Q.approval_rating += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.25);
+Q.approval_rating += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, -0.05); // higher confidence = bonus
+Q.approval_rating += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.1);
+
+// Apply permanent or temporary bonuses
+Q.approval_rating += Q.permanent_approval_bonus || 0; 
+Q.approval_rating += Q.temporary_approval_bonus || 0;
+
+// Clamp approval rating between 0 and 100
+Q.approval_rating = Math.max(0, Math.min(100, Q.approval_rating));
     // budget deficits lead to some inflation
     if (Q.budget <= 0 && Q.budget > -2 && Q.inflation < 2.5) {
         Q.inflation += 0.1;
