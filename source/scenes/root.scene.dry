@@ -513,6 +513,10 @@ Q.ideology_timer = 0;
 Q.covid_mandates = 0;
 Q.covid_mandates_2 = 0;
 Q.right_radicalization = 25;
+Q.immigration_rate = 1.0;
+Q.refugee_intake = 10;
+Q.undocumented_population = 5.0;
+Q.border_enforcement = 3;
 // polling suff
 Q.nj_dem_bonus = 2;    
 Q.nj_rep_bonus = -2;   

@@ -310,6 +310,42 @@ for (let group of incomeGroups) {
     Q[group + '_other'] = Math.round(Q[group + '_other'] * 10) / 10;
 }
 // Ensure values stay within realistic bounds
+// === Turn-Based Immigration Effects ===
+
+// 1. Economic Effects: immigration slightly benefits economic growth
+Q.economic_growth += 0.005 * Q.immigration_rate; // small boost to growth
+Q.unemployment_rate -= 0.002 * Q.immigration_rate; // slight drop in unemployment
+Q.wage_growth     -= 0.001 * Q.immigration_rate; // tiny wage pressure
+
+// 2. Immigration crisis effects on approval rating
+let immigration_pressure = 0;
+if (Q.undocumented_population > 6) { 
+    immigration_pressure += 0.1 * (Q.undocumented_population - 6);
+}
+if (Q.refugee_intake > 20) { 
+    immigration_pressure += 0.05 * (Q.refugee_intake - 20);
+}
+Q.approval_rating -= immigration_pressure; 
+
+// Clamp economic variables
+Q.unemployment_rate = Math.max(0, Q.unemployment_rate);
+Q.wage_growth       = Math.max(0, Q.wage_growth);
+Q.economic_growth   = Math.max(-5, Math.min(5, Q.economic_growth));
+Q.approval_rating   = Math.max(32, Math.min(65, Q.approval_rating));
+
+// 3. Right-Wing Radicalization: affected by undocumented pop & border enforcement
+let radical_increase = 0.2 * Math.max(0, Q.undocumented_population - 5);  
+let radical_decrease = 0.3 * Q.border_enforcement;                        
+Q.right_radicalization += radical_increase - radical_decrease;
+Q.right_radicalization = Math.min(51, Math.max(1, Q.right_radicalization));
+
+// 4. Adjust undocumented population & refugee intake
+Q.undocumented_population -= 0.05 * Q.border_enforcement;
+Q.undocumented_population = Math.max(0, Q.undocumented_population);
+
+Q.refugee_intake -= 0.02 * Q.border_enforcement;
+Q.refugee_intake = Math.max(0, Q.refugee_intake);
+
 // === Virginia Income Shares (estimated fractions) ===
 Q.va_lower_share        = 0.20;
 Q.va_lowermiddle_share  = 0.25;
@@ -531,7 +567,33 @@ Q.poverty_rate = Math.min(100, Q.poverty_rate);
             Q.rural_nsdap += 4/12;
         }
     }
-
+// === Approval-Based Party Modifier (Adjusted Scaling for Moderate Impact) ===
+for (let key in Q) {
+    if (key.endsWith('_dem_bonus')) {
+        if (Q.approval_rating < 46) {
+            // Low approval nerfs Dem bonuses
+            let factor = -0.10 * (46 - Q.approval_rating)/14;  // max -10%
+            Q[key] *= 1 + factor;
+        } else if (Q.approval_rating > 52) {
+            // High approval boosts Dem bonuses
+            let factor = 0.10 * (Q.approval_rating - 52)/13;  // max +10%
+            Q[key] *= 1 + factor;
+        }
+    } 
+    else if (key.endsWith('_rep_bonus')) {
+        if (Q.approval_rating < 46) {
+            // Low approval slightly boosts Rep bonuses
+            let factor = 0.04 * (46 - Q.approval_rating)/14;  // max +4%
+            Q[key] *= 1 + factor;
+        } else if (Q.approval_rating > 52) {
+            // High approval slightly nerfs Rep bonuses
+            let factor = -0.04 * (Q.approval_rating - 52)/13; // max -4%
+            Q[key] *= 1 + factor;
+        }
+    }
+    // Clamp bonuses to reasonable range
+    Q[key] = Math.max(0, Math.min(Q[key], 1.0));
+}
     ////////////////////////// annual support changes
     if (Q.year == 1929) {
         Q.unemployed += 3/12;
