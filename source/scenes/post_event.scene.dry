@@ -178,22 +178,22 @@ Q.wage_growth -= 0.0025 * Math.max(0, Q.inflation - 2);          // Inflation er
 
 // 3. Economic Growth Effects (1/4th strength)
 // Positive growth boosts consumer confidence and slightly reduces unemployment
-Q.consumer_confidence += 0.075 * Q.economic_growth;
+Q.consumer_confidence += 0.03 * Q.economic_growth;
 Q.unemployment_rate -= 0.0125 * Q.economic_growth;
 
 // 4. Unemployment Effects (1/4th strength)
 // Higher unemployment reduces consumer confidence and increases poverty
-Q.consumer_confidence -= 0.075 * Q.unemployment_rate;
+Q.consumer_confidence -= 0.03 * Q.unemployment_rate;
 Q.poverty_rate += 0.05 * Q.unemployment_rate;
 
 // 5. Wage Growth Effects (1/4th strength)
 // Higher wages reduce poverty and increase consumer confidence
 Q.poverty_rate -= 0.0375 * Q.wage_growth;
-Q.consumer_confidence += 0.05 * Q.wage_growth;
+Q.consumer_confidence += 0.02 * Q.wage_growth;
 
 // 6. Poverty Rate Effects (1/4th strength)
 // Higher poverty decreases consumer confidence and depresses economic growth slightly
-Q.consumer_confidence -= 0.05 * Q.poverty_rate;
+Q.consumer_confidence -= 0.02 * Q.poverty_rate;
 Q.economic_growth -= 0.0125 * Q.poverty_rate;
 
 // 7. Clamp Metrics to Reasonable Bounds
