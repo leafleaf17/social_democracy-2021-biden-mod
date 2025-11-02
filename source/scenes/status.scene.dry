@@ -73,13 +73,13 @@ Congressional {!<span style="color:#FF6961">Republ</span><span style="color:#D62
 = Internal Factions of the <span style="color:#1F77B4">Democrat</span><span style="color:#6495ED"> Party</span>
 
 
-{!<span class="tooltip-text" title="The Left is interested in radical, transformative policies and cooperation with the KPD.">Left</span>!} strength: [+ dove_strength : strength +], dissent: [+ dove_dissent : dissent +]
+{!<span class="tooltip-text" title="Doves prioritize peaceful foreign policy, diplomacy, and restraint in military action and an end to support for countries with human rights violations.">Doves</span>!} strength: [+ dove_strength : strength +], dissent: [+ dove_dissent : dissent +]
 
-{!<span class="tooltip-text" title="The Center is a faction of Center Marxists, between reform and revolution.">Center</span>!} strength: [+ minority_strength : strength +], dissent: [+ minority_dissent : dissent +]
+{!<span class="tooltip-text" title="Minorities advocate for racial justice, immigrant rights, and representation of historically marginalized communities. They tend to be more socially conservative on many issues compared to the rest of our base, however.">Minorities</span>!} strength: [+ minority_strength : strength +], dissent: [+ minority_dissent : dissent +]
 
 {!<span class="tooltip-text" title="Labor's goal is economic reform and benefits for organized workers.">Labor</span>!} strength: [+ labor_strength : strength +], dissent: [+ labor_dissent : dissent +]
 
-{!<span class="tooltip-text" title="Reformists are pragmatic participants in government, and seek to expand the welfare state and defend democracy.">Reformist</span>!} strength: [+ youth_strength : strength +], dissent: [+ youth_dissent : dissent +]
+{!<span class="tooltip-text" title="The youth have historically supported the Democrat party. Climate change and student loan forgivenes programs are particularly important to securing their support.">Youth</span>!} strength: [+ youth_strength : strength +], dissent: [+ youth_dissent : dissent +]
 
 [? if neorevisionism > 0 : Neorevisionist strength: [+ neorevisionist_strength : strength +], dissent: [+ neorevisionist_dissent : dissent +] ?]
 
