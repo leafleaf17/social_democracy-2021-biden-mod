@@ -512,6 +512,7 @@ Q.ideology_timer = 0;
 Q.covid_mandates = 0;
 Q.covid_mandates_2 = 0;
 Q.right_radicalization = 25;
+Q.republican_relationship = 25;
 
 Q.inter_party_relationships_timer = 0;
 Q.international_relations_timer = 0;
