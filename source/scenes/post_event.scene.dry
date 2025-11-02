@@ -160,6 +160,57 @@ Q.approval_rating += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf,
 Q.approval_rating += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.1);
 
 // Clamp approval rating between 0 and 100
+if (Q.approval_rating !== undefined) {
+    Q.approval_rating = Math.max(32, Math.min(65, Q.approval_rating));
+}
+// === Passive Economic Effects per Turn (Economic Only) ===
+
+// 1. Interest Rate Effects
+// Low interest rates stimulate growth and wage growth; high rates dampen them
+Q.economic_growth += 0.05 * Math.max(0, 2 - Q.interest_rate); // Boost growth if interest rate < 2
+Q.wage_growth += 0.02 * Math.max(0, 2 - Q.interest_rate);     // Slight boost to wages
+Q.inflation -= 0.02 * Q.interest_rate;                        // Each point of interest rate lowers inflation slightly
+
+// 2. Inflation Effects
+// Inflation above target (2%) hurts consumer confidence and reduces wage real value
+Q.consumer_confidence -= 0.1 * Math.max(0, Q.inflation - 2); 
+Q.wage_growth -= 0.01 * Math.max(0, Q.inflation - 2);         // Inflation erodes wage gains
+
+// 3. Economic Growth Effects
+// Positive growth boosts consumer confidence and slightly reduces unemployment
+Q.consumer_confidence += 0.3 * Q.economic_growth;
+Q.unemployment_rate -= 0.05 * Q.economic_growth;
+
+// 4. Unemployment Effects
+// Higher unemployment reduces consumer confidence and increases poverty
+Q.consumer_confidence -= 0.3 * Q.unemployment_rate;
+Q.poverty_rate += 0.2 * Q.unemployment_rate;
+
+// 5. Wage Growth Effects
+// Higher wages reduce poverty and increase consumer confidence
+Q.poverty_rate -= 0.15 * Q.wage_growth;
+Q.consumer_confidence += 0.2 * Q.wage_growth;
+
+// 6. Poverty Rate Effects
+// Higher poverty decreases consumer confidence and depresses economic growth slightly
+Q.consumer_confidence -= 0.2 * Q.poverty_rate;
+Q.economic_growth -= 0.05 * Q.poverty_rate;
+
+// 7. Clamp Metrics to Reasonable Bounds
+Q.unemployment_rate = Math.max(0, Q.unemployment_rate);
+Q.inflation = Math.max(-5, Q.inflation);  // allow slight deflation
+Q.wage_growth = Math.max(0, Q.wage_growth);
+Q.poverty_rate = Math.max(0, Q.poverty_rate);
+Q.consumer_confidence = Math.max(0, Math.min(100, Q.consumer_confidence));
+Q.economic_growth = Math.max(-5, Q.economic_growth);
+
+// 8. Round all economic values to 2 decimals
+let roundKeys = ['_rate', '_growth', '_deficit', '_inflation', '_confidence', '_poverty', '_wage'];
+for (let key in Q) {
+    if (roundKeys.some(suffix => key.endsWith(suffix))) {
+        Q[key] = Math.round(Q[key] * 100) / 100;
+    }
+}
 Q.approval_rating = Math.max(0, Math.min(100, Q.approval_rating));
     // budget deficits lead to some inflation
     if (Q.budget <= 0 && Q.budget > -2 && Q.inflation < 2.5) {
@@ -600,8 +651,8 @@ Q.poverty_rate = Math.min(100, Q.poverty_rate);
     }
 }
 for (let key in Q) {
-    if (key.endsWith('_poll')) {
-        Q[key] = Math.round(Q[key] * 100) / 100;
+    if (key.endsWith('_poll') || key.endsWith('_rating') || key.endsWith('_growth')) {
+        Q[key] = Math.round(Q[key] * 10) / 10;
     }
 }
 Q.has_event = 0;
