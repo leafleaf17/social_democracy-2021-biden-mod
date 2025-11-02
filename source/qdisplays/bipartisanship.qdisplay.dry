@@ -1,0 +1,9 @@
+
+(1..6)   <span style="color:#8B0000;">Completely Uncooperative</span>
+(6..12)  <span style="color:#B22222;">Extremely Uncooperative</span>
+(12..18) <span style="color:#DC143C;">Very Uncooperative</span>
+(18..24) <span style="color:#FF8C00;">Somewhat Uncooperative</span>
+(24..30) <span style="color:#FFD700;">Somewhat Cooperative</span>
+(30..36) <span style="color:#ADFF2F;">Suprisingly Cooperative</span>
+(36..42) <span style="color:#32CD32;">Shockingly Cooperative</span>
+(42..51) <span style="color:#00FF00;">Very Cooperative</span>
