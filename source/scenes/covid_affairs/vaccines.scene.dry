@@ -1,11 +1,11 @@
 title: Expanding Vaccination
 new-page: true
-view-if: covid_state > 0 and vaccine_policy_timer <= 0
+view-if: covid_state > 0 and vaccines_timer <= 0
 frequency: 3
 is-card: true
 card-image: img/poster_2.jpg
 tags: covid_affairs
-on-arrival: month_actions += 1; vaccine_policy_timer += 2
+on-arrival: month_actions += 1; vaccines_timer += 2
 
 = Expanding Vaccination
 
