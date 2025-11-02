@@ -6,7 +6,7 @@ frequency: 3
 is-card: true
 card-image: img/poster_2.jpg
 tags: covid_affairs
-on-arrival: month_actions += 1;
+on-arrival: month_actions += 1; vaccine_policy_timer += 2
 
 = Expanding Vaccination
 
