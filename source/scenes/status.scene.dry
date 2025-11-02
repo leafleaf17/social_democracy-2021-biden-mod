@@ -55,13 +55,8 @@ Political Capital: [+ political_capital +]
 
 Next election: [+ next_election_month : month +] [+ next_election_year +]
 
-= Economics
 
-Inflation: [+ inflation_2 +]%
 
-[? if black_thursday_seen = 1 : Unemployment: [+ unemployed_2 +]% ?]
-
-Economic growth: [+ economic_growth_2 +]%
 
 
 
@@ -114,6 +109,12 @@ if (Q.sa_strength) {
 !}
 
 = Paramilitaries
+
+Inflation: [+ inflation_2 +]%
+
+Unemployment: [+ unemployed_2 +]% 
+
+Economic growth: [+ economic_growth_2 +]%
 
 {!<span class="tooltip-text" title="The Reichsbanner Schwarz-Rot-Gold is a popular organization for defending democracy, mostly affiliated with the SPD.">Reichsbanner</span>!} Strength: [+ rb_strength_2 +] thousand
 
