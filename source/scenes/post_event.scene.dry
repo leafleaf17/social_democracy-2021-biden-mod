@@ -217,7 +217,8 @@ Q.jersey_democrats_poll =
     Q.nj_lowermiddle_share  * Q.lower_middle_income_dem +
     Q.nj_middle_share       * Q.middle_income_dem +
     Q.nj_uppermiddle_share  * Q.upper_middle_income_dem +
-    Q.nj_upper_share        * Q.upper_income_dem;
+    Q.nj_upper_share        * Q.upper_income_dem +
+    (Q.nj_dem_bonus_applied ? 0 : 5);  
 
 Q.jersey_republicans_poll = 
     Q.nj_lower_share        * Q.lower_income_rep +
@@ -225,6 +226,8 @@ Q.jersey_republicans_poll =
     Q.nj_middle_share       * Q.middle_income_rep +
     Q.nj_uppermiddle_share  * Q.upper_middle_income_rep +
     Q.nj_upper_share        * Q.upper_income_rep;
+
+Q.nj_dem_bonus_applied = true;
 
 // Optional: Normalize so sum <= 100% (for Other parties)
 let va_total = Q.vigrinia_democrats_poll + Q.vigrinia_republicans_poll;
