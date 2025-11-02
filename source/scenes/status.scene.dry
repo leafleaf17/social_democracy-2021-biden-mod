@@ -146,9 +146,18 @@ Q.socialism_disp = Math.round(Q.socialism);
 !}
 
 = Projected election results
-[? if year = 32 and month = 1 : This is a test ?]
 
 (if the election were to be held now):
+
+[? if Q.year = 2021 and (Q.month < 11 or (Q.month = 11 and Q.week < 3)) :
+Virginia: <span style="color:#1F77B4">Democrats</span>: [+ virginia_dem_support +]%
+<span style="color:#D62728">Republicans</span>: [+ virginia_rep_support +]%
+?]
+
+[? if Q.year = 2021 and (Q.month < 11 or (Q.month = 11 and Q.week < 3)) :
+New Jersey: <span style="color:#1F77B4">Democrats</span>: [+ nj_dem_support +]%
+<span style="color:#D62728">Republicans</span>: [+ nj_rep_support +]%
+?]
 
 SPD: [+ spd_votes +]%
 
