@@ -109,7 +109,7 @@ if (Q.sa_strength) {
 }
 !}
 
-= State of the Union
+= State of the Economy
 
 Inflation: [+ inflation_2 +]%
 
@@ -127,9 +127,9 @@ Consumer Confidence: [+ consumer_confidence +]%
 
 Interest Rate: [+ interest_rate +]%
 
-= Official military/paramilitaries
+= Extent of our Reforms
 
-Reichswehr: [+ reichswehr_strength +] thousand troops.
+Severity of the Covid-19 pandemic: [+ covid_state : covid +] .
 
 Reichswehr Loyalty: [+ reichswehr_loyalty : loyalty +]
 
