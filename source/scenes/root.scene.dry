@@ -513,8 +513,8 @@ Q.covid_mandates = 0;
 Q.covid_mandates_2 = 0;
 Q.right_radicalization = 25;
 // polling suff
-Q.nj_dem_bonus = 5;    
-Q.nj_rep_bonus = 0;   
+Q.nj_dem_bonus = 2;    
+Q.nj_rep_bonus = -2;   
 
 Q.va_dem_bonus = 0;   
 Q.va_rep_bonus = 0;  
