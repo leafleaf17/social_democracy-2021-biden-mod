@@ -18,22 +18,22 @@ Yet, as impeachment attempts against Former President Trump continue in the sena
 
 @let_them_meet
 subtitle: Trump is an anchor. If the Republicans attach themselves to him, they will sink and down!
-on-arrival: old_middle_nsdap += 5; new_middle_nsdap += 4; workers_nsdap += 2; unemployed_nsdap += 2; sa_strength += 50; nationalism += 6; pro_republic -= 5
+on-arrival: Q.pro_republic += 3; Q.right_radicalization += 2; Q.republican_relationship -= 2
 
 The Trump world, silent since January 6th, has used this event to claim Trump is more popular then ever. It seems this man really is going to try and make a comeback, somehow.
 
 
 @tear_republicans_away
 subtitle: -1 Political Capital. Of course Bernie would never be able to convince moderate Republicans to listen to him, but perhaps Nancy Pelosi and Chuck Shumer could?
-on-arrival: nationalism += 3; old_middle_nsdap += 4; new_middle_nsdap += 3; workers_nsdap += 1; sa_strength += 15; pro_republic -= 3; strife += 1
+on-arrival: Q.pro_republic += 2; Q.right_radicalization += 1; Q.republican_relationship -= 0.5; Q.political_capital -= 1
 
-While we allow the film, showings are marred by violence. Showings of the film eventually stop, and the Nazis claim victory.
+Several moderate Republicans offer a soft condemnation of the meetings, yet take no real action. 
 
 
 @attack_maga
 subtitle: This will definitely make future attempts to pass bipartisan legislation harder.
-on-arrival: nationalism -= 4; pro_republic += 4*(1-dissent); strife += 1
+on-arrival: Q.pro_republic += 4; Q.right_radicalization += 3.5; Q.republican_relationship -= 3;
 
-Under the protection of the police, the people are allowed to watch the film in peace. Nazi disturbances are kept to a minimum.
-
+We intensify our attacks on Trump greatly. Mitch Mcconnell wastes no time to come to his defense.
+ 
 
