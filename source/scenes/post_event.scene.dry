@@ -211,6 +211,64 @@ for (let key in Q) {
         Q[key] = Math.round(Q[key] * 100) / 100;
     }
 }
+// === Passive Effects on Income Group Support per Turn ===
+
+// Lower Income (more sensitive to inflation, unemployment, wage growth)
+Q.lower_income_dem += 0.05 * Math.max(0, 3 - Q.inflation);     // low inflation slightly helps Dems
+Q.lower_income_rep -= 0.05 * Math.max(0, 3 - Q.inflation);     // low inflation slightly hurts Reps
+Q.lower_income_dem += 0.1 * Math.max(0, 8 - Q.unemployment_rate); // lower unemployment helps Dems
+Q.lower_income_rep -= 0.1 * Math.max(0, 8 - Q.unemployment_rate); // Reps lose support if unemployment high
+Q.lower_income_dem += 0.05 * Q.wage_growth;                     // higher wages help Dems
+Q.lower_income_rep -= 0.05 * Q.wage_growth;
+
+// Lower-Middle Income
+Q.lower_middle_income_dem += 0.03 * Math.max(0, 3 - Q.inflation);
+Q.lower_middle_income_rep += 0.03 * Math.max(0, Q.inflation - 2); // higher inflation nudges them toward Reps
+Q.lower_middle_income_dem += 0.05 * Math.max(0, 7 - Q.unemployment_rate);
+Q.lower_middle_income_rep -= 0.05 * Math.max(0, 7 - Q.unemployment_rate);
+Q.lower_middle_income_dem += 0.03 * Q.wage_growth;
+Q.lower_middle_income_rep -= 0.03 * Q.wage_growth;
+
+// Middle Income
+Q.middle_income_dem += 0.02 * Math.max(0, 3 - Q.inflation);
+Q.middle_income_rep += 0.02 * Math.max(0, Q.inflation - 2);
+Q.middle_income_dem += 0.03 * Math.max(0, 6 - Q.unemployment_rate);
+Q.middle_income_rep -= 0.03 * Math.max(0, 6 - Q.unemployment_rate);
+Q.middle_income_dem += 0.02 * Q.wage_growth;
+Q.middle_income_rep -= 0.02 * Q.wage_growth;
+
+// Upper-Middle Income
+Q.upper_middle_income_dem += 0.01 * Math.max(0, 3 - Q.inflation);
+Q.upper_middle_income_rep += 0.01 * Math.max(0, Q.inflation - 2);
+Q.upper_middle_income_dem += 0.01 * Math.max(0, 5 - Q.unemployment_rate);
+Q.upper_middle_income_rep -= 0.01 * Math.max(0, 5 - Q.unemployment_rate);
+Q.upper_middle_income_dem += 0.01 * Q.wage_growth;
+Q.upper_middle_income_rep -= 0.01 * Q.wage_growth;
+
+// Upper Income (more sensitive to taxes, deficit, less to inflation/unemployment)
+Q.upper_income_dem -= 0.02 * Math.max(0, Q.government_deficit - 5);  // high deficit hurts Dem support
+Q.upper_income_rep += 0.02 * Math.max(0, Q.government_deficit - 5);  // Reps benefit
+Q.upper_income_dem += 0.01 * Q.economic_growth;                      // growth helps Dems slightly
+Q.upper_income_rep += 0.01 * Q.economic_growth;
+
+// Clamp all values to 0-100%
+let incomeGroups = [
+    'lower_income', 'lower_middle_income', 'middle_income',
+    'upper_middle_income', 'upper_income'
+];
+
+for (let group of incomeGroups) {
+    Q[group + '_dem'] = Math.max(0, Math.min(100, Q[group + '_dem']));
+    Q[group + '_rep'] = Math.max(0, Math.min(100, Q[group + '_rep']));
+    Q[group + '_other'] = Math.max(0, Math.min(100, Q[group + '_other']));
+}
+
+// Round to hundredths
+for (let group of incomeGroups) {
+    Q[group + '_dem'] = Math.round(Q[group + '_dem'] * 100) / 100;
+    Q[group + '_rep'] = Math.round(Q[group + '_rep'] * 100) / 100;
+    Q[group + '_other'] = Math.round(Q[group + '_other'] * 100) / 100;
+}
 Q.approval_rating = Math.max(0, Math.min(100, Q.approval_rating));
     // budget deficits lead to some inflation
     if (Q.budget <= 0 && Q.budget > -2 && Q.inflation < 2.5) {
