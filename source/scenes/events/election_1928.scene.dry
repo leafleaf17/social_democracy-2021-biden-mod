@@ -1242,7 +1242,7 @@ We are seen as responsible for the failure to form a government, and many of our
 
 @ministries
 
-We can pick from any number of canidates. Our picks here will effect our tenure as President significant
+Our picks here will effect our tenure as President significant.
 
 - #mins_1928
 - #drop_mins_1928
@@ -1332,63 +1332,9 @@ Tulsi Gabbard has been appointed head of the DoD
 
 @no_more
 title: No more departments.
-subtitle: all departments have been filled 
+choose-if: labor_minister_party == "SPD" and interior_minister_party == "SPD" and finance_minister_party == "SPD" and economic_minister_party == "SPD" and justice_minister_party == "SPD" and foreign_minister_party == "SPD" and agriculture_minister_party == "SPD" and reichswehr_minister_party == "SPD"
+subtitle: All departments have been filled 
 tags: mins_1928
 
-This coalition arrangement is tolerable to all.
+All of our cabinet members have been approved by congress.
 
-@drop_labor
-title: Drop the Labor Ministry.
-view-if: labor_minister_party = "SPD"
-on-arrival: labor_minister_party = "Z"; labor_minister = "Stegerwald"; leverage += 5;
-tags: drop_mins_1928
-go-to: ministries
-
-@drop_interior
-title: Drop the Interior Ministry.
-view-if: interior_minister_party = "SPD"
-on-arrival: interior_minister_party = "Z"; interior_minister = "Wirth"; leverage += 5;
-tags: drop_mins_1928
-go-to: ministries
-
-@drop_finance
-title: Drop the Finance Ministry.
-view-if: finance_minister_party = "SPD"
-on-arrival: finance_minister_party = "DVP"; finance_minister = "Moldenhauer"; leverage += 10; finance_minister_party = "Z" if in_weimar_coalition or in_popular_front; finance_minister = "Köhler" if in_weimar_coalition or in_popular_front
-tags: drop_mins_1928
-go-to: ministries
-
-@drop_economic
-title: Drop the Economic Ministry.
-view-if: economic_minister_party = "SPD"
-on-arrival: economic_minister_party = "DVP"; economic_minister = "Curtius"; leverage += 10; economic_minister_party = ddp_name if in_weimar_coalition or in_popular_front; economic_minister = "Dietrich" if in_weimar_coalition or in_popular_front;
-tags: drop_mins_1928
-go-to: ministries
-
-@drop_justice
-title: Drop the Justice Ministry.
-view-if: justice_minister_party = "SPD"
-on-arrival: justice_minister_party = ddp_name; justice_minister = "Koch-Weser"; leverage += 10;
-tags: drop_mins_1928
-go-to: ministries
-
-@drop_foreign
-title: Drop the Foreign Ministry.
-view-if: foreign_minister_party = "SPD"
-on-arrival: foreign_minister_party = "DVP"; foreign_minister = "Stresemann"; foreign_minister = "Curtius" if streseman_dead; leverage += 10; foreign_minister_party = "Z" if in_weimar_coalition or in_popular_front; foreign_minister = "Wirth" if in_weimar_coalition or in_popular_front;
-tags: drop_mins_1928
-go-to: ministries
-
-@drop_agriculture
-title: Drop the Agriculture Ministry.
-view-if: agriculture_minister_party = "SPD"
-on-arrival: agriculture_minister_party = ddp_name; agriculture_minister = "Dietrich"; leverage += 10; agriculture_minister_party = "Z" if in_weimar_coalition; agriculture_minister = "Hermes" if in_weimar_coalition
-tags: drop_mins_1928
-go-to: ministries
-
-@drop_reichswehr
-title: Drop the Reichswehr Ministry.
-view-if: reichswehr_minister_party = "SPD"
-on-arrival: reichswehr_minister_party = "I"; reichswehr_minister = "Groener"; leverage += 15;
-tags: drop_mins_1928
-go-to: ministries
