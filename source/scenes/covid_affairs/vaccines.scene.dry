@@ -1,0 +1,30 @@
+title: Expanding Vaccination
+new-page: true
+view-if: covid_state > 0
+frequency: 3
+is-card: true
+card-image: img/poster_2.jpg
+tags: covid_affairs
+
+= Expanding Vaccination
+
+if we wish to defeat the Covid-19 Pandemic, we'll need to get a jab in as many Americans arms as possible.
+
+- @encourage_more_shots: Publicly urge the public to get the Covid-19 Vaccine.
+- @federal_mandate: Mandate the Covid-19 Vaccine for Federal Employees
+
+@encourage_more_shots
+subtitle: The Covid-19 pandemic will slightly reduce in severity.
+on-arrival: covid_state -= 0.5;
+
+We encourage all Americans to get the shots. We can only hope they are listening.
+
+@federal_mandate
+subtitle: The Covid-19 pandemic will moderately reduce in severity. This will surely anger the radical right!
+choose-if: covid_mandates < 0
+on-arrival: covid_state -= 1;
+
+This will definitely help stop the spread of Covid-19, yet those on the far right decry this as overreach and begin lawsuits.
+
+
+
