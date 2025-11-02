@@ -134,11 +134,10 @@ Q.socialism_disp = Math.round(Q.socialism);
 
 (if the election were to be held now):
 
-[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : 
+[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) :
+This is a test
 
-This is a test 
-
-come on
+Come on
 ?]
 
 SPD: [+ spd_votes +]%
