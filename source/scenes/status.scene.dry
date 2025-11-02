@@ -42,13 +42,13 @@ Senate Majority Leader: [+ senate_leader +]
 Senate composition:
 
 {!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ senate_dem_seats +]  
-{!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ senate_rep_seats +]  
+{!<span style="color:#FF6961">Republ</span><span style="color:#D62728">icans</span>!}: [+ senate_rep_seats +]  
 {!<span style="color:#808080">Others</span>!}: [+ senate_other_seats +]  
 
 House composition:
 
 {!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ house_dem_seats +]  
-{!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ house_rep_seats +]  
+{!<span style="color:#FF6961">Republ</span><span style="color:#D62728">icans</span>!}: [+ house_rep_seats +]  
 {!<span style="color:#808080">Others</span>!}: [+ house_other_seats +]  
 
 Political Capital: [+ political_capital +]
@@ -64,7 +64,7 @@ Next election: [+ next_election_month : month +] [+ next_election_year +]
 
 @politics
 
-= Inter-party Relations
+= State of the {!<span style="color:#FF6961">National</span><span style="color:#D62728"> Opposition</span>!}
 
 
 {!<span class="tooltip-text" title="Center Party">Z</span>!}: [+ z_relation : relationships +]
