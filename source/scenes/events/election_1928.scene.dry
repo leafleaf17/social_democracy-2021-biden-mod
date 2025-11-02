@@ -1242,113 +1242,97 @@ We are seen as responsible for the failure to form a government, and many of our
 
 @ministries
 
-We can pick from any number of ministries. Controlling a ministry allows us to directly effect policy in that area. [? if in_left_front : Any ministry that we do not take will be given to the KPD. ?] [? if in_left_front and reichswehr_minister_party == "KPD" : If the KPD controls the Reichswehr Ministry, the army will most likely revolt. ?]
+We can pick from any number of canidates. Our picks here will effect our tenure as President significant
 
 - #mins_1928
 - #drop_mins_1928
 
 @labor
-title: Labor Ministry
-subtitle: Taking the Labor Ministry is expected of us.
-unavailable-subtitle: We do not have enough leverage.
+title: Department of Labor
+subtitle: Oversees OSHA, wage standards, unions, and employment policy
 tags: mins_1928
-choose-if: leverage >= 5
 view-if: labor_minister_party != "SPD"
-on-arrival: leverage -= 5; labor_minister_party = "SPD"; labor_minister = "Wissell"
+on-arrival: labor_minister_party = "SPD"; labor_minister = "Nelson"
 go-to: ministries
 
-Rudolf Wissell of the SPD has been appointed labor minister.
+Sara Nelson has been appointed to the head of the DOL.
 
 @interior
-title: Interior Ministry
-subtitle: Taking the Interior Ministry is expected of us. The Interior Ministry controls domestic security.
-unavailable-subtitle: We do not have enough leverage.
+title: Department of Homeland Security
+subtitle: Controls border enforcement, policing, and internal threats
 tags: mins_1928
-choose-if: leverage >= 5
 view-if: interior_minister_party != "SPD"
-on-arrival: leverage -= 5; interior_minister_party = "SPD"; interior_minister = "Severing"
+on-arrival: interior_minister_party = "SPD"; interior_minister = "Castro"
 go-to: ministries
 
-Carl Severing of the SPD has been appointed Interior Minister.
+Joaquin Castro has been appointed head of the DHS.
 
 @finance
-title: Finance Ministry
+title: Department of the Treasury
 subtitle: The Finance Ministry controls the government budget and taxes.
-unavailable-subtitle: We do not have enough leverage.
 tags: mins_1928
-choose-if: leverage >= 10 
 view-if: finance_minister_party != "SPD"
-on-arrival: leverage -= 10; finance_minister_party = "SPD"; finance_minister = "Hilferding"
+on-arrival: leverage -= 10; finance_minister_party = "SPD"; finance_minister = "Kelton"
 go-to: ministries
 
-Rudolf Hilferding of the SPD has been appointed Finance Minister.
+Stephanie Kelton has been appointed head of the DOT.
 
 @economic
-title: Economic Ministry
-subtitle: The Economic Ministry controls broader economic policy.
-unavailable-subtitle: We do not have enough leverage.
+title: Enviornmental Protection Agency
+subtitle: The Enviornmental Protection Agency develops regulations and standards to protect the enviornment
 tags: mins_1928
-choose-if: leverage >= 10 
 view-if: economic_minister_party != "SPD"
-on-arrival: leverage -= 10; economic_minister_party = "SPD"; economic_minister = "Schmidt"
+on-arrival: economic_minister_party = "SPD"; economic_minister = "Weiskopf"
 go-to: ministries
 
-Robert Schmidt of the SPD has been appointed Economic Minister.
+David Weiskopf has been appointed head of the EPA.
 
 @justice
-title: Justice Ministry
-subtitle: The Justice Ministry controls the courts.
-unavailable-subtitle: We do not have enough leverage.
+title: Department of Justice
+subtitle: The Department of Justice is in charge of federal prosecutions, civil rights enforcement, and anti trust enforcement.
 tags: mins_1928
-choose-if: leverage >= 10 
 view-if: justice_minister_party != "SPD"
-on-arrival: leverage -= 10; justice_minister_party = "SPD"; justice_minister = "Radbruch"
+on-arrival: justice_minister_party = "SPD"; justice_minister = "Ellison"
 go-to: ministries
 
-Gustav Radbruch of the SPD has been appointed Justice Minister.
+Keith Ellison has been appointed head of the Department of Justice.
 
 @foreign
-title: Foreign Ministry
-subtitle: This is usually the domain of Gustav Stresemann of the DVP.
-unavailable-subtitle: We do not have enough leverage.
+title: Secretary of State
+subtitle: The Secretary of State is in charge of managing foreign relations.
 tags: mins_1928
-choose-if: leverage >= 10 
 view-if: foreign_minister_party != "SPD"
-on-arrival: leverage -= 10; foreign_minister_party = "SPD"; foreign_minister = "Breitscheid"
+on-arrival: foreign_minister_party = "SPD"; foreign_minister = "Khanna"
 go-to: ministries
 
-Rudolf Breitscheid of the SPD has been appointed Foreign Minister.
+Ro Khanna has been appointed Foreign Minister.
 
 
 @agriculture
-title: Agricultural Ministry
-subtitle: This is not our usual domain.
-unavailable-subtitle: We do not have enough leverage.
-choose-if: leverage >= 10 
+title: Department of Education
+subtitle: The Department of Education manages federal aid to American schools and student debt relief.
 view-if: agriculture_minister_party != "SPD"
-on-arrival: leverage -= 10; agriculture_minister_party = "SPD"; agriculture_minister = "Baade"
+on-arrival: agriculture_minister_party = "SPD"; agriculture_minister = "Weingarten"
 go-to: ministries
 tags: mins_1928
 
-Fritz Baade of the SPD has been appointed Agriculture Minister.
+Randi Weingarten has been appointed head of the DOE.
 
 @reichswehr
-title: Reichswehr Ministry
-subtitle: The Ministry responsible for the armed forces is not typically our domain; General Groener and the bourgeois-conservatives will be displeased.
-unavailable-subtitle: We do not have enough leverage.
+title: Department of Defense
+subtitle: The Department of Defense is in charge overseeing the military.
 tags: mins_1928
-choose-if: leverage >= 15 
 view-if: reichswehr_minister_party != "SPD"
-on-arrival: leverage -= 15; reichswehr_minister_party = "SPD"; reichswehr_minister = "Leber"
+on-arrival: reichswehr_minister_party = "SPD"; reichswehr_minister = "Gabbard"
 go-to: ministries
 
-Julius Leber of the SPD has been appointed Reichswehr Minister.
+Tulsi Gabbard has been appointed head of the DoD
 
 
 
 @no_more
-title: No more ministries.
-subtitle: [? if leverage >= 10 : We still have some more leverage to gain ministries. ?][? if leverage < 10 : We do not have much leverage left. ?]
+title: No more departments.
+subtitle: all departments have been filled 
 tags: mins_1928
 
 This coalition arrangement is tolerable to all.
