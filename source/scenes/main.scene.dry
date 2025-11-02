@@ -18,10 +18,8 @@ max-cards: 3
 - @party
 - @govt
 - @covidcard
-
 - #advisor
 - @shuffle_leadership_pinned
-
 
 @main_easy
 set-bg: img/map_2.jpg
