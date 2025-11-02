@@ -540,7 +540,6 @@ Q.economic_policy_timer = 0;
 Q.fiscal_policy_timer = 0;
 Q.foreign_policy_timer = 0;
 Q.vaccine_policy_timer = 0;
-
 Q.judiciary_timer = 0;
 Q.labor_affairs_timer = 0;
 Q.military_policy_timer = 0;
