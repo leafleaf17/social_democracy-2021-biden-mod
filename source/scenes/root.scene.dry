@@ -510,6 +510,8 @@ Q.crisis_program_timer = 0;
 Q.fundraising_timer = 0;
 Q.ideology_timer = 0;
 Q.covid_mandates = 0;
+Q.covid_mandates_2 = 0;
+
 Q.inter_party_relationships_timer = 0;
 Q.international_relations_timer = 0;
 Q.iron_front_timer = 0;

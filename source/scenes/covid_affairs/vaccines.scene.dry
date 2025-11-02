@@ -12,6 +12,7 @@ If we wish to defeat the Covid-19 Pandemic, we'll need to get a jab in as many A
 
 - @encourage_more_shots: Publicly urge the public to get the Covid-19 Vaccine.
 - @federal_mandate: Mandate the Covid-19 Vaccine for Federal Employees
+- @school_mandate: Support schools that mandate the Covid-19 Vaccine
 
 @encourage_more_shots
 subtitle: The Covid-19 pandemic will slightly reduce in severity.
@@ -20,11 +21,16 @@ on-arrival: covid_state -= 0.5;
 We encourage all Americans to get the shots. We can only hope they are listening.
 
 @federal_mandate
-subtitle: The Covid-19 pandemic will moderately reduce in severity. This will surely anger the radical right!
+subtitle: The Covid-19 pandemic will moderately reduce in severity. This may anger and radicalize the right!
 choose-if: covid_mandates < -1
-on-arrival: covid_state -= 1;
+on-arrival: covid_state -= 1; covid_mandates += 1;
 
 This will definitely help stop the spread of Covid-19, yet those on the far right decry this as overreach and begin lawsuits.
 
+@school_mandate
+subtitle: The Covid-19 pandemic will moderately reduce in severity. This may anger and radicalize the right!
+choose-if: covid_mandates_2 < -1
+on-arrival: covid_state -= 1;
 
+This will definitely help stop the spread of Covid-19, yet those on the far right decry this as overreach and begin lawsuits.
 
