@@ -149,6 +149,49 @@ if (Q.month_actions >= 1) {
             Q.inflation -= 0.1;
         }
     }
+    // Passive COVID-19 economic effects
+if (Q.covid_state > 0) {
+    // Unemployment rises with higher COVID severity
+    if (Q.covid_state <= 2) { // minimal
+        Q.unemployment_rate += 0.1;
+        Q.economic_growth -= 0.1;
+        Q.consumer_confidence -= 1;
+    } else if (Q.covid_state <= 4) { // moderate
+        Q.unemployment_rate += 0.3;
+        Q.economic_growth -= 0.3;
+        Q.inflation -= 0.1; // less demand
+        Q.consumer_confidence -= 3;
+        Q.poverty_rate += 0.2;
+    } else if (Q.covid_state <= 6) { // severe
+        Q.unemployment_rate += 0.5;
+        Q.economic_growth -= 0.6;
+        Q.inflation -= 0.2;
+        Q.consumer_confidence -= 5;
+        Q.poverty_rate += 0.5;
+        Q.wage_growth -= 0.2;
+    } else { // critical 7-8
+        Q.unemployment_rate += 1;
+        Q.economic_growth -= 1.2;
+        Q.inflation -= 0.5;
+        Q.consumer_confidence -= 10;
+        Q.poverty_rate += 1;
+        Q.wage_growth -= 0.5;
+    }
+
+    // Optional: small natural improvement if COVID is lower than last month
+    if (Q.covid_state <= 2) {
+        Q.consumer_confidence += 0.5;
+        Q.economic_growth += 0.2;
+    }
+}
+
+// Ensure values stay within realistic bounds
+Q.unemployment_rate = Math.max(0, Q.unemployment_rate);
+Q.inflation = Math.max(-5, Q.inflation);
+Q.economic_growth = Math.min(15, Q.economic_growth);
+Q.consumer_confidence = Math.min(100, Math.max(0, Q.consumer_confidence));
+Q.wage_growth = Math.max(0, Q.wage_growth);
+Q.poverty_rate = Math.min(100, Q.poverty_rate);
     // deflation is bad
     if (Q.inflation < -0.5 && Q.inflation > -5 && Q.unemployed < 15) {
         Q.unemployed += 0.2;
