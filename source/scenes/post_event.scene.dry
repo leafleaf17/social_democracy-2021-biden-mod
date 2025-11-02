@@ -178,11 +178,7 @@ if (Q.covid_state > 0) {
         Q.wage_growth -= 0.5;
     }
 
-    // Optional: small natural improvement if COVID is lower than last month
-    if (Q.covid_state <= 2) {
-        Q.consumer_confidence += 0.5;
-        Q.economic_growth += 0.2;
-    }
+   
 }
 
 // Ensure values stay within realistic bounds
