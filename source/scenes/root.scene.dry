@@ -222,6 +222,7 @@ Q.government_deficit = 8.6;
 Q.wage_growth = 3.8;              
 Q.poverty_rate = 11.6;            
 Q.consumer_confidence = 80.7; 
+Q.interest_rate = 0;          
 
 // economic expansion timer
 Q.economic_expansion = 0;
