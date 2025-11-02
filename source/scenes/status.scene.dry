@@ -146,6 +146,7 @@ Q.socialism_disp = Math.round(Q.socialism);
 !}
 
 = Projected election results
+[? if year = 32 and month = 1 : This is a test ?]
 
 (if the election were to be held now):
 
