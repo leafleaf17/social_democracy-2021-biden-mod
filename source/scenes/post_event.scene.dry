@@ -159,10 +159,6 @@ Q.approval_rating += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.25);
 Q.approval_rating += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, -0.05); // higher confidence = bonus
 Q.approval_rating += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.1);
 
-// Apply permanent or temporary bonuses
-Q.approval_rating += Q.permanent_approval_bonus || 0; 
-Q.approval_rating += Q.temporary_approval_bonus || 0;
-
 // Clamp approval rating between 0 and 100
 Q.approval_rating = Math.max(0, Math.min(100, Q.approval_rating));
     // budget deficits lead to some inflation
