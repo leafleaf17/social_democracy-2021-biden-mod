@@ -11,8 +11,9 @@ tags: covid_affairs
 If we wish to defeat the Covid-19 Pandemic, we'll need to get a jab in as many Americans arms as possible. We can do this through public persuasion, mandates, or financial investment.
 
 - @encourage_more_shots: Publicly urge the public to get the Covid-19 Vaccine.
-- @federal_mandate: Mandate the Covid-19 Vaccine for Federal Employees
+- @federal_mandate: Mandate the Covid-19 vaccine for federal employees
 - @school_mandate: Support schools that mandate the Covid-19 Vaccine
+- @foreign_vaccines: Send Covid-19 Vaccines to Poor Countries
 
 @encourage_more_shots
 subtitle: The Covid-19 pandemic will slightly reduce in severity.
@@ -30,7 +31,12 @@ This will definitely help stop the spread of Covid-19, yet those on the far righ
 @school_mandate
 subtitle: The Covid-19 pandemic will moderately reduce in severity. This may anger and radicalize the right!
 choose-if: covid_mandates_2 < -1
-on-arrival: covid_state -= 1;
+on-arrival: covid_state -= 1; covid_mandates_2 += 1;
 
 This will definitely help stop the spread of Covid-19, yet those on the far right decry this as overreach and begin lawsuits.
 
+@foreign_vaccines
+subtitle: The Covid-19 pandemic will slightly slightly reduce in severity. Stopping the spread of Covid-19 in other countries will ensure the disease is eradicated world wide.
+on-arrival: covid_state -= 0.75;
+
+Foreign countries thank us for our generosity. Republicans claim we are putting foreigners above Americans.
