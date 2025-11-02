@@ -182,24 +182,61 @@ if (Q.covid_state > 0) {
 }
 
 // Ensure values stay within realistic bounds
-// Ensure poll numbers are within 0-100
-Q.vigrinia_democrats_poll = Math.max(0, Math.min(100, Q.vigrinia_democrats_poll));
-Q.vigrinia_republicans_poll = Math.max(0, Math.min(100, Q.vigrinia_republicans_poll));
+// === Virginia Income Shares (estimated fractions) ===
+Q.va_lower_share        = 0.20;
+Q.va_lowermiddle_share  = 0.25;
+Q.va_middle_share       = 0.30;
+Q.va_uppermiddle_share  = 0.15;
+Q.va_upper_share        = 0.10;
 
-Q.jersey_democrats_poll = Math.max(0, Math.min(100, Q.jersey_democrats_poll));
-Q.jersey_republicans_poll = Math.max(0, Math.min(100, Q.jersey_republicans_poll));
+// === New Jersey Income Shares (estimated fractions) ===
+Q.nj_lower_share        = 0.18;
+Q.nj_lowermiddle_share  = 0.22;
+Q.nj_middle_share       = 0.30;
+Q.nj_uppermiddle_share  = 0.20;
+Q.nj_upper_share        = 0.10;
 
-// Optional: Normalize so they never add to more than 100
-let virginia_total = Q.vigrinia_democrats_poll + Q.vigrinia_republicans_poll;
-if (virginia_total > 100) {
-    Q.vigrinia_democrats_poll = (Q.vigrinia_democrats_poll / virginia_total) * 100;
-    Q.vigrinia_republicans_poll = (Q.vigrinia_republicans_poll / virginia_total) * 100;
+// === Virginia Poll Calculation ===
+Q.vigrinia_democrats_poll = 
+    Q.va_lower_share        * Q.lower_income_dem +
+    Q.va_lowermiddle_share  * Q.lower_middle_income_dem +
+    Q.va_middle_share       * Q.middle_income_dem +
+    Q.va_uppermiddle_share  * Q.upper_middle_income_dem +
+    Q.va_upper_share        * Q.upper_income_dem;
+
+Q.vigrinia_republicans_poll = 
+    Q.va_lower_share        * Q.lower_income_rep +
+    Q.va_lowermiddle_share  * Q.lower_middle_income_rep +
+    Q.va_middle_share       * Q.middle_income_rep +
+    Q.va_uppermiddle_share  * Q.upper_middle_income_rep +
+    Q.va_upper_share        * Q.upper_income_rep;
+
+// === New Jersey Poll Calculation ===
+Q.jersey_democrats_poll = 
+    Q.nj_lower_share        * Q.lower_income_dem +
+    Q.nj_lowermiddle_share  * Q.lower_middle_income_dem +
+    Q.nj_middle_share       * Q.middle_income_dem +
+    Q.nj_uppermiddle_share  * Q.upper_middle_income_dem +
+    Q.nj_upper_share        * Q.upper_income_dem;
+
+Q.jersey_republicans_poll = 
+    Q.nj_lower_share        * Q.lower_income_rep +
+    Q.nj_lowermiddle_share  * Q.lower_middle_income_rep +
+    Q.nj_middle_share       * Q.middle_income_rep +
+    Q.nj_uppermiddle_share  * Q.upper_middle_income_rep +
+    Q.nj_upper_share        * Q.upper_income_rep;
+
+// Optional: Normalize so sum <= 100% (for Other parties)
+let va_total = Q.vigrinia_democrats_poll + Q.vigrinia_republicans_poll;
+if (va_total > 100) {
+    Q.vigrinia_democrats_poll = Q.vigrinia_democrats_poll * 100 / va_total;
+    Q.vigrinia_republicans_poll = Q.vigrinia_republicans_poll * 100 / va_total;
 }
 
-let jersey_total = Q.jersey_democrats_poll + Q.jersey_republicans_poll;
-if (jersey_total > 100) {
-    Q.jersey_democrats_poll = (Q.jersey_democrats_poll / jersey_total) * 100;
-    Q.jersey_republicans_poll = (Q.jersey_republicans_poll / jersey_total) * 100;
+let nj_total = Q.jersey_democrats_poll + Q.jersey_republicans_poll;
+if (nj_total > 100) {
+    Q.jersey_democrats_poll = Q.jersey_democrats_poll * 100 / nj_total;
+    Q.jersey_republicans_poll = Q.jersey_republicans_poll * 100 / nj_total;
 }
 Q.unemployment_rate = Math.max(0, Q.unemployment_rate);
 Q.inflation = Math.max(-5, Q.inflation);
