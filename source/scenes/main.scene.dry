@@ -61,7 +61,7 @@ is-deck: true
 - #govt_affairs
 
 @covidcard
-title: Covid-19
+title: Dealing with the Covid-19 pandemic
 view-if: covid_state > 0
 card-image: img/reichstag_2.jpg
 is-deck: true
