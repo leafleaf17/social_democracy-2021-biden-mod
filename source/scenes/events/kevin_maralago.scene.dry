@@ -23,7 +23,7 @@ on-arrival: old_middle_nsdap += 5; new_middle_nsdap += 4; workers_nsdap += 2; un
 When we ban the film, the Nazis immediately celebrate it as a major victory; they claim that even the red Marxists agree with them! It is a major boost to their morale. 
 
 
-@tear_republicans_aways
+@tear_republicans_away
 subtitle: -1 Political Capital. Of course Bernie would never be able to convince moderate Republicans, but perhaps Nancy Pelosi and Chuck Shumer could?
 on-arrival: nationalism += 3; old_middle_nsdap += 4; new_middle_nsdap += 3; workers_nsdap += 1; sa_strength += 15; pro_republic -= 3; strife += 1
 
