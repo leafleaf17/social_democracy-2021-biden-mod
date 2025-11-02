@@ -214,13 +214,7 @@ Q.catholics = 30;
 Q.income = 1600;
 // what about incomes for different classes? rural workers? middle-class workers?
 
-// SET UP FOR BASE POLLING!!!
-Q.virginia_dem_support = 52; 
-Q.virginia_rep_support = 46; 
-Q.nj_dem_support = 57;       
-Q.nj_rep_support = 41;      
 
-// HELLO
 Q.unemployment_rate = 6.3;      
 Q.inflation = 1.4;          
 Q.economic_growth = 1.4;   
