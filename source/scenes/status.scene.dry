@@ -129,7 +129,7 @@ Interest Rate: [+ interest_rate +]%
 
 = Extent of our Reforms
 
-Severity of the Covid-19 pandemic: [+ covid_state : covid +].
+State of the Covid-19 pandemic: [+ covid_state : covid +].
 
 
 @polls
