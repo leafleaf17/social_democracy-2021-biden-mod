@@ -223,13 +223,7 @@ Q.wage_growth = 3.8;
 Q.poverty_rate = 11.6;            
 Q.consumer_confidence = 80.7; 
 Q.interest_rate = 0;          
-//SET UP FOR BASE POLLING!!!
-Q.virginia_dem_support = 52; 
-Q.virginia_rep_support = 46; 
-Q.nj_dem_support = 57;       
-Q.nj_rep_support = 41;      
 
-// HELLO
 // economic expansion timer
 Q.economic_expansion = 0;
 
