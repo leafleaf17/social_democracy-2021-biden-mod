@@ -146,13 +146,7 @@ Q.socialism_disp = Math.round(Q.socialism);
 !}
 
 = Projected election results
-[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : This is a test 
-
-
-Now
-
-Will
-?]
+[? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : This is a test ?]
 
 (if the election were to be held now):
 
