@@ -79,18 +79,15 @@ Next election: [+ next_election_month : month +] [+ next_election_year +]
 
 {!<span class="tooltip-text" title="National-Socialist German Worker's Party (Nazis)">NSDAP</span>!}: [+ nsdap_relation : relationships +]
 
-= Internal Factions of the SPD
+= Internal Factions of the Democrat Party
 
-{!<span class="tooltip-text" title="The Left is interested in radical, transformative policies and cooperation with the KPD.">Left</span>!} strength: [+ left_strength : strength +], dissent: [+ left_dissent : dissent +]
+{!<span style="color:#1F77B4" class="tooltip-text" title="Doves prioritize peaceful foreign policy, diplomacy, and restraint in military action.">Doves</span>!} strength: [+ doves: strength +], dissent: [+ doves: dissent +]
 
-{!<span class="tooltip-text" title="The Center is a faction of Center Marxists, between reform and revolution.">Center</span>!} strength: [+ center_strength : strength +], dissent: [+ center_dissent : dissent +]
+{!<span style="color:#1F77B4" class="tooltip-text" title="Youth represents the younger generation, climate activism, and progressive energy in the party.">Youth</span>!} strength: [+ youth: strength +], dissent: [+ youth: dissent +]
 
-{!<span class="tooltip-text" title="Labor's goal is economic reform and benefits for organized workers.">Labor</span>!} strength: [+ labor_strength : strength +], dissent: [+ labor_dissent : dissent +]
+{!<span style="color:#1F77B4" class="tooltip-text" title="Minorities advocate for racial justice, immigrant rights, and representation of historically marginalized communities.">Minorities</span>!} strength: [+ minorities: strength +], dissent: [+ minorities: dissent +]
 
-{!<span class="tooltip-text" title="Reformists are pragmatic participants in government, and seek to expand the welfare state and defend democracy.">Reformist</span>!} strength: [+ reformist_strength : strength +], dissent: [+ reformist_dissent : dissent +]
-
-[? if neorevisionism > 0 : Neorevisionist strength: [+ neorevisionist_strength : strength +], dissent: [+ neorevisionist_dissent : dissent +] ?]
-
+{!<span style="color:#1F77B4" class="tooltip-text" title="Labor focuses on unions, workers’ rights, and economic reforms to benefit organized labor.">Labor</span>!} strength: [+ labor: strength +], dissent: [+ labor: dissent +]
 
 @paramilitaries
 on-arrival: {!

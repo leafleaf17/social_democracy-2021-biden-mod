@@ -42,15 +42,13 @@ Q.resources = 2;
 Q.approval_rating = 57;
 // party dues
 Q.dues = 2;
+Q.factions = ['left', 'center', 'labor', 'reformist', 'neorevisionist'];
 
 // the state of the party
 // overall dissent reduces every increase in party support.
 Q.dissent = 0.05;
 Q.dissent_percent = 5;
-
-// factions
-Q.factions = ['left', 'center', 'labor', 'reformist', 'neorevisionist'];
-// should this be normalized to 100%?
+// to delete 
 Q.left_strength = 15;
 Q.left_dissent = 20;
 Q.center_strength = 30;
@@ -59,6 +57,22 @@ Q.labor_strength = 25;
 Q.labor_dissent = 5;
 Q.reformist_strength = 25;
 Q.reformist_dissent = 5;
+/to delete
+// factions
+Q.factions = ['left', 'center', 'labor', 'reformist', 'neorevisionist'];
+// should this be normalized to 100%?
+Q.doves_strength = 15;
+Q.doves_dissent = 10;
+
+Q.youth_strength = 20;
+Q.youth_dissent = 5;
+
+Q.minorities_strength = 18;
+Q.minorities_dissent = 7;
+
+Q.labor_strength = 22;
+Q.labor_dissent = 12;
+
 Q.neorevisionist_strength = 5;
 Q.neorevisionist_dissent = 10;
 
