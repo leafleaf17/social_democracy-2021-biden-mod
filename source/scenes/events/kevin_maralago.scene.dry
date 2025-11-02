@@ -32,7 +32,7 @@ Several moderate Republicans offer a soft condemnation of the meetings, yet take
 
 @attack_maga
 subtitle: This will definitely make future attempts to pass bipartisan legislation harder.
-on-arrival: Q.pro_republic += 4; Q.right_radicalization += 3.5; Q.republican_relationship -= 3;
+on-arrival: Q.pro_republic += 4; Q.right_radicalization += 3.5; Q.republican_relationship -= 3
 
 We intensify our attacks on Trump greatly. Mitch Mcconnell wastes no time to come to his defense.
  
