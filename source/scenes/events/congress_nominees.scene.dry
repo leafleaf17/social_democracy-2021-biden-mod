@@ -1,0 +1,19 @@
+title: Congress Convenes to Confirm our Nominees
+subtitle: Who do we want in the cabinet?
+view-if: year = 2021 and month > 1
+max-visits: 1
+tags: event
+new-page: true
+face-image: img/Trump_Kevin.jpg
+
+= Congress Convenes to Confirm our Nominees
+
+Congress has been convened, ready to confirm the bulk of our cabinet nominees. We are expected to assemble a very progressive cabinet, although some moderate democrats are hoping we'll throw them a bone.
+
+- @get_into_session: Let us get into session!
+
+@get_into_session
+go-to: ministries
+
+ 
+
