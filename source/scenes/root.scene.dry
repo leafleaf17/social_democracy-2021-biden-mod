@@ -512,11 +512,32 @@ Q.ideology_timer = 0;
 Q.covid_mandates = 0;
 Q.covid_mandates_2 = 0;
 Q.right_radicalization = 25;
+// polling suff
 Q.republican_relationship = 25;
 Q.vigrinia_democrats_poll = 52.8;
 Q.vigrinia_republicans_poll = 44.2;
 Q.jersey_democrats_poll = 55.7;
 Q.jersey_republicans_poll = 42.3;
+Q.lower_income_dem = 55;
+Q.lower_income_rep = 40;
+Q.lower_income_other = 5;
+
+Q.lower_middle_income_dem = 48;
+Q.lower_middle_income_rep = 50;
+Q.lower_middle_income_other = 2;
+
+Q.middle_income_dem = 52;
+Q.middle_income_rep = 46;
+Q.middle_income_other = 2;
+
+Q.upper_middle_income_dem = 53;
+Q.upper_middle_income_rep = 45;
+Q.upper_middle_income_other = 2;
+
+Q.upper_income_dem = 40;
+Q.upper_income_rep = 55;
+Q.upper_income_other = 5;
+// polling stuff
 Q.inter_party_relationships_timer = 0;
 Q.international_relations_timer = 0;
 Q.iron_front_timer = 0;
