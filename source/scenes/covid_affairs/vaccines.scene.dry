@@ -1,6 +1,7 @@
 title: Expanding Vaccination
 new-page: true
-view-if: covid_state > 0
+view-if: covid_state > 0 and vaccine_policy_timer <= 0
+
 frequency: 3
 is-card: true
 card-image: img/poster_2.jpg
@@ -15,7 +16,9 @@ If we wish to defeat the Covid-19 Pandemic, we'll need to get a jab in as many a
 - @federal_mandate: Mandate the Covid-19 vaccine for federal employees
 - @school_mandate: Support schools that mandate the Covid-19 Vaccine
 - @foreign_vaccines: Send Covid-19 Vaccines to Poor Countries
+- @return: Do not enact any policies for now.
 - @easy_discard
+
 @encourage_more_shots
 subtitle: The Covid-19 pandemic will slightly reduce in severity.
 on-arrival: covid_state -= 0.5;
