@@ -1,0 +1,24 @@
+title: New lockdowns?
+new-page: true
+view-if: covid_state > 0 and lockdowns_timer <= 0
+frequency: 3
+is-card: true
+card-image: img/poster_2.jpg
+tags: covid_affairs
+on-arrival: month_actions += 1; lockdowns_timer += 2
+
+= New Lockdowns?
+
+Expanding access to testing will ensure we can isolate people infected with Covid-19, stopping the spread of the virus.
+
+- @support_lockdowns: Encourage friendly local leaders to implement lockdowns
+- @return: Do not enact any policies for now.
+- @easy_discard
+
+
+@support_lockdowns
+subtitle: -1 political capital. -2 approval rating. The Covid-19 pandemic will greatly reduce in severity. Economic growth will slightly slow next turn. This will surely anger and radialize the right!
+on-arrival: covid_state -= 1.5; political_capital -= 1; approval_rating -= 2; right_radicalization += 0.8; republican_relationship -= 0.8; economic_growth -= 0.5;
+
+This will certainly decrease the spread of Covid-19, at the cost of the economy and angering some civilians.
+

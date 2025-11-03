@@ -28,7 +28,7 @@ We encourage all Americans to get the shot. We can only hope they are listening.
 @federal_mandate
 subtitle: The Covid-19 pandemic will moderately reduce in severity. This may anger and radicalize the right!
 choose-if: covid_mandates = 0
-on-arrival: covid_state -= 1; covid_mandates += 1;
+on-arrival: covid_state -= 1; covid_mandates += 1; right_radicalization += 0.3; republican_relationship -= 0.2;
 unavailable-subtitle: We've already implemented this.
 
 This will definitely help stop the spread of Covid-19, yet those on the far right decry this as overreach and begin lawsuits.
@@ -36,7 +36,7 @@ This will definitely help stop the spread of Covid-19, yet those on the far righ
 @school_mandate
 subtitle: The Covid-19 pandemic will moderately reduce in severity. This may anger and radicalize the right!
 choose-if: covid_mandates_2 = 0
-on-arrival: covid_state -= 1; covid_mandates_2 += 1;
+on-arrival: covid_state -= 1; covid_mandates_2 += 1; right_radicalization += 0.3; republican_relationship -= 0.2;
 unavailable-subtitle: We've already implemented this.
 
 This will definitely help stop the spread of Covid-19, yet those on the far right decry this as overreach and begin lawsuits.
