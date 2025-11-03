@@ -156,8 +156,7 @@ target_approval = Math.max(25, Math.min(70, target_approval));
 // === Compute Delta and Apply Per-Turn Responsiveness ===
 let delta = target_approval - Q.approval_rating;
 
-// Honey moon effect: slower to drop, faster to recover
-let responsiveness = delta >= 0 ? 0.2 : 0.1;
+
 
 // Per-turn change capped
 let approval_change = responsiveness * delta;
