@@ -85,36 +85,33 @@ if (Q.month_actions >= 1) {
     Q.month_actions = 0;
     Q.week += 2;
 
-    // handle week overflow
     while (Q.week > 4) {
         Q.week -= 4;
         Q.month += 1;
     }
 
-    // handle month overflow
     while (Q.month > 12) {
         Q.month -= 12;
         Q.year += 1;
         if (Q.historical_mode) Q.resources += 2;
     }
 
-    // decrement timers
     for (let timer of Q.timers) {
         if (Q[timer+'_timer'] && Q[timer+'_timer'] > 0) Q[timer+'_timer'] -= 1;
     }
 
     // append to historical party support records
-    let party_support_results = {'date': new Date(Q.year, Q.month-1)};
+    let party_support_results = ({'date': new Date(Q.year, Q.month-1)});
     for (let party of Q.parties) {
         party_support_results[party] = Q[party+'_normalized']*100;
     }
     Q.party_support_records.push(party_support_results);
 
-    Q.economic_records.push({
+    Q.economic_records.push(({
         'date': new Date(Q.year, Q.month-1),
         'inflation': Q.inflation,
         'unemployment': Q.unemployed
-    });
+    }));
 }
 
 // === ECONOMY CALCULATIONS ===
