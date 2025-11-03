@@ -123,10 +123,10 @@ const ideal_poverty        = 9;
 const ideal_consumer_conf  = 105;
 const ideal_interest_rate  = 2;
 
-// Wage growth ideally exceeds inflation by ~1.5%
-const ideal_wage_growth = Q.inflation + 1.5;
+// Wage growth should ideally exceed inflation by ~1.5%
+const ideal_wage_growth    = Q.inflation + 1.5;
 
-// --- Utility: quadratic effect ---
+// --- Utility: signed quadratic effect ---
 function quadraticEffect(actual, ideal, multiplier, inverted = false) {
     const deviation = actual - ideal;
     const signedSquare = deviation * Math.abs(deviation);
@@ -139,9 +139,8 @@ function quadraticEffect(actual, ideal, multiplier, inverted = false) {
     }
 }
 
-// === CALCULATE TARGET APPROVAL BASED ON ECONOMIC FUNDAMENTALS ===
-let target_approval = 50; // baseline midpoint
-
+// === Compute Target Approval ===
+let target_approval = 50; // baseline
 target_approval += quadraticEffect(Q.unemployment_rate, ideal_unemployment, 0.25);
 target_approval += quadraticEffect(Q.inflation, ideal_inflation, 0.15);
 target_approval += quadraticEffect(Q.economic_growth, ideal_growth, 0.18, true);
@@ -151,22 +150,23 @@ target_approval += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.10);
 target_approval += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, 0.004, true);
 target_approval += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.03);
 
-// Clamp target approval to realistic range
+// Clamp target
 target_approval = Math.max(25, Math.min(70, target_approval));
 
-// === APPLY HONEYMOON DECAY (forgiveness bias) ===
+// === Compute Delta and Apply Per-Turn Responsiveness ===
 let delta = target_approval - Q.approval_rating;
-let responsiveness = delta < 0 ? 0.4 : 0.2; // quicker to lose, slower to gain
 
+// Honey moon effect: slower to drop, faster to recover
+let responsiveness = delta >= 0 ? 0.2 : 0.1;
+
+// Per-turn change capped
 let approval_change = responsiveness * delta;
-
-// Cap approval shift per tick (±3%)
 approval_change = Math.max(-3, Math.min(3, approval_change));
 
-// Apply the smoothed change
+// Apply change
 Q.approval_rating += approval_change;
 
-// Clamp final approval to 0–100 safety range
+// Clamp final approval
 Q.approval_rating = Math.max(0, Math.min(100, Q.approval_rating));
 
 // === PASSIVE MACRO EFFECTS ===
@@ -175,19 +175,20 @@ Q.wage_growth     += 0.0075 * Math.max(0, 3 - Q.interest_rate);
 Q.inflation       -= 0.01 * Q.interest_rate;
 
 Q.consumer_confidence -= 0.05 * Math.max(0, Q.inflation - 3);
-Q.wage_growth         -= 0.003 * Math.max(0, Q.inflation - 3);
+Q.wage_growth -= 0.003 * Math.max(0, Q.inflation - 3);
 
 Q.consumer_confidence += 0.1 * Q.economic_growth;
 Q.unemployment_rate   -= 0.05 * Q.economic_growth;
 
-Q.consumer_confidence -= 0.4 * (Q.unemployment_rate - 4.5);
-Q.poverty_rate        += 0.1 * (Q.unemployment_rate - 4.5);
+Q.consumer_confidence -= 0.4 * (Q.unemployment_rate - ideal_unemployment);
+Q.poverty_rate        += 0.1 * (Q.unemployment_rate - ideal_unemployment);
 
 Q.poverty_rate        -= 0.05 * Q.wage_growth;
 Q.consumer_confidence += 0.2 * Q.wage_growth;
 
-Q.consumer_confidence -= 0.25 * (Q.poverty_rate - 9);
-Q.economic_growth     -= 0.05 * (Q.poverty_rate - 9);
+Q.consumer_confidence -= 0.25 * (Q.poverty_rate - ideal_poverty);
+Q.economic_growth     -= 0.05 * (Q.poverty_rate - ideal_poverty);
+
 
 // Fiscal pressure → inflation
 if (Q.budget <= 0 && Q.budget > -2 && Q.inflation < 3) Q.inflation += 0.1;
