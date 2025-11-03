@@ -123,25 +123,32 @@ const ideal_poverty        = 9;
 const ideal_consumer_conf  = 105;
 const ideal_interest_rate  = 2;
 
-// Wage growth ideal: should roughly beat inflation by ~1.5%
+// Ideal wage growth beats inflation by ~1.5%
 const ideal_wage_growth = Q.inflation + 1.5;
 
 function quadraticEffect(actual, ideal, multiplier, inverted = false) {
     const deviation = actual - ideal;
-    return (inverted ? 1 : -1) * multiplier * (deviation ** 2);
+    // inverted=true means higher is better
+    const direction = inverted ? -1 : 1;
+    return -direction * multiplier * (deviation ** 2);
 }
 
 // === APPROVAL CALCULATIONS ===
-Q.approval_rating += quadraticEffect(Q.unemployment_rate, ideal_unemployment, 0.35);
-Q.approval_rating += quadraticEffect(Q.inflation, ideal_inflation, 0.25);
-Q.approval_rating += quadraticEffect(Q.economic_growth, ideal_growth, 0.25, true);
-Q.approval_rating += quadraticEffect(Q.government_deficit, ideal_deficit, 0.1);
-Q.approval_rating += quadraticEffect(Q.wage_growth, ideal_wage_growth, 0.2, true);
-Q.approval_rating += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.2);
-Q.approval_rating += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, 0.01, true);
-Q.approval_rating += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.05);
+let approval_change = 0;
 
-// Clamp total approval between realistic limits
+approval_change += quadraticEffect(Q.unemployment_rate, ideal_unemployment, 0.35);
+approval_change += quadraticEffect(Q.inflation, ideal_inflation, 0.25);
+approval_change += quadraticEffect(Q.economic_growth, ideal_growth, 0.25, true);
+approval_change += quadraticEffect(Q.government_deficit, ideal_deficit, 0.1);
+approval_change += quadraticEffect(Q.wage_growth, ideal_wage_growth, 0.15, true);
+approval_change += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.2);
+approval_change += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, 0.008, true);
+approval_change += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.05);
+
+// Apply to approval rating
+Q.approval_rating += approval_change;
+
+// Clamp approval between 25–70 for stability
 Q.approval_rating = Math.max(25, Math.min(70, Q.approval_rating));
 
 // === PASSIVE MACRO EFFECTS ===
