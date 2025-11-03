@@ -5,6 +5,7 @@ max-visits: 1
 tags: event
 new-page: true
 face-image: img/Trump_Kevin.jpg
+go-to: arp_main
 
 = Formulating the American Rescue Plan
 
