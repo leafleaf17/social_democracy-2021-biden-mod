@@ -357,4 +357,15 @@ if (this.ui && this.ui.show_portraits) {
     for (let choice of choices) {
         let cc = this.game.scenes[choice.id];
         if (cc.faceImage) {
-            let im = new I
+            let im = new Image();
+            im.url = cc.faceImage;
+        }
+    }
+}
+!}
+go-to: events_choice if has_event = 1; main if has_event = 0 and difficulty >= 0; main.main_easy if has_event = 0 and difficulty < 0
+
+=  [+ month : month +] week [+ week +] [+ year +]
+
+@events_choice
+- #event
