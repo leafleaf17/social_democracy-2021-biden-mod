@@ -156,11 +156,19 @@ target_approval = Math.max(25, Math.min(70, target_approval));
 // === Compute Delta and Apply Per-Turn Responsiveness ===
 let delta = target_approval - Q.approval_rating;
 
+// Compute per-turn change
+let approval_change = responsiveness * delta;
 
+// Minimum per-turn movement of 0.5 (so tiny deltas still move)
+if (Math.abs(approval_change) < 0.5) {
+    approval_change = Math.sign(approval_change) * 0.5;
+}
 
 // Per-turn change capped
-let approval_change = responsiveness * delta;
+
+// Cap maximum change per turn at ±3
 approval_change = Math.max(-3, Math.min(3, approval_change));
+
 
 // Apply change
 Q.approval_rating += approval_change;
