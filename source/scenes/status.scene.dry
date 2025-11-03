@@ -118,6 +118,13 @@ Consumer Confidence: [+ consumer_confidence +]
 
 Interest Rate: [+ interest_rate +]%
 
+= Situation on the Border
+
+Annual immigration rate: [+ immigration_rate +]%.
+
+According to our best estimates, the undocumented population: [+ undocumented_population +] million.
+
+Our current level of border security is: [+ border_enforcement : borderstate +]
 = Extent of our Reforms
 
 State of the Covid-19 pandemic: [+ covid_state : covid +].
