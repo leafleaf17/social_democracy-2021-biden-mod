@@ -114,7 +114,7 @@ if (Q.month_actions >= 1) {
     }));
 }
 
-/ === ECONOMY CALCULATIONS ===
+// === ECONOMY CALCULATIONS ===
 const ideal_unemployment   = 4.5;
 const ideal_inflation      = 2;
 const ideal_growth         = 2.5;
