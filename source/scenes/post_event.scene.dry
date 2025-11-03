@@ -125,65 +125,42 @@ const ideal_interest_rate  = 2;
 
 // Ideal wage growth beats inflation by ~1.5%
 const ideal_wage_growth = Q.inflation + 1.5;
-
 function quadraticEffect(actual, ideal, multiplier, inverted = false) {
+    // deviation = actual - ideal
+    // Use deviation * abs(deviation) to preserve sign while scaling quadratically:
+    //  - if deviation > 0 => deviation * abs(deviation) = +deviation^2
+    //  - if deviation < 0 => deviation * abs(deviation) = -deviation^2
     const deviation = actual - ideal;
-    // inverted=true means higher is better
-    const direction = inverted ? -1 : 1;
-    return -direction * multiplier * (deviation ** 2);
+    const signedSquare = deviation * Math.abs(deviation); // signed quadratic
+    if (inverted) {
+        // higher-than-ideal helps, lower-than-ideal hurts
+        return multiplier * signedSquare;
+    } else {
+        // any deviation hurts approval
+        return -multiplier * Math.abs(deviation) * Math.abs(deviation); // -deviation^2
+    }
 }
 
 // === APPROVAL CALCULATIONS ===
 let approval_change = 0;
 
+// base effects (weights tuned to avoid runaway positive drift)
 approval_change += quadraticEffect(Q.unemployment_rate, ideal_unemployment, 0.35);
 approval_change += quadraticEffect(Q.inflation, ideal_inflation, 0.25);
 approval_change += quadraticEffect(Q.economic_growth, ideal_growth, 0.25, true);
-approval_change += quadraticEffect(Q.government_deficit, ideal_deficit, 0.1);
-approval_change += quadraticEffect(Q.wage_growth, ideal_wage_growth, 0.15, true);
-approval_change += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.2);
+approval_change += quadraticEffect(Q.government_deficit, ideal_deficit, 0.10);
+approval_change += quadraticEffect(Q.wage_growth, (Q.inflation + 1.5), 0.15, true); // ideal wage = inflation + 1.5
+approval_change += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.20);
 approval_change += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, 0.008, true);
 approval_change += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.05);
 
-// Apply to approval rating
+
+
+// apply change once (no accidental double-adding)
 Q.approval_rating += approval_change;
 
-// Clamp approval between 25–70 for stability
+// clamp to realistic boundaries
 Q.approval_rating = Math.max(25, Math.min(70, Q.approval_rating));
-
-// === PASSIVE MACRO EFFECTS ===
-Q.economic_growth += 0.012 * Math.max(0, 3 - Q.interest_rate);
-Q.wage_growth     += 0.005 * Math.max(0, 3 - Q.interest_rate);
-Q.inflation       -= 0.008 * Q.interest_rate;
-
-// Inflation drag
-Q.consumer_confidence -= 0.04 * Math.max(0, Q.inflation - 3);
-Q.wage_growth         -= 0.002 * Math.max(0, Q.inflation - 3);
-
-// Growth benefits
-Q.consumer_confidence += 0.08 * Q.economic_growth;
-Q.unemployment_rate   -= 0.04 * Q.economic_growth;
-
-// Unemployment effects
-Q.consumer_confidence -= 0.3 * (Q.unemployment_rate - ideal_unemployment);
-Q.poverty_rate        += 0.08 * (Q.unemployment_rate - ideal_unemployment);
-
-// Wages
-Q.poverty_rate        -= 0.04 * Q.wage_growth;
-Q.consumer_confidence += 0.15 * Q.wage_growth;
-
-// Poverty feedback
-Q.consumer_confidence -= 0.2 * (Q.poverty_rate - ideal_poverty);
-Q.economic_growth     -= 0.04 * (Q.poverty_rate - ideal_poverty);
-
-// === CLAMP VALUES ===
-Q.unemployment_rate   = Math.max(0, Math.min(25, Q.unemployment_rate));
-Q.inflation           = Math.max(-2, Math.min(15, Q.inflation));
-Q.wage_growth         = Math.max(0, Math.min(8, Q.wage_growth));
-Q.poverty_rate        = Math.max(0, Math.min(50, Q.poverty_rate));
-Q.consumer_confidence = Math.max(40, Math.min(150, Q.consumer_confidence));
-Q.economic_growth     = Math.max(-10, Math.min(10, Q.economic_growth));
-Q.approval_rating     = Math.max(0, Math.min(100, Q.approval_rating));
 // Fiscal pressure → inflation
 if (Q.budget <= 0 && Q.budget > -2 && Q.inflation < 3) Q.inflation += 0.1;
 if (Q.budget <= -2 && Q.budget > -5 && Q.inflation < 6) {
