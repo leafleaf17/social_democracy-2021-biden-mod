@@ -1,0 +1,57 @@
+title: Formulating the American Rescue Plan
+subtitle: Our plan to recover the American economy.
+view-if: year = 2021 and month > 2
+max-visits: 1
+tags: event
+new-page: true
+face-image: img/Trump_Kevin.jpg
+
+= Formulating the American Rescue Plan
+
+As the senate prepares to pass the American Rescue Plan, we must ensure the bill is to our likings. Currently we plan for a one time 1700 check as well as a series of tax credits and increased unemployment benefits to help stimulate the economy and rescue Americans facing financial harship.
+
+This bill, in its current state, probably doesn't go far enough. Yet, clawing more spending from the corporate Democrats and oligarchic Republicans will be no easy task.
+
+- @adjust_spending: We can attempt to adjust the stimulus amount
+- @tear_republicans_away: Can we drive a wedge between {!<span style="color:#FF6961">Moderate Republicans</span> and <span style="color:#D62728">MAGA Republicans</span>!}?
+- @attack_maga: We should increase our attacks on Trump, to try and unite Republicans behind defending this historically unpopular man.
+
+@adjust_spending
+subtitle: In 2009, we learned the consequences of not going far enough when attempting to recover the economy from financial hardship...
+
+Yes, but it's unlikely we'll be able to convince congress to increase the checks much. 
+
+- @demand_stimulus_1: The current stimulus check amount is acceptable
+- @demand_stimulus_2: 1700 stimulus checks be given out for 2 months 
+- @demand_stimulus_3: 1700 stimulus checks be given out for 3 months 
+
+
+@demand_stimulus_1
+subtitle: Our base will be disappointed
+on-arrival: stimulus_1_month += 1; approval_rating -= 1
+chose-if: political_capital > 1
+unavailable-subtitle: -2 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn th
+is will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+@demand_stimulus_2
+subtitle: -2 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009.
+on-arrival: stimulus_2_month += 1;
+chose-if: political_capital > 1
+unavailable-subtitle: -2 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+@demand_stimulus_3
+subtitle: -3 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009.
+on-arrival: stimulus_3_month += 1;
+chose-if: political_capital > 2
+unavailable-subtitle: -3 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+@attack_maga
+subtitle: This will definitely make future attempts to pass bipartisan legislation harder.
+on-arrival: pro_republic += 4; right_radicalization += 3.5; republican_relationship -= 3
+
+We intensify our attacks on Trump greatly. Mitch Mcconnell wastes no time to come to his defense.
+ 
+

@@ -507,6 +507,10 @@ Q.timers = ['advisor_action', 'confronting_nazis', 'crisis_program',
 Q.advisor_action_timer = 0;
 // party affairs timers
 Q.confronting_nazis_timer = 0;
+Q.stimulus_1_month = 0;
+Q.stimulus_2_month = 0;
+Q.stimulus_3_month = 0;
+
 Q.crisis_program_timer = 0;
 Q.fundraising_timer = 0;
 Q.ideology_timer = 0;
