@@ -16,17 +16,20 @@ This bill, in its current state, probably doesn't go far enough. Yet, clawing mo
 @arp_main
 
 - @adjust_spending: We can attempt to adjust the stimulus amount
-- @attack_maga: We should increase our attacks on Trump, to try and unite Republicans behind defending this historically unpopular man.
+- @increase_enemployed: We can attempt to adjust the unemployment benefits
 
 @adjust_spending
 subtitle: In 2009, we learned the consequences of not going far enough when attempting to recover the economy from financial hardship...
-view-if: stimulus_1_month = 0; stimulus_2_month = 0; stimulus_3_month = 0
+view-if: stimulus_1_month =< 0; stimulus_2_month =< 0; stimulus_3_month =< 0
 
-Yes, but it's unlikely we'll be able to convince congress to increase the checks much. 
+It's unlikely we'll be able to convince congress to increase the checks much. 
 
 - @demand_stimulus_1: Actually, the current stimulus check amount is acceptable
 - @demand_stimulus_2: 1700 stimulus checks be given out for 2 months 
 - @demand_stimulus_3: 1700 stimulus checks be given out for 3 months 
+
+@increase_unemployed
+subtitle: In 2009, we learned the consequences of not going far enough when attempting to recover the economy from financial hardship...
 
 
 @demand_stimulus_1
@@ -56,10 +59,6 @@ unavailable-subtitle: -3 Political Capital. This will certainly improve economic
 
 We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
-@attack_maga
-subtitle: This will definitely make future attempts to pass bipartisan legislation harder.
-on-arrival: pro_republic += 4; right_radicalization += 3.5; republican_relationship -= 3
 
-We intensify our attacks on Trump greatly. Mitch Mcconnell wastes no time to come to his defense.
  
 
