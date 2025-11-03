@@ -232,13 +232,20 @@ if (Q.undocumented_population > 6) immigration_pressure += 0.1*(Q.undocumented_p
 if (Q.refugee_intake > 20) immigration_pressure += 0.05*(Q.refugee_intake-20);
 Q.approval_rating -= immigration_pressure;
 
-let radical_increase = 0.2 * Math.max(0, Q.undocumented_population-5);
-let radical_decrease = 0.3 * Q.border_enforcement;
+let radical_increase = 0.15 * Math.max(0, Q.undocumented_population-5);
+let radical_decrease = 0.2 * Q.border_enforcement;
 Q.right_radicalization += radical_increase - radical_decrease;
 Q.right_radicalization = Math.min(51, Math.max(1, Q.right_radicalization));
 
-Q.undocumented_population = Math.max(0, Q.undocumented_population - 0.05*Q.border_enforcement);
-Q.refugee_intake = Math.max(0, Q.refugee_intake - 0.02*Q.border_enforcement);
+// Adjust undocumented population based on enforcement
+// Low enforcement → increases illegal population, high enforcement → reduces it
+const enforcement_effect = Q.border_enforcement - 5; // 5 = neutral enforcement
+Q.undocumented_population += 0.1 * (-enforcement_effect); // negative = increase, positive = decrease
+Q.refugee_intake += 0.05 * (-enforcement_effect);
+
+// Clamp values so they never go below 0
+Q.undocumented_population = Math.max(0, Q.undocumented_population);
+Q.refugee_intake = Math.max(0, Q.refugee_intake);
 
 // Virginia and New Jersey polling calculations
 Q.va_lower_share        = 0.20;
