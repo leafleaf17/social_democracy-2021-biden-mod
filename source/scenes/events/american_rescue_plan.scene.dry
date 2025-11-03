@@ -11,7 +11,7 @@ go-to: arp_main
 
 As the senate prepares to pass the American Rescue Plan, we must ensure the bill is to our likings. Currently we plan for a one time 1700 check as well as a series of tax credits and increased unemployment benefits to help stimulate the economy and rescue Americans facing financial harship.
 
-This bill, in its current state, probably doesn't go far enough. Yet, clawing more spending from the corporate Democrats and oligarchic Republicans will be no easy task.
+This bill, in its current state, probably doesn't go far enough. Yet, clawing more spending from the corporate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} and oligarchic {!<span style="color:#FF6961">Republ</span><span style="color:#D62728">icans</span>!} will be no easy task.
 
 @arp_main
 
@@ -20,6 +20,7 @@ This bill, in its current state, probably doesn't go far enough. Yet, clawing mo
 
 @adjust_spending
 subtitle: In 2009, we learned the consequences of not going far enough when attempting to recover the economy from financial hardship...
+view-if: stimulus_1_month = 0; stimulus_2_month = 0; stimulus_3_month = 0
 
 Yes, but it's unlikely we'll be able to convince congress to increase the checks much. 
 

@@ -147,7 +147,7 @@ Q.socialism_disp = Math.round(Q.socialism);
 {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!}: [+ vigrinia_democrats_poll +]% ?]
 
 [? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : 
-{!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ vigrinia_republicans_poll +]% ?]
+{!<span style="color:#FF6961">Republ</span><span style="color:#D62728">icans</span>!}: [+ vigrinia_republicans_poll +]% ?]
 
 [? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : New Jersey Governor Election: ?]
 
@@ -155,17 +155,17 @@ Q.socialism_disp = Math.round(Q.socialism);
 {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!}: [+ jersey_democrats_poll +]% ?]
 
 [? if year = 2021 and (month < 11 or (month = 11 and week <= 3)) : 
-{!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ jersey_republicans_poll +]% ?]
+{!<span style="color:#FF6961">Republ</span><span style="color:#D62728">icans</span>!}: [+ jersey_republicans_poll +]% ?]
 
 
 **Detailed results for each demographic**
 
-Lower Income: {!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ lower_income_dem +]%, {!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ lower_income_rep +]%, Other: [+ lower_income_other +]%
+Lower Income: {!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ lower_income_dem +]%, {!<span style="color:#FF6961">Republ</span><span style="color:#D62728">icans</span>!}: [+ lower_income_rep +]%, Other: [+ lower_income_other +]%
 
-Lower-Middle Income: {!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ lower_middle_income_dem +]%, {!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ lower_middle_income_rep +]%, Other: [+ lower_middle_income_other +]%
+Lower-Middle Income: {!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ lower_middle_income_dem +]%, {!<span style="color:#FF6961">Republ</span><span style="color:#D62728">icans</span>!}: [+ lower_middle_income_rep +]%, Other: [+ lower_middle_income_other +]%
 
-Middle Income: {!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ middle_income_dem +]%, {!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ middle_income_rep +]%, Other: [+ middle_income_other +]%
+Middle Income: {!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ middle_income_dem +]%, {!<span style="color:#FF6961">Republ</span><span style="color:#D62728">icans</span>!}: [+ middle_income_rep +]%, Other: [+ middle_income_other +]%
 
-Upper-Middle Income: {!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ upper_middle_income_dem +]%, {!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ upper_middle_income_rep +]%, Other: [+ upper_middle_income_other +]%
+Upper-Middle Income: {!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ upper_middle_income_dem +]%, {!<span style="color:#FF6961">Republ</span><span style="color:#D62728">icans</span>!}: [+ upper_middle_income_rep +]%, Other: [+ upper_middle_income_other +]%
 
-Upper Income: {!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ upper_income_dem +]%, {!<span style="color:#FF6961">Rep</span><span style="color:#D62728">ublicans</span>!}: [+ upper_income_rep +]%, Other: [+ upper_income_other +]%
+Upper Income: {!<span style="color:#6495ED">Democ</span><span style="color:#1F77B4">rats</span>!}: [+ upper_income_dem +]%, {!<span style="color:#FF6961">Republ</span><span style="color:#D62728">icans</span>!}: [+ upper_income_rep +]%, Other: [+ upper_income_other +]%
