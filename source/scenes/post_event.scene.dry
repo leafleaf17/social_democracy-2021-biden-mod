@@ -151,7 +151,7 @@ approval_change += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.10);
 approval_change += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, 0.004, true);
 approval_change += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.03);
 
-// Small base loyalty/inertia so approval doesn’t crash instantly
+// Base inertia (soft stability so approval doesn’t crash instantly)
 approval_change += 0.25;
 
 // Mild honeymoon decay (first ~6 months = 13 turns)
@@ -160,31 +160,35 @@ if (typeof Q.turn_number !== 'undefined' && Q.turn_number <= 13 && Q.approval_ra
     approval_change -= 0.25 * honeymoon_factor;
 }
 
+// === Cap total approval change per tick ===
+approval_change = Math.max(-3, Math.min(3, approval_change));
+
 Q.approval_rating += approval_change;
 
-// Clamp realistically
-Q.approval_rating = Math.max(25, Math.min(70, Q.approval_rating));
+
+// === PASSIVE MACRO EFFECTS ===
+Q.economic_growth += 0.015 * Math.max(0, 3 - Q.interest_rate);
+Q.wage_growth     += 0.0075 * Math.max(0, 3 - Q.interest_rate);
+Q.inflation       -= 0.01 * Q.interest_rate;
+
+Q.consumer_confidence -= 0.05 * Math.max(0, Q.inflation - 3);
+Q.wage_growth -= 0.003 * Math.max(0, Q.inflation - 3);
+
+Q.consumer_confidence += 0.1 * Q.economic_growth;
+Q.unemployment_rate   -= 0.05 * Q.economic_growth;
+
+Q.consumer_confidence -= 0.4 * (Q.unemployment_rate - 4.5);
+Q.poverty_rate        += 0.1 * (Q.unemployment_rate - 4.5);
+
+Q.poverty_rate        -= 0.05 * Q.wage_growth;
+Q.consumer_confidence += 0.2 * Q.wage_growth;
+
+Q.consumer_confidence -= 0.25 * (Q.poverty_rate - 9);
+Q.economic_growth     -= 0.05 * (Q.poverty_rate - 9);
 
 
-// === APPROVAL CALCULATIONS ===
-let approval_change = 0;
 
-// base effects (weights tuned to avoid runaway positive drift)
-approval_change += quadraticEffect(Q.unemployment_rate, ideal_unemployment, 0.35);
-approval_change += quadraticEffect(Q.inflation, ideal_inflation, 0.25);
-approval_change += quadraticEffect(Q.economic_growth, ideal_growth, 0.25, true);
-approval_change += quadraticEffect(Q.government_deficit, ideal_deficit, 0.10);
-approval_change += quadraticEffect(Q.wage_growth, (Q.inflation + 1.5), 0.15, true); // ideal wage = inflation + 1.5
-approval_change += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.20);
-approval_change += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, 0.008, true);
-approval_change += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.05);
-
-// HONEYMOON: apply temporary mild decay early in term only if approval is reasonably high.
-// assumes Q.turn_number increments every tick (2 weeks). fade out by turn 26 (~1 year).
-if (typeof Q.turn_number !== 'undefined' && Q.turn_number <= 26 && Q.approval_rating > 45) {
-    const honeymoon_factor = 1 - (Q.turn_number / 26); // 1 -> 0 over 26 turns
-    approval_change -= 0.5 * honeymoon_factor;       // up to -0.5 initially, fades out
-}
+Q.approval_rating = Math.max(0, Math.min(100, Q.approval_rating));
 
 // apply change once (no accidental double-adding)
 Q.approval_rating += approval_change;
@@ -374,6 +378,16 @@ for (let key in Q) {
         Q[key] = Math.round(Q[key] * 100) / 100;
     }
 }
+
+// Clamp realistically
+Q.approval_rating = Math.max(25, Math.min(70, Q.approval_rating));
+// Clamp metrics
+Q.unemployment_rate   = Math.max(0, Math.min(25, Q.unemployment_rate));
+Q.inflation           = Math.max(-2, Math.min(15, Q.inflation));
+Q.wage_growth         = Math.max(0, Math.min(8, Q.wage_growth));
+Q.poverty_rate        = Math.max(0, Math.min(50, Q.poverty_rate));
+Q.consumer_confidence = Math.max(40, Math.min(150, Q.consumer_confidence));
+Q.economic_growth     = Math.max(-10, Math.min(10, Q.economic_growth));
 // === END OF ECONOMY AND POLLING ===
 
 // Preload event choices
