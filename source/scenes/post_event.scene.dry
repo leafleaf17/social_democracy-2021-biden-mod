@@ -114,7 +114,7 @@ if (Q.month_actions >= 1) {
     }));
 }
 
-// === ECONOMY CALCULATIONS ===
+/ === ECONOMY CALCULATIONS ===
 const ideal_unemployment   = 4.5;
 const ideal_inflation      = 2;
 const ideal_growth         = 2.5;
@@ -123,23 +123,48 @@ const ideal_poverty        = 9;
 const ideal_consumer_conf  = 105;
 const ideal_interest_rate  = 2;
 
-// Ideal wage growth beats inflation by ~1.5%
-const ideal_wage_growth = Q.inflation + 1.5;
+// Wage growth should ideally exceed inflation by ~1.5%
+const ideal_wage_growth    = Q.inflation + 1.5;
+
+// --- Utility: signed quadratic effect ---
 function quadraticEffect(actual, ideal, multiplier, inverted = false) {
-    // deviation = actual - ideal
-    // Use deviation * abs(deviation) to preserve sign while scaling quadratically:
-    //  - if deviation > 0 => deviation * abs(deviation) = +deviation^2
-    //  - if deviation < 0 => deviation * abs(deviation) = -deviation^2
     const deviation = actual - ideal;
-    const signedSquare = deviation * Math.abs(deviation); // signed quadratic
+    const signedSquare = deviation * Math.abs(deviation);
     if (inverted) {
-        // higher-than-ideal helps, lower-than-ideal hurts
-        return multiplier * signedSquare;
+        // higher than ideal helps, lower hurts
+        return 0.5 * multiplier * signedSquare;
     } else {
-        // any deviation hurts approval
-        return -multiplier * Math.abs(deviation) * Math.abs(deviation); // -deviation^2
+        // deviation hurts either way
+        return -0.5 * multiplier * (deviation ** 2);
     }
 }
+
+// === APPROVAL EFFECTS ===
+let approval_change = 0;
+
+approval_change += quadraticEffect(Q.unemployment_rate, ideal_unemployment, 0.25);
+approval_change += quadraticEffect(Q.inflation, ideal_inflation, 0.15);
+approval_change += quadraticEffect(Q.economic_growth, ideal_growth, 0.18, true);
+approval_change += quadraticEffect(Q.government_deficit, ideal_deficit, 0.05);
+approval_change += quadraticEffect(Q.wage_growth, ideal_wage_growth, 0.10, true);
+approval_change += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.10);
+approval_change += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, 0.004, true);
+approval_change += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.03);
+
+// Small base loyalty/inertia so approval doesn’t crash instantly
+approval_change += 0.25;
+
+// Mild honeymoon decay (first ~6 months = 13 turns)
+if (typeof Q.turn_number !== 'undefined' && Q.turn_number <= 13 && Q.approval_rating > 45) {
+    const honeymoon_factor = 1 - (Q.turn_number / 13);
+    approval_change -= 0.25 * honeymoon_factor;
+}
+
+Q.approval_rating += approval_change;
+
+// Clamp realistically
+Q.approval_rating = Math.max(25, Math.min(70, Q.approval_rating));
+
 
 // === APPROVAL CALCULATIONS ===
 let approval_change = 0;
@@ -154,7 +179,12 @@ approval_change += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.20);
 approval_change += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, 0.008, true);
 approval_change += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.05);
 
-
+// HONEYMOON: apply temporary mild decay early in term only if approval is reasonably high.
+// assumes Q.turn_number increments every tick (2 weeks). fade out by turn 26 (~1 year).
+if (typeof Q.turn_number !== 'undefined' && Q.turn_number <= 26 && Q.approval_rating > 45) {
+    const honeymoon_factor = 1 - (Q.turn_number / 26); // 1 -> 0 over 26 turns
+    approval_change -= 0.5 * honeymoon_factor;       // up to -0.5 initially, fades out
+}
 
 // apply change once (no accidental double-adding)
 Q.approval_rating += approval_change;
