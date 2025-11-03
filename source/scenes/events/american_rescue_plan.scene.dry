@@ -39,6 +39,7 @@ subtitle: -2 Political Capital. This will certainly improve economic growth and 
 on-arrival: stimulus_2_month += 1;
 chose-if: political_capital > 1
 unavailable-subtitle: -2 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
 We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
 @demand_stimulus_3
