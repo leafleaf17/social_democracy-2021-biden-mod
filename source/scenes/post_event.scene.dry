@@ -340,7 +340,13 @@ if (Q.science_bonus > 6) Q.science_bonus = 6;
 if (Q.science_bonus >= 1) {
     if (Q.return_to_normalcy && Q.economic_growth < Q.science_bonus + 3) Q.economic_growth += 0.1;
 }
-
+// === Round for Display ===
+let roundKeys = ['_rate', '_growth', '_deficit', '_inflation', '_confidence', '_poverty', '_wage'];
+for (let key in Q) {
+    if (roundKeys.some(suffix => key.endsWith(suffix))) {
+        Q[key] = Math.round(Q[key] * 100) / 100;
+    }
+}
 // === END OF ECONOMY AND POLLING ===
 
 // Preload event choices
