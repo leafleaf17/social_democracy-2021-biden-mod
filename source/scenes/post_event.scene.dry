@@ -154,11 +154,7 @@ approval_change += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.03);
 // Base inertia (soft stability so approval doesn’t crash instantly)
 approval_change += 0.25;
 
-// Mild honeymoon decay (first ~6 months = 13 turns)
-if (typeof Q.turn_number !== 'undefined' && Q.turn_number <= 13 && Q.approval_rating > 45) {
-    const honeymoon_factor = 1 - (Q.turn_number / 13);
-    approval_change -= 0.25 * honeymoon_factor;
-}
+
 
 // === Cap total approval change per tick ===
 approval_change = Math.max(-3, Math.min(3, approval_change));
