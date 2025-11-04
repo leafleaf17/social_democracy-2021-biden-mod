@@ -20,7 +20,7 @@ This bill, in its current state, probably doesn't go far enough. Yet, clawing mo
 
 @adjust_spending
 subtitle: In 2009, we learned the consequences of not going far enough when attempting to recover the economy from financial hardship...
-view-if: stimulus_1_month =< 0; stimulus_2_month =< 0; stimulus_3_month =< 0
+view-if: stimulus_1_month <= 0; stimulus_2_month <= 0; stimulus_3_month <= 0
 
 It's unlikely we'll be able to convince congress to increase the checks much. 
 
