@@ -26,8 +26,8 @@ view-if: stimulus_1_month <= 0 and stimulus_2_month <= 0 and stimulus_3_month <=
 It's unlikely we'll be able to convince congress to increase the checks much. 
 
 - @demand_stimulus_1: Actually, the current stimulus check amount is acceptable
-- @demand_stimulus_2: 1700 stimulus checks be given out for 2 months 
-- @demand_stimulus_3: 1700 stimulus checks be given out for 3 months 
+- @demand_stimulus_2: 1700 stimulus checks will be given out for 2 months 
+- @demand_stimulus_3: 1700 stimulus checks will be given out for 3 months 
 
 
 @demand_stimulus_1
