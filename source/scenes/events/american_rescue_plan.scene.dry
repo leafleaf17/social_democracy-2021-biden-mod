@@ -17,6 +17,7 @@ This bill, in its current state, probably doesn't go far enough. Yet, clawing mo
 
 - @adjust_spending: We can attempt to adjust the stimulus amount
 - @increase_child_tax_credit: We can attempt to adjust the child tax credit provisions
+- @end_arp: The bill is ready to go
 
 @adjust_spending
 subtitle: In 2009, we learned the consequences of not going far enough when attempting to recover the economy from financial hardship...
@@ -89,3 +90,10 @@ choose-if: political_capital > 1
 unavailable-subtitle: -2 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
 We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+@end_arp
+subtitle: We can move onto adding important provisions to the bill, such as a minimum wage increase and student debt relief.
+on-arrival: approval_rating += 5
+go-to: arp_main
+
+We will now move on from editing existing provisions to adding new ones.
