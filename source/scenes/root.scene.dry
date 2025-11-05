@@ -510,7 +510,9 @@ Q.confronting_nazis_timer = 0;
 Q.stimulus_1_month = 0;
 Q.stimulus_2_month = 0;
 Q.stimulus_3_month = 0;
-
+Q.tax_credit_3600 = 0;
+Q.tax_credit_4000 = 0;
+Q.tax_credit_4500 = 0;
 Q.crisis_program_timer = 0;
 Q.fundraising_timer = 0;
 Q.ideology_timer = 0;

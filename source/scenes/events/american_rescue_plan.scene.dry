@@ -16,7 +16,7 @@ This bill, in its current state, probably doesn't go far enough. Yet, clawing mo
 @arp_main
 
 - @adjust_spending: We can attempt to adjust the stimulus amount
-- @increase_unemployed: We can attempt to adjust the unemployment benefits
+- @increase_child_tax_credit: We can attempt to adjust the child tax credit provisions
 
 @adjust_spending
 subtitle: In 2009, we learned the consequences of not going far enough when attempting to recover the economy from financial hardship...
@@ -28,22 +28,17 @@ It's unlikely we'll be able to convince congress to increase the checks much.
 - @demand_stimulus_2: 1700 stimulus checks be given out for 2 months 
 - @demand_stimulus_3: 1700 stimulus checks be given out for 3 months 
 
-@increase_unemployed
-subtitle: In 2009, we learned the consequences of not going far enough when attempting to recover the economy from financial hardship...
-
 
 @demand_stimulus_1
 subtitle: Our base will be disappointed
 on-arrival: stimulus_1_month += 1; approval_rating -= 1
 go-to: arp_main
-choose-if: political_capital > 1
-unavailable-subtitle: -2 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
 We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
 @demand_stimulus_2
 subtitle: -2 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009.
-on-arrival: stimulus_2_month += 1;
+on-arrival: stimulus_2_month += 1; political_capital -= 2
 go-to: arp_main
 choose-if: political_capital > 1
 unavailable-subtitle: -2 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
@@ -52,13 +47,44 @@ We manage to convince senate {!<span style="color:#6495ED">Demo</span><span styl
 
 @demand_stimulus_3
 subtitle: -3 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009.
-on-arrival: stimulus_3_month += 1;
+on-arrival: stimulus_3_month += 1; political_capital -= 3
 go-to: arp_main
 choose-if: political_capital > 2
 unavailable-subtitle: -3 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
 We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
+@increase_child_tax_credit
+subtitle: Struggling families need help now more then...
 
- 
+The proposed child tax credits are currently 3600 per kid, up from the previous 2000.
 
+- @demand_child_tax_1: The current raise is good enough.
+- @demand_child_tax_2: The amount must be raised to 4000
+- @demand_child_tax_3: The amount must be raised to 4500
+
+
+@demand_child_tax_1
+subtitle: Our base will be disappointed
+on-arrival: tax_credit_3600 += 1; approval_rating -= 1
+go-to: arp_main
+
+We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+@demand_child_tax_2
+subtitle: -1 Political Capital. This will increase the deficit impacts of the bill.
+on-arrival: tax_credit_4000 += 1; political_capital -= 1
+go-to: arp_main
+choose-if: political_capital > 1
+unavailable-subtitle: -1 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+@demand_child_tax_3
+subtitle: -2 Political Capital. This will increase the deficit impacts of the bill.
+on-arrival: tax_credit_4500 += 1;
+go-to: arp_main
+choose-if: political_capital > 1
+unavailable-subtitle: -2 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
