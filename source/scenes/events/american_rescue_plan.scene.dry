@@ -56,6 +56,7 @@ We manage to convince senate {!<span style="color:#6495ED">Demo</span><span styl
 
 @increase_child_tax_credit
 subtitle: Struggling families need help now more then...
+view-if: tax_credit_3600 <= 0 and tax_credit_4000 <= 0 and tax_credit_4500 <= 0
 
 The proposed child tax credits are currently 3600 per kid, up from the previous 2000.
 
