@@ -106,6 +106,8 @@ Consumer Confidence: [+ consumer_confidence +]
 
 Interest Rate: [+ interest_rate +]%
 
+The percentage of American workers in unions is: [+ unionization_rate +]%
+
 = Situation on the Border
 
 Annual immigration rate: [+ immigration_rate +]%.
