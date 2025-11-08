@@ -382,20 +382,23 @@ if (Q.science_bonus >= 1) {
     if (Q.return_to_normalcy && Q.economic_growth < Q.science_bonus + 3) Q.economic_growth += 0.1;
 }
 
-// --------- ROUND FOR DISPLAY ONLY (do NOT modify internal Q) ----------
-let roundKeys = ['_rate', '_growth', '_deficit', '_inflation', '_confidence', '_poverty', '_wage', '_population', '_rating'];
-for (let key in Q) {
-    for (let suffix of roundKeys) {
-        if (key.endsWith(suffix)) {
-            Q[key + '_display'] = Math.round(Q[key] * 100) / 100;
-            break;
-        }
-    }
+// === ROUND FOR DISPLAY ===
+function round(value) {
+    return Math.round(value * 100) / 100;
 }
-// some explicit displays
-Q.approval_rating_display = Math.round(Q.approval_rating * 100) / 100;
-Q.unemployment_rate_display = Math.round(Q.unemployment_rate * 100) / 100;
-Q.inflation_display = Math.round(Q.inflation * 100) / 100;
+
+Q.approval_rating       = round(Q.approval_rating);
+Q.unemployment_rate     = round(Q.unemployment_rate);
+Q.inflation             = round(Q.inflation);
+Q.economic_growth       = round(Q.economic_growth);
+Q.wage_growth           = round(Q.wage_growth);
+Q.poverty_rate          = round(Q.poverty_rate);
+Q.consumer_confidence   = round(Q.consumer_confidence);
+Q.interest_rate         = round(Q.interest_rate);
+Q.government_deficit    = round(Q.government_deficit);
+
+// Display values (if separate UI vars exist)
+Q.approval_rating_display = Q.approval_rating;
 
 // --------- GENTLE EXTREME BALANCE CORRECTION (nudges only if outside reasonable limits) ----------
 const balanceLimits = {
