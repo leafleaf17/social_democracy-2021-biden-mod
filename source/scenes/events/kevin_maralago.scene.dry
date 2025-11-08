@@ -45,6 +45,7 @@ We intensify our attacks on Trump greatly. Mitch Mcconnell wastes no time to com
  
 @senate_convene_impeach_trump
 subtitle: Will Republicans put country over party?
+go-to: trump_impeachment_failed
 on-arrival: {! 
   if (window && d3) {
     var width = 500; 
@@ -71,8 +72,6 @@ on-arrival: {!
 !}
 
 <div id="reichstag" style="width:100%; height:500px;"></div>
-
-go-to: trump_impeachment_failed
 
 @trump_impeachment_failed
 
