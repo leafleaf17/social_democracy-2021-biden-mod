@@ -232,8 +232,8 @@ Q.inflation += deficit_infl_adj;
 // Track cumulative effect
 Q.deficit_inflation_contrib += deficit_infl_adj;
 // === AMERICAN RESCUE PLAN STIMULUS EFFECTS ===
-// Runs each turn only if stimulus_turns remain
-if (stimulus_turns > 0) {
+// Runs each turn only if stimulus_effects remain
+if (stimulus_effects > 0) {
 
     // --- Determine stimulus strength ---
     stimulus_strength = 0;
@@ -280,7 +280,7 @@ if (stimulus_turns > 0) {
     lower_middle_income_dem += 0.1 * (stimulus_strength + tax_strength);
 
     // Reduce remaining turns
-    stimulus_turns -= 1;
+    stimulus_effects -= 1;
 
     // Clamp inflation contribution cap (ARP shouldn't create runaway inflation)
     // Max total ARP-added inflation = +5.1%
