@@ -114,6 +114,7 @@ if (Q.month_actions >= 1) {
     }));
 }
 
+// === IDEAL TARGETS ===
 const ideal_unemployment   = 4.5;
 const ideal_inflation      = 2;
 const ideal_growth         = 2.5;
@@ -121,8 +122,6 @@ const ideal_deficit        = 4;
 const ideal_poverty        = 9;
 const ideal_consumer_conf  = 105;
 const ideal_interest_rate  = 2;
-
-// Wage growth should ideally exceed inflation by ~1.5%
 const ideal_wage_growth    = Q.inflation + 1.5;
 
 // --- Utility: signed quadratic effect ---
@@ -130,16 +129,14 @@ function quadraticEffect(actual, ideal, multiplier, inverted = false) {
     const deviation = actual - ideal;
     const signedSquare = deviation * Math.abs(deviation);
     if (inverted) {
-        // higher than ideal helps, lower hurts
         return 0.5 * multiplier * signedSquare;
     } else {
-        // deviation hurts either way
         return -0.5 * multiplier * (deviation ** 2);
     }
 }
 
 // === Compute Target Approval ===
-let target_approval = 50; // baseline
+let target_approval = 50; 
 target_approval += quadraticEffect(Q.unemployment_rate, ideal_unemployment, 0.25);
 target_approval += quadraticEffect(Q.inflation, ideal_inflation, 0.15);
 target_approval += quadraticEffect(Q.economic_growth, ideal_growth, 0.18, true);
@@ -148,228 +145,124 @@ target_approval += quadraticEffect(Q.wage_growth, ideal_wage_growth, 0.10, true)
 target_approval += quadraticEffect(Q.poverty_rate, ideal_poverty, 0.10);
 target_approval += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, 0.004, true);
 target_approval += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.03);
-
-// Clamp target
 target_approval = Math.max(25, Math.min(70, target_approval));
 
-// === Compute Delta and Apply Per-Turn Responsiveness ===
+// === Compute Delta and Apply Responsiveness ===
 let delta = target_approval - Q.approval_rating;
-
-// Honey-moon effect: slower to drop, faster to recover
-let responsiveness = delta >= 0 ? 0.2 : 0.1;
-
-// Compute per-turn change
+let responsiveness = delta >= 0 ? 0.22 : 0.12; // slight increase
 let approval_change = responsiveness * delta;
-
-// Minimum per-turn movement of 0.5 (so tiny deltas still move)
-if (Math.abs(approval_change) < 0.5) {
-    approval_change = Math.sign(approval_change) * 0.5;
-}
-
-// Cap maximum change per turn at ±3
+if (Math.abs(approval_change) < 0.5) approval_change = Math.sign(approval_change) * 0.5;
 approval_change = Math.max(-3, Math.min(3, approval_change));
-
-// Apply change
 Q.approval_rating += approval_change;
-
-// Clamp final approval
 Q.approval_rating = Math.max(0, Math.min(100, Q.approval_rating));
-// --- Track cumulative weeks for Fed meetings ---
+
+// === Track cumulative weeks for Fed meetings ===
 if (typeof Q.weeks_since_last_fed === "undefined") Q.weeks_since_last_fed = 0;
 Q.weeks_since_last_fed += 1;
 
 // Fed meets every 6 cumulative weeks
 if (Q.weeks_since_last_fed >= 6) {
-
-    Q.weeks_since_last_fed = 0; // reset counter after meeting
-
-    // --- Aggressive economic decision logic ---
+    Q.weeks_since_last_fed = 0;
     let rate_change = 0;
 
-    // Adjust based on inflation (target ~2%)
     if (Q.inflation > 3) rate_change += Math.min(0.75, (Q.inflation - 2) * 0.25);
     else if (Q.inflation < 1) rate_change -= Math.min(0.75, (2 - Q.inflation) * 0.25);
 
-    // Adjust based on unemployment (target ~4%)
     if (Q.unemployment_rate < 3.5) rate_change += Math.min(0.5, (4 - Q.unemployment_rate) * 0.25);
     else if (Q.unemployment_rate > 6) rate_change -= Math.min(0.5, (Q.unemployment_rate - 4) * 0.25);
 
-    // Fed chair ideology: 1 = dovish, 4 = hawkish
     rate_change += (Q.fed_chair_hawk_dove - 2.5) * 0.25;
-
-    // Round to nearest 0.25%
     rate_change = Math.round(rate_change * 4) / 4;
-
-    // Apply change
     Q.interest_rate += rate_change;
-
-    if (Q.interest_rate < 0) Q.interest_rate = 0;
-    if (Q.interest_rate > 5) Q.interest_rate = 5;
-
+    Q.interest_rate = Math.max(0, Math.min(5, Q.interest_rate));
 }
 
+// === PASSIVE MACRO EFFECTS (slightly boosted) ===
+Q.economic_growth += 0.02 * Math.max(0, 3 - Q.interest_rate);
+Q.wage_growth     += 0.01 * Math.max(0, 3 - Q.interest_rate);
+Q.inflation       -= 0.015 * Q.interest_rate;
 
-// === PASSIVE MACRO EFFECTS ===
-Q.economic_growth += 0.015 * Math.max(0, 3 - Q.interest_rate);
-Q.wage_growth     += 0.0075 * Math.max(0, 3 - Q.interest_rate);
-Q.inflation       -= 0.01 * Q.interest_rate;
+Q.consumer_confidence -= 0.07 * Math.max(0, Q.inflation - 3);
+Q.wage_growth -= 0.005 * Math.max(0, Q.inflation - 3);
 
-Q.consumer_confidence -= 0.05 * Math.max(0, Q.inflation - 3);
-Q.wage_growth -= 0.003 * Math.max(0, Q.inflation - 3);
+Q.consumer_confidence += 0.12 * Q.economic_growth;
+Q.unemployment_rate   -= 0.07 * Q.economic_growth;
 
-Q.consumer_confidence += 0.1 * Q.economic_growth;
-Q.unemployment_rate   -= 0.05 * Q.economic_growth;
+Q.consumer_confidence -= 0.45 * (Q.unemployment_rate - ideal_unemployment);
+Q.poverty_rate        += 0.12 * (Q.unemployment_rate - ideal_unemployment);
 
-Q.consumer_confidence -= 0.4 * (Q.unemployment_rate - ideal_unemployment);
-Q.poverty_rate        += 0.1 * (Q.unemployment_rate - ideal_unemployment);
+Q.poverty_rate        -= 0.06 * Q.wage_growth;
+Q.consumer_confidence += 0.22 * Q.wage_growth;
 
-Q.poverty_rate        -= 0.05 * Q.wage_growth;
-Q.consumer_confidence += 0.2 * Q.wage_growth;
-
-Q.consumer_confidence -= 0.25 * (Q.poverty_rate - ideal_poverty);
-Q.economic_growth     -= 0.05 * (Q.poverty_rate - ideal_poverty);
+Q.consumer_confidence -= 0.28 * (Q.poverty_rate - ideal_poverty);
+Q.economic_growth     -= 0.06 * (Q.poverty_rate - ideal_poverty);
 
 // === DEFICIT-DRIVEN INFLATION PASSIVE EFFECT ===
-
-// temporary turn adjustment variable
+if (typeof Q.cumulative_deficit_inflation === "undefined") Q.cumulative_deficit_inflation = 0;
 let deficit_infl_adj = 0;
-
-// Deficit → upward pressure
-if (Q.government_deficit > 0) {
-    deficit_infl_adj = Q.government_deficit * 0.00003; // very soft per-turn scaling
-}
-
-// Surplus → slight downward pressure
-if (Q.government_deficit < 0) {
-    deficit_infl_adj = Q.government_deficit * 0.000015; // weaker to avoid disinflation spiral
-}
-
-// Apply per-turn clamp (2-week cycle, so tiny)
-if (deficit_infl_adj > 0.02) deficit_infl_adj = 0.02;
-if (deficit_infl_adj < -0.02) deficit_infl_adj = -0.02;
-
-// Now apply *total* cap so deficit can't drive inflation endlessly
-// Max total inflation influence from deficits = +1.2% (adjust if needed)
+if (Q.government_deficit > 0) deficit_infl_adj = Q.government_deficit * 0.00005;
+if (Q.government_deficit < 0) deficit_infl_adj = Q.government_deficit * 0.00002;
+deficit_infl_adj = Math.max(-0.02, Math.min(0.02, deficit_infl_adj));
 let deficit_cap = 3.2;
-
-if (Q.deficit_inflation_contrib + deficit_infl_adj > deficit_cap) {
-    deficit_infl_adj = deficit_cap - Q.deficit_inflation_contrib;
-}
-
-if (Q.deficit_inflation_contrib + deficit_infl_adj < -deficit_cap) {
-    deficit_infl_adj = -deficit_cap - Q.deficit_inflation_contrib;
-}
-
-// Apply the adjustment
+if (Q.cumulative_deficit_inflation + deficit_infl_adj > deficit_cap) deficit_infl_adj = deficit_cap - Q.cumulative_deficit_inflation;
+if (Q.cumulative_deficit_inflation + deficit_infl_adj < -deficit_cap) deficit_infl_adj = -deficit_cap - Q.cumulative_deficit_inflation;
 Q.inflation += deficit_infl_adj;
+Q.cumulative_deficit_inflation += deficit_infl_adj;
 
-// === AMERICAN RESCUE PLAN STIMULUS EFFECTS ===
-// Runs each turn only if stimulus_effects remain
+// --- STIMULUS EFFECTS ---
 if (Q.stimulus_effects > 0) {
+    let stimulus_strength = Q.stimulus_1_month ? 1 : (Q.stimulus_2_month ? 2 : (Q.stimulus_3_month ? 3 : 0));
+    let tax_strength = Q.tax_credit_3000 ? 1 : (Q.tax_credit_3600 ? 2 : (Q.tax_credit_4000 ? 3 : (Q.tax_credit_4500 ? 4 : 0)));
+    let aid_strength = Q.local_aid_300 ? 1 : (Q.local_aid_400 ? 2 : (Q.local_aid_500 ? 3 : (Q.local_aid_600 ? 4 : 0)));
 
-    // --- Determine stimulus strength (cumulative months) ---
-    let stimulus_strength = 0;
-    if (Q.stimulus_1_month) stimulus_strength = 1;
-    if (Q.stimulus_2_month) stimulus_strength = 2;
-    if (Q.stimulus_3_month) stimulus_strength = 3;
+    Q.economic_growth     += 0.35 * stimulus_strength;
+    Q.wage_growth         += 0.18 * (stimulus_strength + tax_strength);
+    Q.inflation           += (0.18 * stimulus_strength + 0.18 * tax_strength);
+    Q.unemployment_rate   -= 1.6 * aid_strength;
+    Q.consumer_confidence += 2.2 * (stimulus_strength + tax_strength + aid_strength);
+    Q.poverty_rate        -= 0.25 * (stimulus_strength + tax_strength);
 
-    // --- Determine tax credit strength (only one active) ---
-    let tax_strength = 0;
-    if (Q.tax_credit_3000) tax_strength = 1;
-    if (Q.tax_credit_3600) tax_strength = 2;
-    if (Q.tax_credit_4000) tax_strength = 3;
-    if (Q.tax_credit_4500) tax_strength = 4;
-
-    // --- Determine local aid strength (only one active) ---
-    let aid_strength = 0;
-    if (Q.local_aid_300) aid_strength = 1;
-    if (Q.local_aid_400) aid_strength = 2;
-    if (Q.local_aid_500) aid_strength = 3;
-    if (Q.local_aid_600) aid_strength = 4;
-
-    // --- Apply economic effects per turn (2-week cycle) ---
-    // Percentages represented literally (2 = 2%)
-    const ECON_GROWTH_PER_POINT       = 0.3;    
-    const WAGE_GROWTH_PER_POINT       = 0.15;    
-    const INFLATION_PER_STIMULUS      = 0.15;  
-    const INFLATION_PER_TAX           = 0.15;    
-    const UNEMPLOYMENT_REDUCTION      = 1.5;  
-    const CONFIDENCE_PER_POINT        = 2;   
-    const POVERTY_REDUCTION_PER_POINT = 0.2;    
-
-    Q.economic_growth     += ECON_GROWTH_PER_POINT * stimulus_strength;
-    Q.wage_growth         += WAGE_GROWTH_PER_POINT * (stimulus_strength + tax_strength);
-    Q.inflation           += (INFLATION_PER_STIMULUS * stimulus_strength)
-                           + (INFLATION_PER_TAX * tax_strength);
-    Q.unemployment_rate   -= UNEMPLOYMENT_REDUCTION * aid_strength;
-    Q.consumer_confidence += CONFIDENCE_PER_POINT * (stimulus_strength + tax_strength + aid_strength);
-    Q.poverty_rate        -= POVERTY_REDUCTION_PER_POINT * (stimulus_strength + tax_strength);
-
-    // --- Government deficit effect (as % of GDP) ---
-    const DEFICIT_PER_STIMULUS_POINT = 0.1; // realistic percentage
-    const DEFICIT_PER_TAX_POINT      = 0.1;
-    const DEFICIT_PER_AID_POINT      = 0.2;
-
-    Q.government_deficit += (stimulus_strength * DEFICIT_PER_STIMULUS_POINT)
-                          + (tax_strength * DEFICIT_PER_TAX_POINT)
-                          + (aid_strength * DEFICIT_PER_AID_POINT);
-
-    // --- Political effects ---
+    Q.government_deficit += 0.1*(stimulus_strength + tax_strength) + 0.2*aid_strength;
     Q.lower_income_dem        += 0.2 * (stimulus_strength + tax_strength);
     Q.lower_middle_income_dem += 0.1 * (stimulus_strength + tax_strength);
 
-    // --- Reduce remaining turns ---
     Q.stimulus_effects -= 1;
-
 }
-// COVID-19 effects
+
+// --- COVID EFFECTS ---
 if (Q.covid_state > 0) {
-    if (Q.covid_state <= 2) {
-        Q.unemployment_rate += 0.1;
-        Q.economic_growth -= 0.1;
-        Q.consumer_confidence -= 1;
-    } else if (Q.covid_state <= 4) {
-        Q.unemployment_rate += 0.3;
-        Q.economic_growth -= 0.3;
-        Q.inflation -= 0.1;
-        Q.consumer_confidence -= 3;
-        Q.poverty_rate += 0.2;
-    } else if (Q.covid_state <= 6) {
-        Q.unemployment_rate += 0.5;
-        Q.economic_growth -= 0.6;
-        Q.inflation -= 0.2;
-        Q.consumer_confidence -= 5;
-        Q.poverty_rate += 0.5;
-        Q.wage_growth -= 0.2;
-    } else {
-        Q.unemployment_rate += 1;
-        Q.economic_growth -= 1.2;
-        Q.inflation -= 0.5;
-        Q.consumer_confidence -= 10;
-        Q.poverty_rate += 1;
-        Q.wage_growth -= 0.5;
+    let covidImpact = [
+        {u:0.1,g:-0.1,inf:0,conf:-1,pov:0,w:0},
+        {u:0.3,g:-0.3,inf:-0.1,conf:-3,pov:0.2,w:0},
+        {u:0.5,g:-0.6,inf:-0.2,conf:-5,pov:0.5,w:-0.2},
+        {u:1,g:-1.2,inf:-0.5,conf:-10,pov:1,w:-0.5}
+    ];
+    let index = Math.min(Math.floor(Q.covid_state/2), 3);
+    Q.unemployment_rate += covidImpact[index].u;
+    Q.economic_growth -= -covidImpact[index].g;
+    Q.inflation += covidImpact[index].inf;
+    Q.consumer_confidence += covidImpact[index].conf;
+    Q.poverty_rate += covidImpact[index].pov;
+    Q.wage_growth += covidImpact[index].w;
+}
+
+// === INCOME GROUP ADJUSTMENTS ===
+let incomeGroups = ['lower_income', 'lower_middle_income', 'middle_income', 'upper_middle_income', 'upper_income'];
+for (let group of incomeGroups) {
+    for (let p of ['dem','rep','other']) {
+        Q[group + '_' + p] = Math.max(0, Math.min(100, Q[group + '_' + p]));
+        Q[group + '_' + p + '_display'] = Math.round(Q[group + '_' + p]*10)/10;
     }
 }
 
-// Income group political adjustments
-let incomeGroups = ['lower_income', 'lower_middle_income', 'middle_income', 'upper_middle_income', 'upper_income'];
-for (let group of incomeGroups) {
-    Q[group + '_dem'] = Math.max(0, Math.min(100, Q[group + '_dem']));
-    Q[group + '_rep'] = Math.max(0, Math.min(100, Q[group + '_rep']));
-    Q[group + '_other'] = Math.max(0, Math.min(100, Q[group + '_other']));
-    Q[group + '_dem'] = Math.round(Q[group + '_dem']*10)/10;
-    Q[group + '_rep'] = Math.round(Q[group + '_rep']*10)/10;
-    Q[group + '_other'] = Math.round(Q[group + '_other']*10)/10;
-}
-
-// Immigration effects
-Q.economic_growth += 0.005 * Q.immigration_rate;
-Q.unemployment_rate -= 0.002 * Q.immigration_rate;
-Q.wage_growth -= 0.001 * Q.immigration_rate;
+// === IMMIGRATION EFFECTS ===
+Q.economic_growth += 0.006 * Q.immigration_rate;
+Q.unemployment_rate -= 0.0025 * Q.immigration_rate;
+Q.wage_growth -= 0.0012 * Q.immigration_rate;
 
 let immigration_pressure = 0;
-if (Q.undocumented_population > 6) immigration_pressure += 0.1*(Q.undocumented_population-6);
-if (Q.refugee_intake > 20) immigration_pressure += 0.05*(Q.refugee_intake-20);
+if (Q.undocumented_population > 6) immigration_pressure += 0.12*(Q.undocumented_population-6);
+if (Q.refugee_intake > 20) immigration_pressure += 0.06*(Q.refugee_intake-20);
 Q.approval_rating -= immigration_pressure;
 
 let radical_increase = 0.15 * Math.max(0, Q.undocumented_population-5);
@@ -377,127 +270,29 @@ let radical_decrease = 0.2 * Q.border_enforcement;
 Q.right_radicalization += radical_increase - radical_decrease;
 Q.right_radicalization = Math.min(51, Math.max(1, Q.right_radicalization));
 
-// Adjust undocumented population based on enforcement
-// Low enforcement → increases illegal population, high enforcement → reduces it
-const enforcement_effect = Q.border_enforcement - 5; // 5 = neutral enforcement
-Q.undocumented_population += 0.1 * (-enforcement_effect); // negative = increase, positive = decrease
+const enforcement_effect = Q.border_enforcement - 5;
+Q.undocumented_population += 0.1 * (-enforcement_effect);
 Q.refugee_intake += 0.05 * (-enforcement_effect);
-
-// Clamp values so they never go below 0
 Q.undocumented_population = Math.max(0, Q.undocumented_population);
 Q.refugee_intake = Math.max(0, Q.refugee_intake);
 
-// Virginia and New Jersey polling calculations
-Q.va_lower_share        = 0.20;
-Q.va_lowermiddle_share  = 0.25;
-Q.va_middle_share       = 0.30;
-Q.va_uppermiddle_share  = 0.15;
-Q.va_upper_share        = 0.10;
+// --- VIRGINIA / NEW JERSEY POLLS ---
+Q.va_lower_share = 0.20; Q.va_lowermiddle_share = 0.25; Q.va_middle_share = 0.30; Q.va_uppermiddle_share = 0.15; Q.va_upper_share = 0.10;
+Q.nj_lower_share = 0.18; Q.nj_lowermiddle_share = 0.22; Q.nj_middle_share = 0.30; Q.nj_uppermiddle_share = 0.20; Q.nj_upper_share = 0.10;
 
-Q.nj_lower_share        = 0.18;
-Q.nj_lowermiddle_share  = 0.22;
-Q.nj_middle_share       = 0.30;
-Q.nj_uppermiddle_share  = 0.20;
-Q.nj_upper_share        = 0.10;
+Q.jersey_democrats_poll = Q.nj_lower_share*Q.lower_income_dem + Q.nj_lowermiddle_share*Q.lower_middle_income_dem + Q.nj_middle_share*Q.middle_income_dem + Q.nj_uppermiddle_share*Q.upper_middle_income_dem + Q.nj_upper_share*Q.upper_income_dem + Q.nj_dem_bonus;
+Q.jersey_republicans_poll = Q.nj_lower_share*Q.lower_income_rep + Q.nj_lowermiddle_share*Q.lower_middle_income_rep + Q.nj_middle_share*Q.middle_income_rep + Q.nj_uppermiddle_share*Q.upper_middle_income_rep + Q.nj_upper_share*Q.upper_income_rep + Q.nj_rep_bonus;
 
-Q.jersey_democrats_poll = 
-    Q.nj_lower_share*Q.lower_income_dem +
-    Q.nj_lowermiddle_share*Q.lower_middle_income_dem +
-    Q.nj_middle_share*Q.middle_income_dem +
-    Q.nj_uppermiddle_share*Q.upper_middle_income_dem +
-    Q.nj_upper_share*Q.upper_income_dem +
-    Q.nj_dem_bonus;
+Q.vigrinia_democrats_poll = Q.va_lower_share*Q.lower_income_dem + Q.va_lowermiddle_share*Q.lower_middle_income_dem + Q.va_middle_share*Q.middle_income_dem + Q.va_uppermiddle_share*Q.upper_middle_income_dem + Q.va_upper_share*Q.upper_income_dem + Q.va_dem_bonus;
+Q.vigrinia_republicans_poll = Q.va_lower_share*Q.lower_income_rep + Q.va_lowermiddle_share*Q.lower_middle_income_rep + Q.va_middle_share*Q.middle_income_rep + Q.va_uppermiddle_share*Q.upper_middle_income_rep + Q.va_upper_share*Q.upper_income_rep + Q.va_rep_bonus;
 
-Q.jersey_republicans_poll = 
-    Q.nj_lower_share*Q.lower_income_rep +
-    Q.nj_lowermiddle_share*Q.lower_middle_income_rep +
-    Q.nj_middle_share*Q.middle_income_rep +
-    Q.nj_uppermiddle_share*Q.upper_middle_income_rep +
-    Q.nj_upper_share*Q.upper_income_rep +
-    Q.nj_rep_bonus;
-
-Q.vigrinia_democrats_poll = 
-    Q.va_lower_share*Q.lower_income_dem +
-    Q.va_lowermiddle_share*Q.lower_middle_income_dem +
-    Q.va_middle_share*Q.middle_income_dem +
-    Q.va_uppermiddle_share*Q.upper_middle_income_dem +
-    Q.va_upper_share*Q.upper_income_dem +
-    Q.va_dem_bonus;
-
-Q.vigrinia_republicans_poll = 
-    Q.va_lower_share*Q.lower_income_rep +
-    Q.va_lowermiddle_share*Q.lower_middle_income_rep +
-    Q.va_middle_share*Q.middle_income_rep +
-    Q.va_uppermiddle_share*Q.upper_middle_income_rep +
-    Q.va_upper_share*Q.upper_income_rep +
-    Q.va_rep_bonus;
-
-// Normalize poll totals if >100
+// Normalize if >100
 let va_total = Q.vigrinia_democrats_poll + Q.vigrinia_republicans_poll;
-if (va_total > 100) {
-    Q.vigrinia_democrats_poll *= 100 / va_total;
-    Q.vigrinia_republicans_poll *= 100 / va_total;
-}
-
+if (va_total > 100) { Q.vigrinia_democrats_poll *= 100 / va_total; Q.vigrinia_republicans_poll *= 100 / va_total; }
 let nj_total = Q.jersey_democrats_poll + Q.jersey_republicans_poll;
-if (nj_total > 100) {
-    Q.jersey_democrats_poll *= 100 / nj_total;
-    Q.jersey_republicans_poll *= 100 / nj_total;
-}
+if (nj_total > 100) { Q.jersey_democrats_poll *= 100 / nj_total; Q.jersey_republicans_poll *= 100 / nj_total; }
 
-// Clamp economic metrics
-Q.unemployment_rate = Math.max(0, Q.unemployment_rate);
-Q.inflation = Math.max(-5, Q.inflation);
-Q.economic_growth = Math.min(15, Q.economic_growth);
-Q.consumer_confidence = Math.min(180, Math.max(50, Q.consumer_confidence));
-Q.wage_growth = Math.max(0, Q.wage_growth);
-Q.poverty_rate = Math.min(100, Q.poverty_rate);
-
-// Prevent deflation disasters
-if (Q.inflation < -0.5 && Q.inflation > -5 && Q.unemployed < 15) Q.unemployed += 0.2;
-if (Q.inflation <= -5 && Q.unemployed < 20) Q.unemployed += 0.3;
-
-// Economic growth adjustments
-if (Q.economic_growth < -0.5 && Q.unemployed <= 18) Q.unemployed += 0.1;
-if (Q.economic_growth < -5 && Q.unemployed <= 28) Q.unemployed += 0.1;
-if (Q.economic_growth >= 2 && Q.unemployed >= 17) Q.unemployed -= 0.1;
-if (Q.economic_growth >= 4 && Q.unemployed >= 12) Q.unemployed -= 0.1;
-if (Q.economic_growth >= 6 && Q.unemployed >= 7) Q.unemployed -= 0.1;
-if (Q.economic_growth >= 8 && Q.unemployed >= 3) Q.unemployed -= 0.1;
-if (Q.economic_growth >= 4 && Q.inflation >= 7.5) Q.economic_growth -= 0.1;
-if (Q.economic_growth >= -2.5 && Q.inflation <= -5) Q.economic_growth -= 0.1;
-if (Q.economic_growth >= 7) Q.economic_growth -= 0.1;
-if (Q.economic_growth >= 12) Q.economic_growth -= 0.3;
-
-// Education & science bonuses
-if (Q.major_curriculum && Q.major_curriculum == "democratic") if (Q.pro_republic < 60) Q.pro_republic += 0.5;
-if (Q.minor_curriculum && Q.minor_curriculum == "democratic") if (Q.pro_republic < 60) Q.pro_republic += 0.3;
-
-Q.science_bonus = 0;
-if (Q.education_science) Q.science_bonus += Q.education_science;
-if (Q.science) {
-    if (Q.science >= 5) Q.science_bonus += 3;
-    else if (Q.science >= 3) Q.science_bonus += 2;
-    else if (Q.science >= 1) Q.science_bonus += 1;
-}
-if (Q.applied_research && Q.applied_research >= 1) Q.science_bonus += 0.5*Q.applied_research;
-if (Q.science_bonus > 6) Q.science_bonus = 6;
-
-// Science bonus affects economic growth
-if (Q.science_bonus >= 1) {
-    if (Q.return_to_normalcy && Q.economic_growth < Q.science_bonus + 3) Q.economic_growth += 0.1;
-}
-// === Round for Display ===
-let roundKeys = ['_rate', '_growth', '_deficit', '_inflation', '_confidence', '_poverty', '_wage', '_population', '_rating', ];
-for (let key in Q) {
-    if (roundKeys.some(suffix => key.endsWith(suffix))) {
-        Q[key] = Math.round(Q[key] * 100) / 100;
-    }
-}
-
-// Clamp realistically
-Q.approval_rating = Math.max(25, Math.min(70, Q.approval_rating));
-// Clamp metrics
+// --- CLAMP ECONOMIC METRICS ---
 Q.unemployment_rate   = Math.max(2, Math.min(25, Q.unemployment_rate));
 Q.inflation           = Math.max(-2, Math.min(15, Q.inflation));
 Q.wage_growth         = Math.max(0, Math.min(15, Q.wage_growth));
@@ -506,9 +301,23 @@ Q.consumer_confidence = Math.max(40, Math.min(150, Q.consumer_confidence));
 Q.economic_growth     = Math.max(-10, Math.min(10, Q.economic_growth));
 Q.interest_rate       = Math.max(-2, Math.min(10, Q.interest_rate));
 
-// === END OF ECONOMY AND POLLING ===
+// --- EDUCATION / SCIENCE BONUS ---
+Q.science_bonus = 0;
+if (Q.education_science) Q.science_bonus += Q.education_science;
+if (Q.science) Q.science_bonus += Q.science >=5 ? 3 : Q.science>=3 ? 2 : Q.science>=1 ? 1 : 0;
+if (Q.applied_research) Q.science_bonus += 0.5*Q.applied_research;
+if (Q.science_bonus > 6) Q.science_bonus = 6;
+if (Q.science_bonus >= 1 && Q.return_to_normalcy && Q.economic_growth < Q.science_bonus+3) Q.economic_growth += 0.1;
 
-// Preload event choices
+// --- DISPLAY ROUNDING ---
+let roundKeys = ['_rate','_growth','_deficit','_inflation','_confidence','_poverty','_wage','_population','_rating'];
+for (let key in Q) {
+    if (roundKeys.some(suffix => key.endsWith(suffix))) Q[key + '_display'] = Math.round(Q[key]*100)/100;
+}
+
+Q.approval_rating_display = Math.max(25, Math.min(70, Q.approval_rating));
+
+// --- EVENT ROUTING ---
 Q.has_event = 0;
 let scene = this.game.scenes['post_event.events_choice'];
 let choices = this._compileChoices(scene);
