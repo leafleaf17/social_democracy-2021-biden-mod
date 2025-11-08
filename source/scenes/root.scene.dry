@@ -363,6 +363,12 @@ Q.kpd_in_government = 0;
 Q.nsdap_in_government = 0;
 Q.fed_chair_hawk_dove = 3;         // 1 = most dovish, 2 = mildly dovish, 3 = mildly hawkish, 4 = most hawkish
 Q.weeks_since_last_fed = 0;
+Q.unemployment_rebound = 0;
+Q.inflation_rebound = 0;
+Q.wage_rebound = 0;
+Q.poverty_rebound = 0;
+Q.confidence_rebound = 0;
+Q.growth_rebound = 0;
 Q.in_right_coalition = 0;
 // Weimar coalition = SPD + Z + DDP
 Q.in_weimar_coalition = 0;
