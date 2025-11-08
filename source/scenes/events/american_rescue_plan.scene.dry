@@ -167,7 +167,7 @@ We push hard for these key provisions, yet corporate {!<span style="color:#6495E
 @arp_f_manchin
 
 - @arp_rally_in_states: We will hold rallies in West Virginia and Arizona in support of a 15 dollar minimum wage to pressure Manchin and Sinema to listen to their constituents. 
-- @arp_end_everything: We will revisit these issues in 2023, then.
+- @arp_wait_later: We will revisit these issues in 2023, then.
 
 @arp_rally_in_states
 subtitle: This will increase the support of {!<span style="color:#6495ED">Bernie</span>} aligned Democrats in primary elections. This will greatly increase inner party dissent.
@@ -176,7 +176,7 @@ on-arrival: coalition_dissent += 2; progressive_support_primary += 2; approval_r
 Our rallies bring large crowds of ordinary people inspired to pressure their senators to follow the will of the people. Sinema and Machin are furious, as Schumer is forced to spend valuable time to calm them down. Eventually, the American Rescue Plan passes the senate, and it's signed into law.
 
 
-@arp_end_everything
+@arp_wait_later
 subtitle: Our base will be very disappointed
 on-arrival: youth_dissent += 8; labor_dissent += 8; approval_rating += 5
 
