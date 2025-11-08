@@ -71,6 +71,8 @@ on-arrival: {!
 !}
 go-to: trump_impeachment_failed
 
+@trump_impeachment_failed
+
 - @trump_acquitted: The Senate votes to acquitt Former President Donald Trump!
 
 @trump_acquitted
