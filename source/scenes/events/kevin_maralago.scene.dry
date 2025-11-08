@@ -52,16 +52,5 @@ go-to: trump_impeachment_gui
 - @senate_convene_impeach_trump2: The verdict is in: Trump has been acquitted!
  
 @senate_convene_impeach_trump2
-on-display: {!  
-    var cardEl = document.createElement('div');  
-    cardEl.className = "face-figure2";  
 
-    var image = new Image();  
-    image.className = "face-img";  
-    image.src = "img/reichstag.jpg";  
-
-    cardEl.appendChild(image);  
-    var contentDiv = document.querySelector("#page #mid_panel #content");
-    contentDiv.appendChild(cardEl);
-!}
 subtitle: Republicans prove where their loyalties lie
