@@ -154,6 +154,7 @@ unavailable-subtitle: We still have not settled provisions for stimulus checks, 
 
 We will now move on from editing existing provisions to adding new ones.
 
+
 @arp_minwage
 
 - @add_min_wage: Now, we will demand a 15 dollar minimum wage as well as student debt relief be added to the bill!
@@ -174,6 +175,7 @@ subtitle: This will increase the support of {!<span style="color:#6495ED">Bernie
 on-arrival: coalition_dissent += 2; progressive_support_primary += 2; approval_rating += 5
 
 Our rallies bring large crowds of ordinary people inspired to pressure their senators to follow the will of the people. Sinema and Machin are furious, as Schumer is forced to spend valuable time to calm them down. Eventually, the American Rescue Plan passes the senate, and it's signed into law.
+
 
 @arp_wait_later
 subtitle: Our base will be very disappointed
