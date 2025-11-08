@@ -287,13 +287,13 @@ if (Q.stimulus_effects > 0) {
 
     // --- Apply economic effects per turn (2-week cycle) ---
     // Percentages represented literally (2 = 2%)
-    const ECON_GROWTH_PER_POINT       = 2;    // each stimulus month adds 2% growth
-    const WAGE_GROWTH_PER_POINT       = 1;    // 1% per point
-    const INFLATION_PER_STIMULUS      = 1.5;  // 1.5% per stimulus month
-    const INFLATION_PER_TAX           = 1;    // 1% per tax point
-    const UNEMPLOYMENT_REDUCTION      = 2.5;  // 2.5% per aid point
-    const CONFIDENCE_PER_POINT        = 15;   // 15 points per point
-    const POVERTY_REDUCTION_PER_POINT = 4;    // 4% per point
+    const ECON_GROWTH_PER_POINT       = 1;    // each stimulus month adds 2% growth
+    const WAGE_GROWTH_PER_POINT       = 0.5;    // 1% per point
+    const INFLATION_PER_STIMULUS      = 0.8;  // 1.5% per stimulus month
+    const INFLATION_PER_TAX           = 0.5;    // 1% per tax point
+    const UNEMPLOYMENT_REDUCTION      = 1.5;  // 2.5% per aid point
+    const CONFIDENCE_PER_POINT        = 8;   // 15 points per point
+    const POVERTY_REDUCTION_PER_POINT = 2;    // 4% per point
 
     Q.economic_growth     += ECON_GROWTH_PER_POINT * stimulus_strength;
     Q.wage_growth         += WAGE_GROWTH_PER_POINT * (stimulus_strength + tax_strength);
@@ -319,10 +319,7 @@ if (Q.stimulus_effects > 0) {
     // --- Reduce remaining turns ---
     Q.stimulus_effects -= 1;
 
-    // --- Clamp ARP-driven inflation to +5.1% above base ---
-    if (typeof Q.base_inflation === "undefined") Q.base_inflation = 2;
-    const maxInflation = Q.base_inflation + 5.1;
-    if (Q.inflation > maxInflation) Q.inflation = maxInflation;
+   
 }
 // COVID-19 effects
 if (Q.covid_state > 0) {
@@ -451,7 +448,7 @@ if (nj_total > 100) {
 Q.unemployment_rate = Math.max(0, Q.unemployment_rate);
 Q.inflation = Math.max(-5, Q.inflation);
 Q.economic_growth = Math.min(15, Q.economic_growth);
-Q.consumer_confidence = Math.min(100, Math.max(0, Q.consumer_confidence));
+Q.consumer_confidence = Math.min(180, Math.max(50, Q.consumer_confidence));
 Q.wage_growth = Math.max(0, Q.wage_growth);
 Q.poverty_rate = Math.min(100, Q.poverty_rate);
 
