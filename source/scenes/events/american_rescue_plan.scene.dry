@@ -11,7 +11,7 @@ go-to: arp_main
 
 As the senate prepares to pass the American Rescue Plan, we must ensure the bill is to our likings. We plan for stimulus checks, aid to local governments, and a expansion of the child tax credit.
 
-We must figure out how much we want to spend on these provisions. Clawing substancial spending from the corporate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} will be no easy task.
+We must figure out how much we want to spend on these provisions. Clawing substancial spending from the corporate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> will be no easy task.
 
 @arp_main
 
@@ -36,25 +36,25 @@ subtitle: Our base will be disappointed
 on-arrival: stimulus_1_month += 1; approval_rating -= 1; stimulus_chosen += 1
 go-to: arp_main
 
-We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
 @demand_stimulus_2
 subtitle: -2 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009.
 on-arrival: stimulus_2_month += 1; political_capital -= 2; stimulus_chosen += 1
 go-to: arp_main
 choose-if: political_capital > 1
-unavailable-subtitle: -2 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+unavailable-subtitle: -2 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
-We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
 @demand_stimulus_3
 subtitle: -3 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009.
 on-arrival: stimulus_3_month += 1; political_capital -= 3; stimulus_chosen += 1
 go-to: arp_main
 choose-if: political_capital > 2
-unavailable-subtitle: -3 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+unavailable-subtitle: -3 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
-We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
 @increase_child_tax_credit
 subtitle: Struggling families need help now more then...
@@ -72,34 +72,34 @@ subtitle: Our base will be disappointed
 on-arrival: tax_credit_3000 += 1; approval_rating -= 1; tax_credit_chosen += 1
 go-to: arp_main
 
-We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
 @demand_child_tax_1
 subtitle: -1 Political Capital. This will increase the deficit impacts of the bill.
 on-arrival: tax_credit_3600 += 1; political_capital -= 1; tax_credit_chosen += 1
 go-to: arp_main
 choose-if: political_capital > 0
-unavailable-subtitle: -1 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+unavailable-subtitle: -1 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
-We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
 @demand_child_tax_2
 subtitle: -2 Political Capital. This will increase the deficit impacts of the bill.
 on-arrival: tax_credit_4000 += 1; political_capital -= 2; tax_credit_chosen += 1
 go-to: arp_main
 choose-if: political_capital > 1
-unavailable-subtitle: -2 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+unavailable-subtitle: -2 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
-We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
 @demand_child_tax_3
 subtitle: -3 Political Capital. This will increase the deficit impacts of the bill.
 on-arrival: tax_credit_4500 += 1; political_capital -= 3; tax_credit_chosen += 1
 go-to: arp_main
 choose-if: political_capital > 2
-unavailable-subtitle: -3 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+unavailable-subtitle: -3 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
-We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
 @adjust_local_aid
 subtitle: State and city governments are being crushed by the financial burden of the Covid-19 pandemic.
@@ -116,34 +116,34 @@ subtitle: This may not be enough...
 on-arrival: local_aid_300 += 1; approval_rating -= 1; local_aid_chosen = 1
 go-to: arp_main
 
-We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
 @local_aid_1
 subtitle: -1 Political Capital. Some think this is cutting it thin...
 on-arrival: local_aid_400 += 1; political_capital -= 1; local_aid_chosen = 1
 go-to: arp_main
 choose-if: political_capital > 1
-unavailable-subtitle: -1 Political Capital. Some think this is cutting it then... We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+unavailable-subtitle: -1 Political Capital. Some think this is cutting it then... We do not have enough political capital to convince <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
-We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
 @local_aid_2
 subtitle: -2 Political Capital. This is expensive, but investing in the American people will certainly yield positive results.
 on-arrival: local_aid_500 += 1; political_capital -= 2; local_aid_chosen = 1
 go-to: arp_main
 choose-if: political_capital > 1
-unavailable-subtitle: -2 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+unavailable-subtitle: -2 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
-We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
 @local_aid_3
 subtitle: -3 Political Capital. Go big or go home.
 on-arrival: local_aid_600 += 1; political_capital -= 3; local_aid_chosen = 1
 go-to: arp_main
 choose-if: political_capital > 2
-unavailable-subtitle: -3 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+unavailable-subtitle: -3 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
-We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+We manage to convince senate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> to back this!
 
 @end_arp
 subtitle: We can move onto adding important provisions to the bill, such as a minimum wage increase and student debt relief.
@@ -163,7 +163,7 @@ We will now move on from editing existing provisions to adding new ones.
 subtitle: We promised our supporters we'd do this in the 2020 campaign. We must fufill our promise. 
 go-to: arp_end_stuff
 
-We push hard for these key provisions, yet corporate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} like Manchin and Sinema are refusing to support it! We attempt to change their mind, yet they won't budge, lecturing us on the "harm" it would cause to the economy.
+We push hard for these key provisions, yet corporate <span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span> like Manchin and Sinema are refusing to support it! We attempt to change their mind, yet they won't budge, lecturing us on the "harm" it would cause to the economy.
 
 
 @arp_end_stuff
@@ -172,7 +172,7 @@ We push hard for these key provisions, yet corporate {!<span style="color:#6495E
 - @arp_do_nothing: There's nothing we can really do
 
 @arp_rally_in_states
-subtitle: This will increase the support of {!<span style="color:#6495ED">Bernie</span>} aligned Democrats in primary elections. This will greatly increase inner party dissent.
+subtitle: This will increase the support of <span style="color:#6495ED">Bernie</span> aligned Democrats in primary elections. This will greatly increase inner party dissent.
 on-arrival: coalition_dissent += 2; progressive_support_primary += 2; approval_rating += 5;
 
 Our rallies bring large crowds of ordinary people inspired to pressure their senators to follow the will of the people. Sinema and Machin are furious, and Schumer is forced to spend valuable time to calm them down. Eventually, the American Rescue Plan passes the senate, and it's signed into law.
