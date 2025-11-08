@@ -12,7 +12,7 @@ card-image: img/portraits/WissellRudolf.jpg
 The Department of Labor can be used to set new rules and regulations to further the interests of labor over corporations. 
 
 - @overtime_expansion: Update the overtime eligibility threshold for salaried employees
-- @strengthen_extreme_weather_saftey: Strengthen Extreme Weather Saftey Laws
+- @strengthen_extreme_weather_saftey: Strengthen OSHA Regulations
 - @fight_for_gig_workers: Fight for the rights of gig workers
 - @easy_discard
 
@@ -25,7 +25,7 @@ We set new rules ensuring those who work extra hours are actually getting extra 
 
 @strengthen_extreme_weather_saftey
 on-arrival: labor_dissent -= 2; dol_progress += 3; extreme_weather_count += 1
-view-if: extreme_weather_count < 3
+view-if: extreme_weather_count < 5
 
 OSHA launches investigations into corporations, ensuring they're following our regulations. Adjustments are made in instances where corporations are found to be violating the law.
 
