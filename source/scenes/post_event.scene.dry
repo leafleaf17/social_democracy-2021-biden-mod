@@ -180,20 +180,22 @@ Q.weeks_since_last_fed += 1;
 
 // Fed meets every 6 cumulative weeks
 if (Q.weeks_since_last_fed >= 6) {
-    
+
     Q.weeks_since_last_fed = 0; // reset counter after meeting
 
-    // Simple economic decision logic
+    // --- Aggressive economic decision logic ---
     let rate_change = 0;
 
-    if (Q.inflation > 3) rate_change += 0.25;
-    else if (Q.inflation < 1) rate_change -= 0.25;
+    // Adjust based on inflation (target ~2%)
+    if (Q.inflation > 3) rate_change += Math.min(0.75, (Q.inflation - 2) * 0.25);
+    else if (Q.inflation < 1) rate_change -= Math.min(0.75, (2 - Q.inflation) * 0.25);
 
-    if (Q.unemployment_rate < 3.5) rate_change += 0.25;
-    else if (Q.unemployment_rate > 6) rate_change -= 0.25;
+    // Adjust based on unemployment (target ~4%)
+    if (Q.unemployment_rate < 3.5) rate_change += Math.min(0.5, (4 - Q.unemployment_rate) * 0.25);
+    else if (Q.unemployment_rate > 6) rate_change -= Math.min(0.5, (Q.unemployment_rate - 4) * 0.25);
 
     // Fed chair ideology: 1 = dovish, 4 = hawkish
-    rate_change += (Q.fed_chair_hawk_dove - 2.5) * 0.1;
+    rate_change += (Q.fed_chair_hawk_dove - 2.5) * 0.25;
 
     // Round to nearest 0.25%
     rate_change = Math.round(rate_change * 4) / 4;
@@ -502,6 +504,8 @@ Q.wage_growth         = Math.max(0, Math.min(15, Q.wage_growth));
 Q.poverty_rate        = Math.max(8, Math.min(20, Q.poverty_rate));
 Q.consumer_confidence = Math.max(40, Math.min(150, Q.consumer_confidence));
 Q.economic_growth     = Math.max(-10, Math.min(10, Q.economic_growth));
+Q.interest_rate       = Math.max(-2, Math.min(10, Q.interest_rate));
+
 // === END OF ECONOMY AND POLLING ===
 
 // Preload event choices
