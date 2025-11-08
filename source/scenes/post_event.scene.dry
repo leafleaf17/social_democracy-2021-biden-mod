@@ -229,44 +229,54 @@ if (Q.deficit_inflation_contrib + deficit_infl_adj < -deficit_cap) {
 // Apply the adjustment
 Q.inflation += deficit_infl_adj;
 
-// Track cumulative effect
-Q.deficit_inflation_contrib += deficit_infl_adj;
 // === AMERICAN RESCUE PLAN STIMULUS EFFECTS ===
 // Runs each turn only if stimulus_effects remain
-// --- Apply stimulus effects each turn ---
 if (Q.stimulus_effects > 0) {
 
-
-    // --- Determine stimulus strength ---
+    // --- Determine stimulus strength (cumulative months) ---
     let stimulus_strength = 0;
-    if (Q.stimulus_1_month > 0) stimulus_strength = 1;
-    if (Q.stimulus_2_month > 0) stimulus_strength = 2;
-    if (Q.stimulus_3_month > 0) stimulus_strength = 3;
+    if (Q.stimulus_1_month > 0) stimulus_strength += 1;
+    if (Q.stimulus_2_month > 0) stimulus_strength += 1;
+    if (Q.stimulus_3_month > 0) stimulus_strength += 1;
 
-    // --- Determine tax credit strength ---
+    // --- Determine tax credit strength (cumulative tiers) ---
     let tax_strength = 0;
-    if (Q.tax_credit_3000 > 0) tax_strength = 1;
-    if (Q.tax_credit_3600 > 0) tax_strength = 2;
-    if (Q.tax_credit_4000 > 0) tax_strength = 3;
-    if (Q.tax_credit_4500 > 0) tax_strength = 4;
+    if (Q.tax_credit_3000 > 0) tax_strength += 1;
+    if (Q.tax_credit_3600 > 0) tax_strength += 1;
+    if (Q.tax_credit_4000 > 0) tax_strength += 1;
+    if (Q.tax_credit_4500 > 0) tax_strength += 1;
 
-    // --- Determine local aid strength ---
+    // --- Determine local aid strength (cumulative tiers) ---
     let aid_strength = 0;
-    if (Q.local_aid_300 > 0) aid_strength = 1;
-    if (Q.local_aid_400 > 0) aid_strength = 2;
-    if (Q.local_aid_500 > 0) aid_strength = 3;
-    if (Q.local_aid_600 > 0) aid_strength = 4;
+    if (Q.local_aid_300 > 0) aid_strength += 1;
+    if (Q.local_aid_400 > 0) aid_strength += 1;
+    if (Q.local_aid_500 > 0) aid_strength += 1;
+    if (Q.local_aid_600 > 0) aid_strength += 1;
 
     // --- Apply economic effects per turn (2-week cycle) ---
-    Q.economic_growth     += 0.02 * stimulus_strength;
-    Q.wage_growth         += 0.01 * (stimulus_strength + tax_strength);
-    Q.inflation           += 0.015 * stimulus_strength + 0.01 * tax_strength;
-    Q.unemployment_rate   -= 0.025 * aid_strength;
-    Q.consumer_confidence += 0.15 * (stimulus_strength + tax_strength + aid_strength);
-    Q.poverty_rate        -= 0.04 * (stimulus_strength + tax_strength);
+    // Scaling factors to keep percentages reasonable
+    const ECON_GROWTH_PER_POINT = 0.02;        // 2% per stimulus point max
+    const WAGE_GROWTH_PER_POINT = 0.01;
+    const INFLATION_PER_POINT = 0.015;
+    const UNEMPLOYMENT_REDUCTION_PER_POINT = 0.025;
+    const CONFIDENCE_PER_POINT = 0.15;
+    const POVERTY_REDUCTION_PER_POINT = 0.04;
 
-    // --- Government deficit effect ---
-    Q.government_deficit  += (stimulus_strength * 35) + (tax_strength * 25) + (aid_strength * 40);
+    Q.economic_growth     += ECON_GROWTH_PER_POINT * stimulus_strength;
+    Q.wage_growth         += WAGE_GROWTH_PER_POINT * (stimulus_strength + tax_strength);
+    Q.inflation           += INFLATION_PER_POINT * stimulus_strength + 0.01 * tax_strength;
+    Q.unemployment_rate   -= UNEMPLOYMENT_REDUCTION_PER_POINT * aid_strength;
+    Q.consumer_confidence += CONFIDENCE_PER_POINT * (stimulus_strength + tax_strength + aid_strength);
+    Q.poverty_rate        -= POVERTY_REDUCTION_PER_POINT * (stimulus_strength + tax_strength);
+
+    // --- Government deficit effect in % of GDP ---
+    const DEFICIT_PER_STIMULUS_POINT = 0.25;   // Each stimulus point adds 0.25% of GDP deficit
+    const DEFICIT_PER_TAX_POINT      = 0.15;
+    const DEFICIT_PER_AID_POINT      = 0.3;
+
+    Q.government_deficit += (stimulus_strength * DEFICIT_PER_STIMULUS_POINT)
+                          + (tax_strength * DEFICIT_PER_TAX_POINT)
+                          + (aid_strength * DEFICIT_PER_AID_POINT);
 
     // --- Political effects ---
     Q.lower_income_dem        += 0.2 * (stimulus_strength + tax_strength);
@@ -277,7 +287,7 @@ if (Q.stimulus_effects > 0) {
 
     // --- Clamp ARP-driven inflation to +5.1% above base ---
     if (typeof Q.base_inflation === "undefined") Q.base_inflation = 2; // fallback
-    let maxInflation = Q.base_inflation + 5.1;
+    const maxInflation = Q.base_inflation + 5.1;
     if (Q.inflation > maxInflation) Q.inflation = maxInflation;
 }
 // COVID-19 effects
