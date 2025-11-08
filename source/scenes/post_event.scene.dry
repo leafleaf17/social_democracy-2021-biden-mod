@@ -304,9 +304,9 @@ if (Q.stimulus_effects > 0) {
     Q.poverty_rate        -= POVERTY_REDUCTION_PER_POINT * (stimulus_strength + tax_strength);
 
     // --- Government deficit effect (as % of GDP) ---
-    const DEFICIT_PER_STIMULUS_POINT = 0.25; // realistic percentage
-    const DEFICIT_PER_TAX_POINT      = 0.15;
-    const DEFICIT_PER_AID_POINT      = 0.3;
+    const DEFICIT_PER_STIMULUS_POINT = 0.1; // realistic percentage
+    const DEFICIT_PER_TAX_POINT      = 0.1;
+    const DEFICIT_PER_AID_POINT      = 0.2;
 
     Q.government_deficit += (stimulus_strength * DEFICIT_PER_STIMULUS_POINT)
                           + (tax_strength * DEFICIT_PER_TAX_POINT)
@@ -496,7 +496,7 @@ for (let key in Q) {
 // Clamp realistically
 Q.approval_rating = Math.max(25, Math.min(70, Q.approval_rating));
 // Clamp metrics
-Q.unemployment_rate   = Math.max(0, Math.min(25, Q.unemployment_rate));
+Q.unemployment_rate   = Math.max(2, Math.min(25, Q.unemployment_rate));
 Q.inflation           = Math.max(-2, Math.min(15, Q.inflation));
 Q.wage_growth         = Math.max(0, Math.min(15, Q.wage_growth));
 Q.poverty_rate        = Math.max(8, Math.min(20, Q.poverty_rate));
