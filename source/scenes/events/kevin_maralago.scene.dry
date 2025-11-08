@@ -69,3 +69,10 @@ on-arrival: {!
     d3.select("#reichstag").datum(data).call(parliament);
   }
 !}
+go-to: trump_impeachment_failed
+
+- @trump_acquitted: The Senate votes to acquitt Former President Donald Trump!
+
+@trump_acquitted
+subtitle: Republicans prove their loyalty belongs to Trump, not democracy
+
