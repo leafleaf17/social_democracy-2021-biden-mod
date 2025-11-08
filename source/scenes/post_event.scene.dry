@@ -195,17 +195,42 @@ Q.consumer_confidence += 0.2 * Q.wage_growth;
 Q.consumer_confidence -= 0.25 * (Q.poverty_rate - ideal_poverty);
 Q.economic_growth     -= 0.05 * (Q.poverty_rate - ideal_poverty);
 
+// === DEFICIT-DRIVEN INFLATION PASSIVE EFFECT ===
 
-// Fiscal pressure → inflation
-if (Q.budget <= 0 && Q.budget > -2 && Q.inflation < 3) Q.inflation += 0.1;
-if (Q.budget <= -2 && Q.budget > -5 && Q.inflation < 6) {
-    Q.inflation += 0.2;
-    if (Q.unemployment_rate >= 10) Q.inflation -= 0.1;
+// temporary turn adjustment variable
+let deficit_infl_adj = 0;
+
+// Deficit → upward pressure
+if (Q.government_deficit > 0) {
+    deficit_infl_adj = Q.government_deficit * 0.00003; // very soft per-turn scaling
 }
-if (Q.budget <= -5 && Q.inflation < 10) {
-    Q.inflation += 0.3;
-    if (Q.unemployment_rate >= 15) Q.inflation -= 0.1;
+
+// Surplus → slight downward pressure
+if (Q.government_deficit < 0) {
+    deficit_infl_adj = Q.government_deficit * 0.000015; // weaker to avoid disinflation spiral
 }
+
+// Apply per-turn clamp (2-week cycle, so tiny)
+if (deficit_infl_adj > 0.02) deficit_infl_adj = 0.02;
+if (deficit_infl_adj < -0.02) deficit_infl_adj = -0.02;
+
+// Now apply *total* cap so deficit can't drive inflation endlessly
+// Max total inflation influence from deficits = +1.2% (adjust if needed)
+let deficit_cap = 3.2;
+
+if (Q.deficit_inflation_contrib + deficit_infl_adj > deficit_cap) {
+    deficit_infl_adj = deficit_cap - Q.deficit_inflation_contrib;
+}
+
+if (Q.deficit_inflation_contrib + deficit_infl_adj < -deficit_cap) {
+    deficit_infl_adj = -deficit_cap - Q.deficit_inflation_contrib;
+}
+
+// Apply the adjustment
+Q.inflation += deficit_infl_adj;
+
+// Track cumulative effect
+Q.deficit_inflation_contrib += deficit_infl_adj;
 
 // COVID-19 effects
 if (Q.covid_state > 0) {

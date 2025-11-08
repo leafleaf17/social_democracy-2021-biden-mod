@@ -9,14 +9,15 @@ go-to: arp_main
 
 = Formulating the American Rescue Plan
 
-As the senate prepares to pass the American Rescue Plan, we must ensure the bill is to our likings. Currently we plan for a one time 1700 check as well as a series of tax credits and increased unemployment benefits to help stimulate the economy and rescue Americans facing financial harship.
+As the senate prepares to pass the American Rescue Plan, we must ensure the bill is to our likings. We plan for stimulus checks, aid to local governments, and a expansion of the child tax credit.
 
-This bill, in its current state, probably doesn't go far enough. Yet, clawing more spending from the corporate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} will be no easy task.
+We must figure out how much we want to spend on these provisions. Clawing substancial spending from the corporate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} will be no easy task.
 
 @arp_main
 
-- @adjust_spending: We can attempt to adjust the stimulus amount
-- @increase_child_tax_credit: We can attempt to adjust the child tax credit provisions
+- @adjust_spending: We can decide the stimulus amount
+- @increase_child_tax_credit: We can decide the child tax credit provisions
+- @adjust_local_aid: We can decide the funding for local governments
 - @end_arp: The bill is ready to go
 
 @adjust_spending
@@ -25,21 +26,21 @@ view-if: stimulus_1_month <= 0 and stimulus_2_month <= 0 and stimulus_3_month <=
 
 It's unlikely we'll be able to convince congress to increase the checks much. 
 
-- @demand_stimulus_1: Actually, the current stimulus check amount is acceptable
+- @demand_stimulus_1: 1700 stimulus checks will be given out once
 - @demand_stimulus_2: 1700 stimulus checks will be given out for 2 months 
 - @demand_stimulus_3: 1700 stimulus checks will be given out for 3 months 
 
 
 @demand_stimulus_1
 subtitle: Our base will be disappointed
-on-arrival: stimulus_1_month += 1; approval_rating -= 1
+on-arrival: stimulus_1_month += 1; approval_rating -= 1; stimulus_chosen += 1
 go-to: arp_main
 
 We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
 @demand_stimulus_2
 subtitle: -2 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009.
-on-arrival: stimulus_2_month += 1; political_capital -= 2
+on-arrival: stimulus_2_month += 1; political_capital -= 2; stimulus_chosen += 1
 go-to: arp_main
 choose-if: political_capital > 1
 unavailable-subtitle: -2 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
@@ -48,7 +49,7 @@ We manage to convince senate {!<span style="color:#6495ED">Demo</span><span styl
 
 @demand_stimulus_3
 subtitle: -3 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009.
-on-arrival: stimulus_3_month += 1; political_capital -= 3
+on-arrival: stimulus_3_month += 1; political_capital -= 3; stimulus_chosen += 1
 go-to: arp_main
 choose-if: political_capital > 2
 unavailable-subtitle: -3 Political Capital. This will certainly improve economic growth and consumer cost, although experts warn this will increase inflation, yet these are the same experts who got it wrong in 2009. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
@@ -57,37 +58,90 @@ We manage to convince senate {!<span style="color:#6495ED">Demo</span><span styl
 
 @increase_child_tax_credit
 subtitle: Struggling families need help now more then...
-view-if: tax_credit_3600 <= 0 and tax_credit_4000 <= 0 and tax_credit_4500 <= 0
+view-if: tax_credit_3600 <= 0 and tax_credit_4000 <= 0 and tax_credit_4500 <= 0 and tax_credit_3000 <= 0
 
-The proposed child tax credits are currently 3600 per kid, up from the previous 2000.
+The proposed child tax credits are currently 2000 per kid.
 
-- @demand_child_tax_1: The current raise is good enough.
-- @demand_child_tax_2: The amount must be raised to 4000
-- @demand_child_tax_3: The amount must be raised to 4500
+- @demand_child_tax_0: The amount must be raised to 3000 per kid
+- @demand_child_tax_1: The amount must be raised to 3500 per kid
+- @demand_child_tax_2: The amount must be raised to 4000 per kid
+- @demand_child_tax_3: The amount must be raised to 4500 per kid
 
-
-@demand_child_tax_1
+@demand_child_tax_0
 subtitle: Our base will be disappointed
-on-arrival: tax_credit_3600 += 1; approval_rating -= 1
+on-arrival: tax_credit_3000 += 1; approval_rating -= 1; tax_credit_chosen += 1
 go-to: arp_main
 
 We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
-@demand_child_tax_2
+@demand_child_tax_1
 subtitle: -1 Political Capital. This will increase the deficit impacts of the bill.
-on-arrival: tax_credit_4000 += 1; political_capital -= 1
+on-arrival: tax_credit_3600 += 1; political_capital -= 1; tax_credit_chosen += 1
 go-to: arp_main
-choose-if: political_capital > 1
+choose-if: political_capital > 0
 unavailable-subtitle: -1 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
 We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
-@demand_child_tax_3
+@demand_child_tax_2
 subtitle: -2 Political Capital. This will increase the deficit impacts of the bill.
-on-arrival: tax_credit_4500 += 1;
+on-arrival: tax_credit_4000 += 1; political_capital -= 2; tax_credit_chosen += 1
 go-to: arp_main
 choose-if: political_capital > 1
 unavailable-subtitle: -2 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+@demand_child_tax_3
+subtitle: -3 Political Capital. This will increase the deficit impacts of the bill.
+on-arrival: tax_credit_4500 += 1; political_capital -= 3; tax_credit_chosen += 1
+go-to: arp_main
+choose-if: political_capital > 2
+unavailable-subtitle: -3 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+@adjust_local_aid
+subtitle: State and city governments are being crushed by the financial burden of the Covid-19 pandemic.
+
+How much aid should we give to local authorities?
+
+- @local_aid_0: 300 Billion must be granted to local governments
+- @local_aid_1: 400 Billion must be granted to local governments
+- @local_aid_2: 500 Billion must be granted to local governments
+- @local_aid_3: 600 Billion must be granted to local governments
+
+@local_aid_0
+subtitle: This may not be enough...
+on-arrival: local_aid_300 += 1; approval_rating -= 1; local_aid_chosen = 1
+go-to: arp_main
+
+We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+@local_aid_1
+subtitle: -1 Political Capital. Some think this is cutting it thin...
+on-arrival: local_aid_400 += 1; political_capital -= 1; local_aid_chosen = 1
+go-to: arp_main
+choose-if: political_capital > 1
+unavailable-subtitle: -1 Political Capital. Some think this is cutting it then... We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+@local_aid_2
+subtitle: -2 Political Capital. This is expensive, but investing in the American people will certainly yield positive results.
+on-arrival: local_aid_500 += 1; political_capital -= 2; local_aid_chosen = 1
+go-to: arp_main
+choose-if: political_capital > 1
+unavailable-subtitle: -2 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
+
+@local_aid_3
+subtitle: -3 Political Capital. Go big or go home.
+on-arrival: local_aid_600 += 1; political_capital -= 3; local_aid_chosen = 1
+go-to: arp_main
+choose-if: political_capital > 2
+unavailable-subtitle: -3 Political Capital. This will increase the deficit impacts of the bill. We do not have enough political capital to convince {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
 We manage to convince senate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} to back this!
 
@@ -95,6 +149,8 @@ We manage to convince senate {!<span style="color:#6495ED">Demo</span><span styl
 subtitle: We can move onto adding important provisions to the bill, such as a minimum wage increase and student debt relief.
 on-arrival: approval_rating += 5
 go-to: arp_minwage
+choose-if: stimulus_chosen = 1 and tax_credit_chosen = 1 and local_aid_chosen = 1
+unavailable-subtitle: We still have not settled provisions for stimulus checks, the child tax credit, and local government aid.
 
 We will now move on from editing existing provisions to adding new ones.
 
@@ -106,11 +162,21 @@ We will now move on from editing existing provisions to adding new ones.
 subtitle: We promised our supporters we'd do this in the 2020 campaign. We must fufill our promise. 
 go-to: arp_fillibuster
 
-We push hard for these key provisions, yet corporate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} like Manchin and Sinema are refusing to support it! We attempt to change their mind, yet they won't budge.
+We push hard for these key provisions, yet corporate {!<span style="color:#6495ED">Demo</span><span style="color:#1F77B4">crats</span>!} like Manchin and Sinema are refusing to support it! We attempt to change their mind, yet they won't budge, lecturing us on the "harm" it would cause to the economy.
 
 @arp_f_manchin
 
 -@arp_rally_in_states: We will hold rallies in West Virginia and Arizona in support of a 15 dollar minimum wage to pressure Manchin and Sinema to listen to their constituents. 
--@arp_rally_in_states: We will revisit this issue in 2023, then.
+-@arp_end_everything: We will revisit these issues in 2023, then.
 
 @arp_rally_in_states
+subtitle: This will increase the support of {!<span style="color:#6495ED">Bernie</span>} aligned Democrats in primary elections. This will greatly increase inner party dissent.
+on-arrival: coalition_dissent += 2; progressive_support_primary += 2; approval_rating += 5
+
+Our rallies bring large crowds of ordinary people inspired to pressure their senators to follow the will of the people. Sinema and Machin are furious, as Schumer is forced to spend valuable time to calm them down. Eventually, the American Rescue Plan passes the senate, and it's signed into law.
+
+@arp_end_everything
+subtitle: Our base will be very disappointed
+on-arrival: youth_dissent += 8; labor_dissent += 8; approval_rating += 5
+
+Many progressives feel betrayed, angry that you couldn't get minimum wage and student debt relief inside of the bill. Eventually, the American Rescue Plan passes the senate, it's signed into law.
