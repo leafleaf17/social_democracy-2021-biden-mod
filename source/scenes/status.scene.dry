@@ -117,6 +117,7 @@ Our current level of border security is: [+ border_enforcement : borderstate +]
 
 State of the Covid-19 pandemic: [+ covid_state : covid +].
 
+Bernie's Department of Labor's actions to protect workers interests are currently seen as: [+ dol_progress : generic_progress +]
 
 @polls
 on-arrival: {!
