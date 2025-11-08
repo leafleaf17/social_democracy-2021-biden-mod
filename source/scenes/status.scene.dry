@@ -90,11 +90,11 @@ if (Q.sa_strength) {
 
 = State of the Economy
 
-Inflation: [+ inflation_2 +]%
+Inflation: [+ inflation +]%
 
 Unemployment: [+ unemployment_rate +]% 
 
-Economic growth: [+ economic_growth_2 +]%
+Economic growth: [+ economic_growth +]%
 
 Government Deficit: [+ government_deficit +]%
 
