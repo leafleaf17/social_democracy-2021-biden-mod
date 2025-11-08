@@ -318,7 +318,49 @@ for (let key in Q) {
 }
 
 Q.approval_rating_display = Math.max(25, Math.min(70, Q.approval_rating));
+// === GENTLE EXTREME BALANCE CORRECTION ===
 
+// Define "reasonable floors/ceilings" for variables
+const balanceLimits = {
+    approval_rating: {min: 35, max: 62},
+    unemployment_rate: {min: 2, max: 10},
+    inflation: {min: -2, max: 12},
+    economic_growth: {min: -5, max: 8},
+    poverty_rate: {min: 5, max: 20},
+    consumer_confidence: {min: 50, max: 140},
+    wage_growth: {min: 0, max: 10},
+};
+
+// Maximum drift per 2-week turn
+const maxGentleDrift = {
+    approval_rating: 0.5,
+    unemployment_rate: 0.2,
+    inflation: 0.2,
+    economic_growth: 0.15,
+    poverty_rate: 0.1,
+    consumer_confidence: 0.5,
+    wage_growth: 0.2,
+};
+
+// Apply gentle correction only if variable is outside reasonable range
+for (let key in balanceLimits) {
+    if (typeof Q[key] !== "undefined") {
+        let value = Q[key];
+        let limits = balanceLimits[key];
+
+        // Only correct if outside min or max
+        let drift = 0;
+        if (value < limits.min) {
+            let deviation = limits.min - value;
+            drift = Math.min(deviation * 0.05, maxGentleDrift[key]); // stronger if more extreme
+            Q[key] += drift;
+        } else if (value > limits.max) {
+            let deviation = value - limits.max;
+            drift = Math.min(deviation * 0.05, maxGentleDrift[key]);
+            Q[key] -= drift;
+        }
+    }
+}
 // --- EVENT ROUTING ---
 Q.has_event = 0;
 let scene = this.game.scenes['post_event.events_choice'];
