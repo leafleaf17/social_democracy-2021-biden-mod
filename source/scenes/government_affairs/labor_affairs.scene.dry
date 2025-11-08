@@ -13,34 +13,25 @@ The Department of Labor can be used to set new rules and regulations to further 
 
 - @overtime_expansion: Update the overtime eligibility threshold for salaried employees
 - @strengthen_extreme_weather_saftey: Strengthen Extreme Weather Saftey Laws
-- @balance: Try to strike a compromise between the sides.
+- @fight_for_gig_workers: Fight for the rights of gig workers
 - @easy_discard
-#- @cancel_advisor_action
 
 @overtime_expansion
 subtitle: More workers will become eligible for overtime pay.
-on-arrival: labor_strength += 2; labor_dissent -= 3; wage_growth += 0.3; inflation += 0.15; economic_growth += 0.1
+on-arrival: labor_strength += 2; labor_dissent -= 3; wage_growth += 0.3; inflation += 0.15; economic_growth += 0.1; dol_progress += 5
 view-if: overtime_expansion_count < 3
 
 We set new rules ensuring those who work extra hours are actually getting extra pay, instead of being scammed by greedy corporations.
 
 @strengthen_extreme_weather_saftey
-subtitle: Popular among the bourgeoisie, much less so among the workers.
-on-arrival: labor_dissent -= 3 
+on-arrival: labor_dissent -= 2; dol_progress += 3; extreme_weather_count += 1
+view-if: extreme_weather_count < 3
 
-The more radical workers despise our suppression of their strikes, recalling the days of Friedrich Ebert.
+OSHA launches investigations into corporations, ensuring they're following our regulations. Adjustments are made in instances where corporations are found to be violating the law.
 
-@balance
-subtitle: Both sides need to share the pain in the current crisis.
-on-arrival: labor_dissent += 4; workers_spd -= 2; kpd_coalition_dissent += 1; kpd_relation -= 5; strike_term_seen += 1
+@fight_for_gig_workers
+subtitle: Gig workers often don't recieve the same benefits as normal workers from companies. We can attempt to change this.
+on-arrival: labor_dissent += -2; wage_growth += 0.3; unemployment_rate += 0.2; economic_growth -= 0.1; dol_progress += 5
 
-Many workers are unhappy at our compromises, but they will learn to accept that we are all in a shared struggle against economic forces.
+We clarify criterias for independent contractor vs employee status, enforcing protections for misclassified workers.
 
-
-
-# options: support the workers in their demands, pushing back against the employers.
-# this is the approach favored by the unions. While they do not get everything they desire, an agreement favorable to the workers is reached. The employer associations and their bourgeois allies accuse us of overstepping our bounds.
-# try to make some compromise between the sides. Both sides need to share the pain in the current crisis.
-# whatever it takes, end the strikes and unrest as soon as possible.
-# this is not our business to intervene.
-# We are the party of labor, and it is not our business to intervene? There is incredulity in the ranks. The workers are less likely to trust us in the future.
