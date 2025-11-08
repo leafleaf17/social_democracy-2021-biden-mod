@@ -1,27 +1,28 @@
-title: Labor Affairs
+title: Department of Labor
 new-page: true
 is-card: true
 tags: govt_affairs, cabinet
-on-arrival: labor_affairs_timer = 6; month_actions += 1; labor_affairs_seen = 1
-view-if: spd_in_government = 1 and labor_minister_party = "SPD" and labor_affairs_timer = 0 and strike_term_seen = 0
+on-arrival: labor_affairs_timer = 4; month_actions += 1; labor_affairs_seen = 1
+view-if: spd_in_government = 1 and labor_minister_party = "SPD" and labor_affairs_timer = 0
 card-image: img/portraits/WissellRudolf.jpg
-#subtitle: Addressing labor unrest and strikes.
+#subtitle: We can use the Department of Labor to further the interests of workers
 
-= Labor Affairs
+= Department of Labor
 
-The industrial Ruhr region is aflame with labor unrest. The employers have started a major lockout to force the workers to take more cuts to wages and benefits.  There is a need for the Labor Ministry to arbitrate in conflicts between employers and workers.
+The Department of Labor can be used to set new rules and regulations to further the interests of labor over corporations. 
 
-- @support_labor: Support labor in their demands.
-- @support_employers: Support the employers in their demands.
+- @overtime_expansion: Update the overtime eligibility threshold for salaried employees
+- @strengthen_extreme_weather_saftey: Strengthen Extreme Weather Saftey Laws
 - @balance: Try to strike a compromise between the sides.
 - @easy_discard
 #- @cancel_advisor_action
 
-@support_labor
-subtitle: Popular among the workers, this will alienate the bourgeoisie.
-on-arrival: labor_strength += 5; labor_dissent -= 5; dove_dissent -= 5; workers_spd += 6*(1-dissent); coalition_dissent += 1; dvp_relation -= 4; capital_strike_progress += 1 if dvp_relation <= 30; capital_strike_progress += 1 if unemployed > 15; capital_strike_progress += 1 if unemployed > 24; labor_goal_completed += 1; inflation += 0.1; pro_labor += 1; strike_term_seen += 1; economic_growth -= 0.1;
+@overtime_expansion
+subtitle: More workers will become eligible for overtime pay.
+on-arrival: labor_strength += 5; labor_dissent -= 5; wage_growth += 0.3; inflation += 0.15; economic_growth += 0.1
+view-if: overtime_expansion_count < 3
 
-Supporting labor is always popular in the SPD, although many of our coalition partners represent employers, and they are less enthused.
+We set new rules ensuring those who work extra hours are actually getting extra pay, instead of being scammed by greedy corporations.
 
 @support_employers
 subtitle: Popular among the bourgeoisie, much less so among the workers.
