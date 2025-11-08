@@ -287,13 +287,13 @@ if (Q.stimulus_effects > 0) {
 
     // --- Apply economic effects per turn (2-week cycle) ---
     // Percentages represented literally (2 = 2%)
-    const ECON_GROWTH_PER_POINT       = 1;    // each stimulus month adds 2% growth
-    const WAGE_GROWTH_PER_POINT       = 0.5;    // 1% per point
-    const INFLATION_PER_STIMULUS      = 0.8;  // 1.5% per stimulus month
-    const INFLATION_PER_TAX           = 0.5;    // 1% per tax point
-    const UNEMPLOYMENT_REDUCTION      = 1.5;  // 2.5% per aid point
-    const CONFIDENCE_PER_POINT        = 8;   // 15 points per point
-    const POVERTY_REDUCTION_PER_POINT = 2;    // 4% per point
+    const ECON_GROWTH_PER_POINT       = 0.3;    
+    const WAGE_GROWTH_PER_POINT       = 0.15;    
+    const INFLATION_PER_STIMULUS      = 0.15;  
+    const INFLATION_PER_TAX           = 0.15;    
+    const UNEMPLOYMENT_REDUCTION      = 1.5;  
+    const CONFIDENCE_PER_POINT        = 2;   
+    const POVERTY_REDUCTION_PER_POINT = 0.2;    
 
     Q.economic_growth     += ECON_GROWTH_PER_POINT * stimulus_strength;
     Q.wage_growth         += WAGE_GROWTH_PER_POINT * (stimulus_strength + tax_strength);
