@@ -18,20 +18,20 @@ The Department of Labor can be used to set new rules and regulations to further 
 
 @overtime_expansion
 subtitle: More workers will become eligible for overtime pay.
-on-arrival: labor_strength += 2; labor_dissent -= 3; wage_growth += 0.3; inflation += 0.15; economic_growth += 0.1; dol_progress += 5
+on-arrival: labor_strength += 2; labor_dissent -= 3; wage_growth += 0.3; inflation += 0.15; economic_growth += 0.1; workers_progress += 3
 view-if: overtime_expansion_count < 3
 
 We set new rules ensuring those who work extra hours are actually getting extra pay, instead of being scammed by greedy corporations.
 
 @strengthen_extreme_weather_saftey
-on-arrival: labor_dissent -= 2; dol_progress += 3; extreme_weather_count += 1
+on-arrival: labor_dissent -= 2; workers_progress += 2; extreme_weather_count += 1
 view-if: extreme_weather_count < 5
 
 OSHA launches investigations into corporations, ensuring they're following our regulations. Adjustments are made in instances where corporations are found to be violating the law.
 
 @fight_for_gig_workers
 subtitle: Gig workers often don't recieve the same benefits as normal workers from companies. We can attempt to change this.
-on-arrival: labor_dissent += -2; wage_growth += 0.3; unemployment_rate += 0.2; economic_growth -= 0.1; dol_progress += 5
+on-arrival: labor_dissent += -2; wage_growth += 0.3; unemployment_rate += 0.2; economic_growth -= 0.1; workers_progress += 2
 
 We clarify criterias for independent contractor vs employee status, enforcing protections for misclassified workers.
 

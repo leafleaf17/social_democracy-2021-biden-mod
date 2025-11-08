@@ -10,7 +10,7 @@ card-image: img/muller_cabinet.jpg
 The unionization rate of American workers used to be very high, yet 40 years of neoliberal rule has caused immense harm to union power and unionization rates. We can attempt to once again strengthen unions.
 
 - @investigate_union_busting: Aggressively pursue cases against union busting
-- @resources: Use our party resources to support our allies.
+- @neutrality_pledges_for_government_contracts: Use our party resources to support our allies.
 - @bring_down: Instead, we will bring down the government with a no-confidence vote, and call for new elections.
 - @no_change: Take none of these actions.
 - @easy_discard
@@ -18,22 +18,16 @@ The unionization rate of American workers used to be very high, yet 40 years of 
 
 @investigate_union_busting
 subtitle: The Department of Justice and the National Labor Relations Board will aggressively pursue action against union-busting companies. 
-on-arrival: labor_strength += 2; labor_dissent -= 2; unionization_rate += 0.5
+on-arrival: labor_strength += 2; labor_dissent -= 2; unionization_rate += 0.5; economic_growth -= 0.2; wage_growth += 0.2
 
-Fine. By cutting welfare, we have reduced dissent within the coalition.
+We find instances of companies like Amazon and Starbucks interfering in union elections. Fines are introduced, and new fair elections are held.
 
-@resources
-subtitle: -2 resources
-view-if: historical_mode = 0
-unavailable-subtitle: Not enough resources (need 2).
-choose-if: resources >= 2
-on-arrival: resources -= 2; coalition_dissent -= 1
+@neutrality_pledges_for_government_contracts
+subtitle: We will force companies in contract with the federal government to sign a pledge to stay neutral in union elections.
+view-if: pledges_signed = 0
+on-arrival: pledges_signed += 1; unionization_rate += 1; economic_growth -= 0.3; wage_growth += 1; labor_strength += 10; labor_dissent -= 10; workers_progress += 5
 
-By transferring campaign funds to our coalition partners, we can make our policies more acceptable to them. Some would call this corruption, but perhaps it is necessary to save democracy.
-
-@no_change
-
-No. We will not do this.
+We force key partners to sign the pledge, increasing the chance of union elections being sucessful in many major companies.
 
 @bring_down
 subtitle: Bring down this government before our opponents do.
@@ -42,4 +36,9 @@ on-arrival: spd_in_government = 0; in_grand_coalition = 0; in_weimar_coalition =
 We have called for a vote of no confidence in ourselves, and have brought down this government. Chancellor [+ chancellor +] currently rules as acting chancellor.
 
 New elections have been set for [+ next_election_month : month +] [+ next_election_year +].
+
+@no_change
+
+No. We will not do this.
+
 
