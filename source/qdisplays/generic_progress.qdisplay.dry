@@ -1,5 +1,5 @@
 
-(1..10)  <span style="color:#8B0000;">Nonexistent</span>
+(0..10)  <span style="color:#8B0000;">Nonexistent</span>
 (20..30)  <span style="color:#B22222;">Minimal</span>
 (30..40)  <span style="color:#DC143C;">Minor</span>
 (40..50)  <span style="color:#FF8C00;">Underwhelming</span>
