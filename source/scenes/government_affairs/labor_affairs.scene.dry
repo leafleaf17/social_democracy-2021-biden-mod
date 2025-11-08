@@ -25,7 +25,7 @@ We set new rules ensuring those who work extra hours are actually getting extra 
 
 @strengthen_extreme_weather_saftey
 on-arrival: labor_dissent -= 2; workers_progress += 2; extreme_weather_count += 1
-view-if: extreme_weather_count < 5
+view-if: extreme_weather_count < 10
 
 OSHA launches investigations into corporations, ensuring they're following our regulations. Adjustments are made in instances where corporations are found to be violating the law.
 
