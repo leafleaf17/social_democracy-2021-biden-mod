@@ -19,6 +19,7 @@ Yet, as impeachment attempts against Former President Trump continue in the sena
 @let_them_meet
 subtitle: Trump is an anchor. If the Republicans attach themselves to him, they will sink and down!
 on-arrival: pro_republic += 3; right_radicalization += 2; republican_relationship -= 2
+go-to: trump_impeach_vote
 
 The Trump world, silent since January 6th, has used this event to claim Trump is more popular then ever. It seems this man really is going to try and make a comeback, somehow.
 
@@ -26,6 +27,7 @@ The Trump world, silent since January 6th, has used this event to claim Trump is
 @tear_republicans_away
 subtitle: -1 Political Capital. Of course Bernie would never be able to convince moderate Republicans to listen to him, but perhaps Nancy Pelosi and Chuck Shumer could?
 on-arrival: pro_republic += 2; right_radicalization += 1; republican_relationship -= 0.5; political_capital -= 1
+go-to: trump_impeach_vote
 
 Several moderate Republicans offer a soft condemnation of the meetings, yet take no real action. 
 
@@ -33,7 +35,14 @@ Several moderate Republicans offer a soft condemnation of the meetings, yet take
 @attack_maga
 subtitle: This will definitely make future attempts to pass bipartisan legislation harder.
 on-arrival: pro_republic += 4; right_radicalization += 3.5; republican_relationship -= 3
+go-to: trump_impeach_vote
 
-We intensify our attacks on Trump greatly. Mitch Mcconnell wastes no time to come to his defense.
+We intensify our attacks on Trump greatly. Mitch Mcconnell wastes no time to come to his defense. 
+
+@trump_impeach_vote
+
+- @senate_convene_impeach_trump: Now, the Senate will vote on the second impeachment of Donald Trump.
  
-
+senate_convene_impeach_trump
+subtitle: Will Republicans put country over party?
+go-to: vote_of_no_confidence.vonc_menu
