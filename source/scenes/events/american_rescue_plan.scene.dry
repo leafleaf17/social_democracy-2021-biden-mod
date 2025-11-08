@@ -103,6 +103,7 @@ We manage to convince senate <span style="color:#6495ED">Demo</span><span style=
 
 @adjust_local_aid
 subtitle: State and city governments are being crushed by the financial burden of the Covid-19 pandemic.
+view-if: local_aid_chosen > 0
 
 How much aid should we give to local authorities?
 
