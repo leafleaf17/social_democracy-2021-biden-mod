@@ -233,7 +233,53 @@ Q.inflation += deficit_infl_adj;
 Q.deficit_inflation_contrib += deficit_infl_adj;
 // === AMERICAN RESCUE PLAN STIMULUS EFFECTS ===
 // Runs each turn only if stimulus_effects remain
+// --- Apply stimulus effects each turn ---
+if (Q.stimulus_effects > 0) {
 
+
+    // --- Determine stimulus strength ---
+    let stimulus_strength = 0;
+    if (Q.stimulus_1_month > 0) stimulus_strength = 1;
+    if (Q.stimulus_2_month > 0) stimulus_strength = 2;
+    if (Q.stimulus_3_month > 0) stimulus_strength = 3;
+
+    // --- Determine tax credit strength ---
+    let tax_strength = 0;
+    if (Q.tax_credit_3000 > 0) tax_strength = 1;
+    if (Q.tax_credit_3600 > 0) tax_strength = 2;
+    if (Q.tax_credit_4000 > 0) tax_strength = 3;
+    if (Q.tax_credit_4500 > 0) tax_strength = 4;
+
+    // --- Determine local aid strength ---
+    let aid_strength = 0;
+    if (Q.local_aid_300 > 0) aid_strength = 1;
+    if (Q.local_aid_400 > 0) aid_strength = 2;
+    if (Q.local_aid_500 > 0) aid_strength = 3;
+    if (Q.local_aid_600 > 0) aid_strength = 4;
+
+    // --- Apply economic effects per turn (2-week cycle) ---
+    Q.economic_growth     += 0.02 * stimulus_strength;
+    Q.wage_growth         += 0.01 * (stimulus_strength + tax_strength);
+    Q.inflation           += 0.015 * stimulus_strength + 0.01 * tax_strength;
+    Q.unemployment_rate   -= 0.025 * aid_strength;
+    Q.consumer_confidence += 0.15 * (stimulus_strength + tax_strength + aid_strength);
+    Q.poverty_rate        -= 0.04 * (stimulus_strength + tax_strength);
+
+    // --- Government deficit effect ---
+    Q.government_deficit  += (stimulus_strength * 35) + (tax_strength * 25) + (aid_strength * 40);
+
+    // --- Political effects ---
+    Q.lower_income_dem        += 0.2 * (stimulus_strength + tax_strength);
+    Q.lower_middle_income_dem += 0.1 * (stimulus_strength + tax_strength);
+
+    // --- Reduce remaining turns ---
+    Q.stimulus_effects -= 1;
+
+    // --- Clamp ARP-driven inflation to +5.1% above base ---
+    if (typeof Q.base_inflation === "undefined") Q.base_inflation = 2; // fallback
+    let maxInflation = Q.base_inflation + 5.1;
+    if (Q.inflation > maxInflation) Q.inflation = maxInflation;
+}
 // COVID-19 effects
 if (Q.covid_state > 0) {
     if (Q.covid_state <= 2) {
