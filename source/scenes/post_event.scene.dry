@@ -444,6 +444,8 @@ let choices = this._compileChoices(scene);
 if (choices && choices[0].title != "Continue...") Q.has_event = 1;
 else Q.has_event = 0;
 
+if (this.ui) this.ui.refresh();
+
 if (this.ui && this.ui.show_portraits) {
     for (let choice of choices) {
         let cc = this.game.scenes[choice.id];
