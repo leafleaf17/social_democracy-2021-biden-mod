@@ -361,12 +361,7 @@ Q.dvp_in_government = 1;
 Q.dnvp_in_government = 1;
 Q.kpd_in_government = 0;
 Q.nsdap_in_government = 0;
-Q.dem_votes_senate = 67;
-Q.rate_change = 0;
-Q.fed_chair_ideology = "hawkish";
-Q.fed_meeting_done = 0;            // 0 = no meeting done this month, 1 = done
-Q.last_fed_meeting_change = 0;     // last rate change (%)
-Q.rep_votes_senate = 43;
+
 Q.in_right_coalition = 0;
 // Weimar coalition = SPD + Z + DDP
 Q.in_weimar_coalition = 0;
