@@ -309,10 +309,12 @@ if (Q.applied_research) Q.science_bonus += 0.5*Q.applied_research;
 if (Q.science_bonus > 6) Q.science_bonus = 6;
 if (Q.science_bonus >= 1 && Q.return_to_normalcy && Q.economic_growth < Q.science_bonus+3) Q.economic_growth += 0.1;
 
-// --- DISPLAY ROUNDING ---
-let roundKeys = ['_rate','_growth','_deficit','_inflation','_confidence','_poverty','_wage','_population','_rating'];
+// === Round for Display ===
+let roundKeys = ['_rate', '_growth', '_deficit', '_inflation', '_confidence', '_poverty', '_wage', '_population', '_rating', ];
 for (let key in Q) {
-    if (roundKeys.some(suffix => key.endsWith(suffix))) Q[key + '_display'] = Math.round(Q[key]*100)/100;
+    if (roundKeys.some(suffix => key.endsWith(suffix))) {
+        Q[key] = Math.round(Q[key] * 100) / 100;
+    }
 }
 
 Q.approval_rating_display = Math.max(25, Math.min(70, Q.approval_rating));
