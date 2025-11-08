@@ -235,42 +235,44 @@ if (Q.stimulus_effects > 0) {
 
     // --- Determine stimulus strength (cumulative months) ---
     let stimulus_strength = 0;
-    if (Q.stimulus_1_month > 0) stimulus_strength += 1;
-    if (Q.stimulus_2_month > 0) stimulus_strength += 1;
-    if (Q.stimulus_3_month > 0) stimulus_strength += 1;
+    if (Q.stimulus_1_month) stimulus_strength = 1;
+    if (Q.stimulus_2_month) stimulus_strength = 2;
+    if (Q.stimulus_3_month) stimulus_strength = 3;
 
-    // --- Determine tax credit strength (cumulative tiers) ---
+    // --- Determine tax credit strength (only one active) ---
     let tax_strength = 0;
-    if (Q.tax_credit_3000 > 0) tax_strength += 1;
-    if (Q.tax_credit_3600 > 0) tax_strength += 1;
-    if (Q.tax_credit_4000 > 0) tax_strength += 1;
-    if (Q.tax_credit_4500 > 0) tax_strength += 1;
+    if (Q.tax_credit_3000) tax_strength = 1;
+    if (Q.tax_credit_3600) tax_strength = 2;
+    if (Q.tax_credit_4000) tax_strength = 3;
+    if (Q.tax_credit_4500) tax_strength = 4;
 
-    // --- Determine local aid strength (cumulative tiers) ---
+    // --- Determine local aid strength (only one active) ---
     let aid_strength = 0;
-    if (Q.local_aid_300 > 0) aid_strength += 1;
-    if (Q.local_aid_400 > 0) aid_strength += 1;
-    if (Q.local_aid_500 > 0) aid_strength += 1;
-    if (Q.local_aid_600 > 0) aid_strength += 1;
+    if (Q.local_aid_300) aid_strength = 1;
+    if (Q.local_aid_400) aid_strength = 2;
+    if (Q.local_aid_500) aid_strength = 3;
+    if (Q.local_aid_600) aid_strength = 4;
 
     // --- Apply economic effects per turn (2-week cycle) ---
-    // Scaling factors to keep percentages reasonable
-    const ECON_GROWTH_PER_POINT = 0.02;        // 2% per stimulus point max
-    const WAGE_GROWTH_PER_POINT = 0.01;
-    const INFLATION_PER_POINT = 0.015;
-    const UNEMPLOYMENT_REDUCTION_PER_POINT = 0.025;
-    const CONFIDENCE_PER_POINT = 0.15;
-    const POVERTY_REDUCTION_PER_POINT = 0.04;
+    // Percentages represented literally (2 = 2%)
+    const ECON_GROWTH_PER_POINT       = 2;    // each stimulus month adds 2% growth
+    const WAGE_GROWTH_PER_POINT       = 1;    // 1% per point
+    const INFLATION_PER_STIMULUS      = 1.5;  // 1.5% per stimulus month
+    const INFLATION_PER_TAX           = 1;    // 1% per tax point
+    const UNEMPLOYMENT_REDUCTION      = 2.5;  // 2.5% per aid point
+    const CONFIDENCE_PER_POINT        = 15;   // 15 points per point
+    const POVERTY_REDUCTION_PER_POINT = 4;    // 4% per point
 
     Q.economic_growth     += ECON_GROWTH_PER_POINT * stimulus_strength;
     Q.wage_growth         += WAGE_GROWTH_PER_POINT * (stimulus_strength + tax_strength);
-    Q.inflation           += INFLATION_PER_POINT * stimulus_strength + 0.01 * tax_strength;
-    Q.unemployment_rate   -= UNEMPLOYMENT_REDUCTION_PER_POINT * aid_strength;
+    Q.inflation           += (INFLATION_PER_STIMULUS * stimulus_strength)
+                           + (INFLATION_PER_TAX * tax_strength);
+    Q.unemployment_rate   -= UNEMPLOYMENT_REDUCTION * aid_strength;
     Q.consumer_confidence += CONFIDENCE_PER_POINT * (stimulus_strength + tax_strength + aid_strength);
     Q.poverty_rate        -= POVERTY_REDUCTION_PER_POINT * (stimulus_strength + tax_strength);
 
-    // --- Government deficit effect in % of GDP ---
-    const DEFICIT_PER_STIMULUS_POINT = 0.25;   // Each stimulus point adds 0.25% of GDP deficit
+    // --- Government deficit effect (as % of GDP) ---
+    const DEFICIT_PER_STIMULUS_POINT = 0.25; // realistic percentage
     const DEFICIT_PER_TAX_POINT      = 0.15;
     const DEFICIT_PER_AID_POINT      = 0.3;
 
@@ -286,7 +288,7 @@ if (Q.stimulus_effects > 0) {
     Q.stimulus_effects -= 1;
 
     // --- Clamp ARP-driven inflation to +5.1% above base ---
-    if (typeof Q.base_inflation === "undefined") Q.base_inflation = 2; // fallback
+    if (typeof Q.base_inflation === "undefined") Q.base_inflation = 2;
     const maxInflation = Q.base_inflation + 5.1;
     if (Q.inflation > maxInflation) Q.inflation = maxInflation;
 }
