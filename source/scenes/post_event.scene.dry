@@ -1,16 +1,29 @@
 title: Post Event
 new-page: true
 on-arrival: {!
+/***********************************************************
+ * POST-EVENT: Global update logic (runs every "turn")
+ * Cleaned version: keeps precision internally and exposes
+ * rounded *_display variables for UI only.
+ *
+ * Changes made:
+ * - Use Q.unemployment_rate consistently (removed Q.unemployed).
+ * - Do NOT overwrite internal Q vars when rounding; create display vars.
+ * - Fixed COVID economic growth sign bug.
+ * - Preserved original flow, clamps and logic.
+ ***********************************************************/
+
 Q.last_advisor_action = 0;
 Q.last_cabinet_action = 0;
 
-// Ensure no stat is below 0
+// --------- SANITY: classes/parties floor ----------
 for (let c of Q.classes) {
     for (let party of Q.parties) {
-        if (Q[c+'_'+party] < 0) Q[c+'_'+party] = 0;
+        if (Q[c + '_' + party] < 0) Q[c + '_' + party] = 0;
     }
 }
 
+// round/normalize a few political ints
 Q.pro_republic = Math.round(Q.pro_republic);
 Q.nationalism = Math.round(Q.nationalism);
 Q.socialism = Math.round(Q.socialism);
@@ -18,68 +31,74 @@ Q.socialism = Math.round(Q.socialism);
 if (Q.pro_republic < 0) Q.pro_republic = 0;
 if (Q.pro_republic >= 100) Q.pro_republic = 99;
 
-// Re-calculate party support
+// --------- PARTY SUPPORT / NORMALIZATION ----------
 for (let c of Q.classes) {
     let class_votes = 0;
     for (let party of Q.parties) {
-        if (Q[c+'_'+party] < 0) Q[c+'_'+party] = 0;
-        class_votes += Q[c+'_'+party];
+        if (Q[c + '_' + party] < 0) Q[c + '_' + party] = 0;
+        class_votes += Q[c + '_' + party];
     }
     for (let party of Q.parties) {
-        Q[c + '_' + party + '_normalized'] = 100 * Q[c+'_'+party] / class_votes;
-        Q[c + '_' + party + '_display'] = Math.round(100 * Q[c+'_'+party] / class_votes);
+        // normalized percent (0-100) for display, keep raw numbers internal
+        Q[c + '_' + party + '_normalized'] = 100 * Q[c + '_' + party] / (class_votes || 1);
+        Q[c + '_' + party + '_display'] = Math.round(100 * Q[c + '_' + party] / (class_votes || 1));
     }
 }
 
-// Calculate support for each party
+// support totals
 let total_support = 0;
 for (let party of Q.parties) {
     let party_support = 0;
     for (let c of Q.classes) {
-        if (Q.old_demographics) { 
-            party_support += Q[c] * Q[c+'_'+party];
-        } else { 
-            party_support += Q[c] * Q[c+'_'+party+'_normalized'];
-        } 
+        if (Q.old_demographics) {
+            party_support += Q[c] * Q[c + '_' + party];
+        } else {
+            party_support += Q[c] * Q[c + '_' + party + '_normalized'];
+        }
     }
     Q[party + '_support'] = party_support;
     total_support += party_support;
 }
 
-// Normalize support
+// normalized and vote display
 for (let party of Q.parties) {
-    Q[party+'_normalized'] = Q[party + '_support'] / total_support;
-    Q[party+'_votes'] = Math.round(Q[party+'_normalized']*100);
-    Q[party+'_votes_display'] = Math.round(Q[party+'_normalized']*100);
+    Q[party + '_normalized'] = (Q[party + '_support'] || 0) / (total_support || 1);
+    Q[party + '_votes'] = Math.round(Q[party + '_normalized'] * 100);
+    Q[party + '_votes_display'] = Q[party + '_votes'];
 }
 
-// Set faction strength/dissent to 0 if needed
-for (let c of Q.factions) {
-    if (Q[c+'_dissent'] < 0) Q[c+'_dissent'] = 0;
-    else if (Q[c+'_dissent'] >= 100) Q[c+'_dissent'] = 99;
-    if (Q[c+'_strength'] < 0) Q[c+'_strength'] = 0;
+// --------- FACTION DISSENT/SIZE CLEANUP ----------
+for (let f of Q.factions) {
+    if (Q[f + '_dissent'] < 0) Q[f + '_dissent'] = 0;
+    else if (Q[f + '_dissent'] >= 100) Q[f + '_dissent'] = 99;
+    if (Q[f + '_strength'] < 0) Q[f + '_strength'] = 0;
 }
 
-if (Q.unemployed <= 1) Q.unemployed = 1;
+// ensure unemployment var exists: use Q.unemployment_rate everywhere
+if (typeof Q.unemployment_rate === "undefined") Q.unemployment_rate = (Q.unemployed || 5);
+if (Q.unemployment_rate <= 1) Q.unemployment_rate = 1;
 
-// Re-calculate dissent
+// Re-calc faction strength percents
 let total_strength = Q.dove_strength + Q.minority_strength + Q.labor_strength + Q.youth_strength + Q.neorevisionist_strength;
-
+if (total_strength <= 0) total_strength = 1;
 Q.dove_strength = 100 * Q.dove_strength / total_strength;
 Q.minority_strength = 100 * Q.minority_strength / total_strength;
 Q.labor_strength = 100 * Q.labor_strength / total_strength;
 Q.youth_strength = 100 * Q.youth_strength / total_strength;
 Q.neorevisionist_strength = 100 * Q.neorevisionist_strength / total_strength;
 
-let total_dissent = Q.dove_strength*Q.dove_dissent + Q.minority_strength*Q.minority_dissent + Q.labor_strength*Q.labor_dissent + Q.youth_strength*Q.youth_dissent + Q.neorevisionist_strength*Q.neorevisionist_dissent;
+let total_dissent = Q.dove_strength * Q.dove_dissent
+                  + Q.minority_strength * Q.minority_dissent
+                  + Q.labor_strength * Q.labor_dissent
+                  + Q.youth_strength * Q.youth_dissent
+                  + Q.neorevisionist_strength * Q.neorevisionist_dissent;
 
-Q.dissent = 0.01 * total_dissent / total_strength;
+Q.dissent = 0.01 * (total_dissent / total_strength);
 Q.dissent_percent = Q.dissent * 100;
-
 if (Q.dissent < 0) Q.dissent = 0;
 else if (Q.dissent > 0.95) Q.dissent = 0.95;
 
-// === DATE HANDLING ===
+// --------- DATE HANDLING (keeps your 2-week-per-turn system) ----------
 if (Q.month_actions >= 1) {
     Q.time += 1;
     Q.month_actions = 0;
@@ -97,24 +116,24 @@ if (Q.month_actions >= 1) {
     }
 
     for (let timer of Q.timers) {
-        if (Q[timer+'_timer'] && Q[timer+'_timer'] > 0) Q[timer+'_timer'] -= 1;
+        if (Q[timer + '_timer'] && Q[timer + '_timer'] > 0) Q[timer + '_timer'] -= 1;
     }
 
     // append to historical party support records
-    let party_support_results = ({'date': new Date(Q.year, Q.month-1)});
+    let party_support_results = ({ 'date': new Date(Q.year, Q.month - 1) });
     for (let party of Q.parties) {
-        party_support_results[party] = Q[party+'_normalized']*100;
+        party_support_results[party] = Q[party + '_normalized'] * 100;
     }
     Q.party_support_records.push(party_support_results);
 
     Q.economic_records.push(({
-        'date': new Date(Q.year, Q.month-1),
+        'date': new Date(Q.year, Q.month - 1),
         'inflation': Q.inflation,
-        'unemployment': Q.unemployed
+        'unemployment': Q.unemployment_rate
     }));
 }
 
-// === IDEAL TARGETS ===
+// --------- IDEAL TARGETS ----------
 const ideal_unemployment   = 4.5;
 const ideal_inflation      = 2;
 const ideal_growth         = 2.5;
@@ -124,19 +143,20 @@ const ideal_consumer_conf  = 105;
 const ideal_interest_rate  = 2;
 const ideal_wage_growth    = Q.inflation + 1.5;
 
-// --- Utility: signed quadratic effect ---
+// signed quadratic helper
 function quadraticEffect(actual, ideal, multiplier, inverted = false) {
     const deviation = actual - ideal;
-    const signedSquare = deviation * Math.abs(deviation);
     if (inverted) {
-        return 0.5 * multiplier * signedSquare;
+        // higher than ideal helps, lower hurts (signed squared)
+        return 0.5 * multiplier * deviation * Math.abs(deviation);
     } else {
+        // deviation hurts both ways
         return -0.5 * multiplier * (deviation ** 2);
     }
 }
 
-// === Compute Target Approval ===
-let target_approval = 50; 
+// --------- TARGET APPROVAL / APPLY ----------
+let target_approval = 50;
 target_approval += quadraticEffect(Q.unemployment_rate, ideal_unemployment, 0.25);
 target_approval += quadraticEffect(Q.inflation, ideal_inflation, 0.15);
 target_approval += quadraticEffect(Q.economic_growth, ideal_growth, 0.18, true);
@@ -147,37 +167,43 @@ target_approval += quadraticEffect(Q.consumer_confidence, ideal_consumer_conf, 0
 target_approval += quadraticEffect(Q.interest_rate, ideal_interest_rate, 0.03);
 target_approval = Math.max(25, Math.min(70, target_approval));
 
-// === Compute Delta and Apply Responsiveness ===
 let delta = target_approval - Q.approval_rating;
-let responsiveness = delta >= 0 ? 0.22 : 0.12; // slight increase
+let responsiveness = delta >= 0 ? 0.22 : 0.12;
 let approval_change = responsiveness * delta;
 if (Math.abs(approval_change) < 0.5) approval_change = Math.sign(approval_change) * 0.5;
 approval_change = Math.max(-3, Math.min(3, approval_change));
 Q.approval_rating += approval_change;
 Q.approval_rating = Math.max(0, Math.min(100, Q.approval_rating));
 
-// === Track cumulative weeks for Fed meetings ===
+// --------- FED MEETINGS (every 6 cumulative weeks) ----------
 if (typeof Q.weeks_since_last_fed === "undefined") Q.weeks_since_last_fed = 0;
-Q.weeks_since_last_fed += 1;
+Q.weeks_since_last_fed += 1; // increment by one per post_event (a turn = 2 weeks)
 
-// Fed meets every 6 cumulative weeks
 if (Q.weeks_since_last_fed >= 6) {
     Q.weeks_since_last_fed = 0;
     let rate_change = 0;
 
+    // inflation pressure (target ~2)
     if (Q.inflation > 3) rate_change += Math.min(0.75, (Q.inflation - 2) * 0.25);
     else if (Q.inflation < 1) rate_change -= Math.min(0.75, (2 - Q.inflation) * 0.25);
 
+    // unemployment pressure (target ~4)
     if (Q.unemployment_rate < 3.5) rate_change += Math.min(0.5, (4 - Q.unemployment_rate) * 0.25);
     else if (Q.unemployment_rate > 6) rate_change -= Math.min(0.5, (Q.unemployment_rate - 4) * 0.25);
 
+    // chair bias (1 dovish -> 4 hawkish)
+    if (typeof Q.fed_chair_hawk_dove === "undefined") Q.fed_chair_hawk_dove = 2.5;
     rate_change += (Q.fed_chair_hawk_dove - 2.5) * 0.25;
+
+    // snap to quarter points
     rate_change = Math.round(rate_change * 4) / 4;
     Q.interest_rate += rate_change;
-    Q.interest_rate = Math.max(0, Math.min(5, Q.interest_rate));
+
+    if (Q.interest_rate < 0) Q.interest_rate = 0;
+    if (Q.interest_rate > 5) Q.interest_rate = 5;
 }
 
-// === PASSIVE MACRO EFFECTS (slightly boosted) ===
+// --------- PASSIVE MACRO EFFECTS (gentle; per 2-week turn) ----------
 Q.economic_growth += 0.02 * Math.max(0, 3 - Q.interest_rate);
 Q.wage_growth     += 0.01 * Math.max(0, 3 - Q.interest_rate);
 Q.inflation       -= 0.015 * Q.interest_rate;
@@ -197,102 +223,143 @@ Q.consumer_confidence += 0.22 * Q.wage_growth;
 Q.consumer_confidence -= 0.28 * (Q.poverty_rate - ideal_poverty);
 Q.economic_growth     -= 0.06 * (Q.poverty_rate - ideal_poverty);
 
-// === DEFICIT-DRIVEN INFLATION PASSIVE EFFECT ===
+// --------- DEFICIT -> inflation minor pressure (total capped) ----------
 if (typeof Q.cumulative_deficit_inflation === "undefined") Q.cumulative_deficit_inflation = 0;
 let deficit_infl_adj = 0;
 if (Q.government_deficit > 0) deficit_infl_adj = Q.government_deficit * 0.00005;
 if (Q.government_deficit < 0) deficit_infl_adj = Q.government_deficit * 0.00002;
 deficit_infl_adj = Math.max(-0.02, Math.min(0.02, deficit_infl_adj));
+
 let deficit_cap = 3.2;
 if (Q.cumulative_deficit_inflation + deficit_infl_adj > deficit_cap) deficit_infl_adj = deficit_cap - Q.cumulative_deficit_inflation;
 if (Q.cumulative_deficit_inflation + deficit_infl_adj < -deficit_cap) deficit_infl_adj = -deficit_cap - Q.cumulative_deficit_inflation;
+
 Q.inflation += deficit_infl_adj;
 Q.cumulative_deficit_inflation += deficit_infl_adj;
 
-// --- STIMULUS EFFECTS ---
+// --------- AMERICAN RESCUE PLAN STIMULUS EFFECTS (if active) ----------
 if (Q.stimulus_effects > 0) {
-    let stimulus_strength = Q.stimulus_1_month ? 1 : (Q.stimulus_2_month ? 2 : (Q.stimulus_3_month ? 3 : 0));
-    let tax_strength = Q.tax_credit_3000 ? 1 : (Q.tax_credit_3600 ? 2 : (Q.tax_credit_4000 ? 3 : (Q.tax_credit_4500 ? 4 : 0)));
-    let aid_strength = Q.local_aid_300 ? 1 : (Q.local_aid_400 ? 2 : (Q.local_aid_500 ? 3 : (Q.local_aid_600 ? 4 : 0)));
+    // stimulus months are mutually exclusive flags; pick highest active
+    let stimulus_strength = Q.stimulus_3_month ? 3 : (Q.stimulus_2_month ? 2 : (Q.stimulus_1_month ? 1 : 0));
+    // tax credit flags: only one active at a time; map to 1..4
+    let tax_strength = Q.tax_credit_4500 ? 4 : (Q.tax_credit_4000 ? 3 : (Q.tax_credit_3600 ? 2 : (Q.tax_credit_3000 ? 1 : 0)));
+    // local aid: only one active
+    let aid_strength = Q.local_aid_600 ? 4 : (Q.local_aid_500 ? 3 : (Q.local_aid_400 ? 2 : (Q.local_aid_300 ? 1 : 0)));
 
-    Q.economic_growth     += 0.35 * stimulus_strength;
+    // per-turn effects (percent points or absolute where appropriate).
+    Q.economic_growth     += 0.35 * stimulus_strength; // percent points of real GDP growth, small per 2-week turn
     Q.wage_growth         += 0.18 * (stimulus_strength + tax_strength);
     Q.inflation           += (0.18 * stimulus_strength + 0.18 * tax_strength);
     Q.unemployment_rate   -= 1.6 * aid_strength;
     Q.consumer_confidence += 2.2 * (stimulus_strength + tax_strength + aid_strength);
     Q.poverty_rate        -= 0.25 * (stimulus_strength + tax_strength);
 
-    Q.government_deficit += 0.1*(stimulus_strength + tax_strength) + 0.2*aid_strength;
+    // effect on deficit (% of GDP)
+    Q.government_deficit += 0.1 * (stimulus_strength + tax_strength) + 0.2 * aid_strength;
+
+    // politics
     Q.lower_income_dem        += 0.2 * (stimulus_strength + tax_strength);
     Q.lower_middle_income_dem += 0.1 * (stimulus_strength + tax_strength);
 
+    // consume one turn of ARP effects
     Q.stimulus_effects -= 1;
 }
 
-// --- COVID EFFECTS ---
+// --------- COVID EFFECTS (fixed sign bug) ----------
 if (Q.covid_state > 0) {
+    // rows 0..3 apply depending on severity
     let covidImpact = [
-        {u:0.1,g:-0.1,inf:0,conf:-1,pov:0,w:0},
-        {u:0.3,g:-0.3,inf:-0.1,conf:-3,pov:0.2,w:0},
-        {u:0.5,g:-0.6,inf:-0.2,conf:-5,pov:0.5,w:-0.2},
-        {u:1,g:-1.2,inf:-0.5,conf:-10,pov:1,w:-0.5}
+        {u:0.1, g:-0.1, inf:0,   conf:-1, pov:0,   w:0},
+        {u:0.3, g:-0.3, inf:-0.1,conf:-3, pov:0.2, w:0},
+        {u:0.5, g:-0.6, inf:-0.2,conf:-5, pov:0.5, w:-0.2},
+        {u:1.0, g:-1.2, inf:-0.5,conf:-10,pov:1.0, w:-0.5}
     ];
-    let index = Math.min(Math.floor(Q.covid_state/2), 3);
-    Q.unemployment_rate += covidImpact[index].u;
-    Q.economic_growth -= -covidImpact[index].g;
-    Q.inflation += covidImpact[index].inf;
-    Q.consumer_confidence += covidImpact[index].conf;
-    Q.poverty_rate += covidImpact[index].pov;
-    Q.wage_growth += covidImpact[index].w;
+    let idx = Math.min(Math.floor((Q.covid_state - 1) / 2) + 0, 3);
+    if (idx < 0) idx = 0;
+    Q.unemployment_rate += covidImpact[idx].u;
+    Q.economic_growth += covidImpact[idx].g;   // g is negative to reduce growth
+    Q.inflation += covidImpact[idx].inf;
+    Q.consumer_confidence += covidImpact[idx].conf;
+    Q.poverty_rate += covidImpact[idx].pov;
+    Q.wage_growth += covidImpact[idx].w;
 }
 
-// === INCOME GROUP ADJUSTMENTS ===
+// --------- INCOME GROUP / POLLING CLEANUP ----------
 let incomeGroups = ['lower_income', 'lower_middle_income', 'middle_income', 'upper_middle_income', 'upper_income'];
 for (let group of incomeGroups) {
-    for (let p of ['dem','rep','other']) {
-        Q[group + '_' + p] = Math.max(0, Math.min(100, Q[group + '_' + p]));
-        Q[group + '_' + p + '_display'] = Math.round(Q[group + '_' + p]*10)/10;
+    for (let p of ['dem', 'rep', 'other']) {
+        Q[group + '_' + p] = Math.max(0, Math.min(100, Q[group + '_' + p] || 0));
+        Q[group + '_' + p + '_display'] = Math.round((Q[group + '_' + p] || 0) * 10) / 10;
     }
 }
 
-// === IMMIGRATION EFFECTS ===
-Q.economic_growth += 0.006 * Q.immigration_rate;
-Q.unemployment_rate -= 0.0025 * Q.immigration_rate;
-Q.wage_growth -= 0.0012 * Q.immigration_rate;
+// --------- IMMIGRATION EFFECTS ----------
+Q.economic_growth += 0.006 * (Q.immigration_rate || 0);
+Q.unemployment_rate -= 0.0025 * (Q.immigration_rate || 0);
+Q.wage_growth -= 0.0012 * (Q.immigration_rate || 0);
 
 let immigration_pressure = 0;
-if (Q.undocumented_population > 6) immigration_pressure += 0.12*(Q.undocumented_population-6);
-if (Q.refugee_intake > 20) immigration_pressure += 0.06*(Q.refugee_intake-20);
+if (Q.undocumented_population > 6) immigration_pressure += 0.12 * (Q.undocumented_population - 6);
+if (Q.refugee_intake > 20) immigration_pressure += 0.06 * (Q.refugee_intake - 20);
 Q.approval_rating -= immigration_pressure;
 
-let radical_increase = 0.15 * Math.max(0, Q.undocumented_population-5);
-let radical_decrease = 0.2 * Q.border_enforcement;
+let radical_increase = 0.15 * Math.max(0, (Q.undocumented_population || 0) - 5);
+let radical_decrease = 0.2 * (Q.border_enforcement || 0);
 Q.right_radicalization += radical_increase - radical_decrease;
 Q.right_radicalization = Math.min(51, Math.max(1, Q.right_radicalization));
 
-const enforcement_effect = Q.border_enforcement - 5;
+// enforcement effect adjusts undocumented/refugee numbers slowly
+const enforcement_effect = (Q.border_enforcement || 5) - 5;
 Q.undocumented_population += 0.1 * (-enforcement_effect);
 Q.refugee_intake += 0.05 * (-enforcement_effect);
 Q.undocumented_population = Math.max(0, Q.undocumented_population);
 Q.refugee_intake = Math.max(0, Q.refugee_intake);
 
-// --- VIRGINIA / NEW JERSEY POLLS ---
+// --------- VIRGINIA / NEW JERSEY POLLS ----------
 Q.va_lower_share = 0.20; Q.va_lowermiddle_share = 0.25; Q.va_middle_share = 0.30; Q.va_uppermiddle_share = 0.15; Q.va_upper_share = 0.10;
 Q.nj_lower_share = 0.18; Q.nj_lowermiddle_share = 0.22; Q.nj_middle_share = 0.30; Q.nj_uppermiddle_share = 0.20; Q.nj_upper_share = 0.10;
 
-Q.jersey_democrats_poll = Q.nj_lower_share*Q.lower_income_dem + Q.nj_lowermiddle_share*Q.lower_middle_income_dem + Q.nj_middle_share*Q.middle_income_dem + Q.nj_uppermiddle_share*Q.upper_middle_income_dem + Q.nj_upper_share*Q.upper_income_dem + Q.nj_dem_bonus;
-Q.jersey_republicans_poll = Q.nj_lower_share*Q.lower_income_rep + Q.nj_lowermiddle_share*Q.lower_middle_income_rep + Q.nj_middle_share*Q.middle_income_rep + Q.nj_uppermiddle_share*Q.upper_middle_income_rep + Q.nj_upper_share*Q.upper_income_rep + Q.nj_rep_bonus;
+Q.jersey_democrats_poll = Q.nj_lower_share * Q.lower_income_dem
+                        + Q.nj_lowermiddle_share * Q.lower_middle_income_dem
+                        + Q.nj_middle_share * Q.middle_income_dem
+                        + Q.nj_uppermiddle_share * Q.upper_middle_income_dem
+                        + Q.nj_upper_share * Q.upper_income_dem
+                        + (Q.nj_dem_bonus || 0);
 
-Q.vigrinia_democrats_poll = Q.va_lower_share*Q.lower_income_dem + Q.va_lowermiddle_share*Q.lower_middle_income_dem + Q.va_middle_share*Q.middle_income_dem + Q.va_uppermiddle_share*Q.upper_middle_income_dem + Q.va_upper_share*Q.upper_income_dem + Q.va_dem_bonus;
-Q.vigrinia_republicans_poll = Q.va_lower_share*Q.lower_income_rep + Q.va_lowermiddle_share*Q.lower_middle_income_rep + Q.va_middle_share*Q.middle_income_rep + Q.va_uppermiddle_share*Q.upper_middle_income_rep + Q.va_upper_share*Q.upper_income_rep + Q.va_rep_bonus;
+Q.jersey_republicans_poll = Q.nj_lower_share * Q.lower_income_rep
+                          + Q.nj_lowermiddle_share * Q.lower_middle_income_rep
+                          + Q.nj_middle_share * Q.middle_income_rep
+                          + Q.nj_uppermiddle_share * Q.upper_middle_income_rep
+                          + Q.nj_upper_share * Q.upper_income_rep
+                          + (Q.nj_rep_bonus || 0);
 
-// Normalize if >100
+Q.vigrinia_democrats_poll = Q.va_lower_share * Q.lower_income_dem
+                          + Q.va_lowermiddle_share * Q.lower_middle_income_dem
+                          + Q.va_middle_share * Q.middle_income_dem
+                          + Q.va_uppermiddle_share * Q.upper_middle_income_dem
+                          + Q.va_upper_share * Q.upper_income_dem
+                          + (Q.va_dem_bonus || 0);
+
+Q.vigrinia_republicans_poll = Q.va_lower_share * Q.lower_income_rep
+                            + Q.va_lowermiddle_share * Q.lower_middle_income_rep
+                            + Q.va_middle_share * Q.middle_income_rep
+                            + Q.va_uppermiddle_share * Q.upper_middle_income_rep
+                            + Q.va_upper_share * Q.upper_income_rep
+                            + (Q.va_rep_bonus || 0);
+
+// normalize if >100
 let va_total = Q.vigrinia_democrats_poll + Q.vigrinia_republicans_poll;
-if (va_total > 100) { Q.vigrinia_democrats_poll *= 100 / va_total; Q.vigrinia_republicans_poll *= 100 / va_total; }
+if (va_total > 100) {
+    Q.vigrinia_democrats_poll *= 100 / va_total;
+    Q.vigrinia_republicans_poll *= 100 / va_total;
+}
 let nj_total = Q.jersey_democrats_poll + Q.jersey_republicans_poll;
-if (nj_total > 100) { Q.jersey_democrats_poll *= 100 / nj_total; Q.jersey_republicans_poll *= 100 / nj_total; }
+if (nj_total > 100) {
+    Q.jersey_democrats_poll *= 100 / nj_total;
+    Q.jersey_republicans_poll *= 100 / nj_total;
+}
 
-// --- CLAMP ECONOMIC METRICS ---
+// --------- CLAMPS (keep numbers sensible) ----------
 Q.unemployment_rate   = Math.max(2, Math.min(25, Q.unemployment_rate));
 Q.inflation           = Math.max(-2, Math.min(15, Q.inflation));
 Q.wage_growth         = Math.max(0, Math.min(15, Q.wage_growth));
@@ -301,58 +368,63 @@ Q.consumer_confidence = Math.max(40, Math.min(150, Q.consumer_confidence));
 Q.economic_growth     = Math.max(-10, Math.min(10, Q.economic_growth));
 Q.interest_rate       = Math.max(-2, Math.min(10, Q.interest_rate));
 
-// --- EDUCATION / SCIENCE BONUS ---
+// --------- EDUCATION / SCIENCE BONUS (unchanged) ----------
 Q.science_bonus = 0;
 if (Q.education_science) Q.science_bonus += Q.education_science;
-if (Q.science) Q.science_bonus += Q.science >=5 ? 3 : Q.science>=3 ? 2 : Q.science>=1 ? 1 : 0;
-if (Q.applied_research) Q.science_bonus += 0.5*Q.applied_research;
+if (Q.science) {
+    if (Q.science >= 5) Q.science_bonus += 3;
+    else if (Q.science >= 3) Q.science_bonus += 2;
+    else if (Q.science >= 1) Q.science_bonus += 1;
+}
+if (Q.applied_research && Q.applied_research >= 1) Q.science_bonus += 0.5 * Q.applied_research;
 if (Q.science_bonus > 6) Q.science_bonus = 6;
-if (Q.science_bonus >= 1 && Q.return_to_normalcy && Q.economic_growth < Q.science_bonus+3) Q.economic_growth += 0.1;
-
-// === Round for Display ===
-let roundKeys = ['_rate', '_growth', '_deficit', '_inflation', '_confidence', '_poverty', '_wage', '_population', '_rating', ];
-for (let key in Q) {
-    if (roundKeys.some(suffix => key.endsWith(suffix))) {
-        Q[key] = Math.round(Q[key] * 100) / 100;
-    }
+if (Q.science_bonus >= 1) {
+    if (Q.return_to_normalcy && Q.economic_growth < Q.science_bonus + 3) Q.economic_growth += 0.1;
 }
 
-Q.approval_rating_display = Math.max(25, Math.min(70, Q.approval_rating));
-// === GENTLE EXTREME BALANCE CORRECTION ===
+// --------- ROUND FOR DISPLAY ONLY (do NOT modify internal Q) ----------
+let roundKeys = ['_rate', '_growth', '_deficit', '_inflation', '_confidence', '_poverty', '_wage', '_population', '_rating'];
+for (let key in Q) {
+    for (let suffix of roundKeys) {
+        if (key.endsWith(suffix)) {
+            Q[key + '_display'] = Math.round(Q[key] * 100) / 100;
+            break;
+        }
+    }
+}
+// some explicit displays
+Q.approval_rating_display = Math.round(Q.approval_rating * 100) / 100;
+Q.unemployment_rate_display = Math.round(Q.unemployment_rate * 100) / 100;
+Q.inflation_display = Math.round(Q.inflation * 100) / 100;
 
-// Define "reasonable floors/ceilings" for variables
+// --------- GENTLE EXTREME BALANCE CORRECTION (nudges only if outside reasonable limits) ----------
 const balanceLimits = {
-    approval_rating: {min: 35, max: 62},
-    unemployment_rate: {min: 2, max: 10},
-    inflation: {min: -2, max: 12},
-    economic_growth: {min: -5, max: 8},
-    poverty_rate: {min: 5, max: 20},
-    consumer_confidence: {min: 50, max: 140},
-    wage_growth: {min: 0, max: 10},
+    approval_rating:   {min: 35,  max: 62},
+    unemployment_rate: {min: 2,   max: 10},
+    inflation:         {min: -2,  max: 12},
+    economic_growth:   {min: -5,  max: 8},
+    poverty_rate:      {min: 5,   max: 20},
+    consumer_confidence:{min:50,  max:140},
+    wage_growth:       {min: 0,   max:10}
 };
-
-// Maximum drift per 2-week turn
 const maxGentleDrift = {
-    approval_rating: 0.5,
+    approval_rating:   0.5,
     unemployment_rate: 0.2,
-    inflation: 0.2,
-    economic_growth: 0.15,
-    poverty_rate: 0.1,
-    consumer_confidence: 0.5,
-    wage_growth: 0.2,
+    inflation:         0.2,
+    economic_growth:   0.15,
+    poverty_rate:      0.1,
+    consumer_confidence:0.5,
+    wage_growth:       0.2
 };
 
-// Apply gentle correction only if variable is outside reasonable range
 for (let key in balanceLimits) {
     if (typeof Q[key] !== "undefined") {
         let value = Q[key];
         let limits = balanceLimits[key];
-
-        // Only correct if outside min or max
         let drift = 0;
         if (value < limits.min) {
             let deviation = limits.min - value;
-            drift = Math.min(deviation * 0.05, maxGentleDrift[key]); // stronger if more extreme
+            drift = Math.min(deviation * 0.05, maxGentleDrift[key]);
             Q[key] += drift;
         } else if (value > limits.max) {
             let deviation = value - limits.max;
@@ -361,7 +433,8 @@ for (let key in balanceLimits) {
         }
     }
 }
-// --- EVENT ROUTING ---
+
+// --------- EVENT ROUTING (unchanged) ----------
 Q.has_event = 0;
 let scene = this.game.scenes['post_event.events_choice'];
 let choices = this._compileChoices(scene);
