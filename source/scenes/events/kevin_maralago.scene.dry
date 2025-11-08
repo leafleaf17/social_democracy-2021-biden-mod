@@ -47,31 +47,31 @@ We intensify our attacks on Trump greatly. Mitch Mcconnell wastes no time to com
 subtitle: Will Republicans put country over party?
 go-to: trump_impeachment_failed
 on-arrival: {! 
-  if (window && d3) {
-    var width = 500; 
-    var height = 500;
-    var screenWidth = document.getElementById('content').offsetWidth;
-    if (screenWidth < width - 50) {
-        width = screenWidth - 50; 
-        height = width;
-        document.getElementById("reichstag").style.height = screenWidth/2 + "px";
-    } 
+  setTimeout(function() {
+    if (window && d3) {
+      var width = 500; 
+      var height = 500;
+      var screenWidth = document.getElementById('content').offsetWidth;
+      if (screenWidth < width - 50) {
+          width = screenWidth - 50; 
+          height = width;
+          document.getElementById("reichstag").style.height = screenWidth/2 + "px";
+      } 
 
-    var data = [
-      {id: "Democrat", color: "#0015BC", outline: "#000", seats: Q.dem_votes_senate},
-      {id: "Republican", color: "#FF0000", outline: "#000", seats: Q.rep_votes_senate},
-      {id: "Independent", color: "#00FF00", outline: "#000", seats: 100 - Q.dem_votes_senate - Q.rep_votes_senate}
-    ];
+      var data = [
+        {id: "Democrat", color: "#0015BC", outline: "#000", seats: Q.dem_votes_senate},
+        {id: "Republican", color: "#FF0000", outline: "#000", seats: Q.rep_votes_senate},
+        {id: "Independent", color: "#00FF00", outline: "#000", seats: 100 - Q.dem_votes_senate - Q.rep_votes_senate}
+      ];
 
-    var parliament = d3.parliament();
-    parliament.width(width).height(height).innerRadiusCoef(0.4);
-    parliament.enter.fromCenter(true).smallToBig(true);
-    parliament.exit.toCenter(false).bigToSmall(true);
-    d3.select("#reichstag").datum(data).call(parliament);
-  }
+      var parliament = d3.parliament();
+      parliament.width(width).height(height).innerRadiusCoef(0.4);
+      parliament.enter.fromCenter(true).smallToBig(true);
+      parliament.exit.toCenter(false).bigToSmall(true);
+      d3.select("#reichstag").datum(data).call(parliament);
+    }
+  }, 50);
 !}
-
-<div id="reichstag" style="width:100%; height:500px;"></div>
 
 @trump_impeachment_failed
 
