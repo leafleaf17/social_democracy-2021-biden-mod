@@ -175,6 +175,7 @@ on-arrival: coalition_dissent += 2; progressive_support_primary += 2; approval_r
 
 Our rallies bring large crowds of ordinary people inspired to pressure their senators to follow the will of the people. Sinema and Machin are furious, as Schumer is forced to spend valuable time to calm them down. Eventually, the American Rescue Plan passes the senate, and it's signed into law.
 
+
 @arp_end_everything
 subtitle: Our base will be very disappointed
 on-arrival: youth_dissent += 8; labor_dissent += 8; approval_rating += 5
