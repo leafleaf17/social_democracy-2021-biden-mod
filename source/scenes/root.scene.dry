@@ -522,6 +522,7 @@ Q.stimulus_chosen = 0;
 Q.tax_credit_chosen = 0;
 Q.local_aid_chosen = 0;
 Q.progressive_support_primary = 0;
+Q.stimulus_effects = 0;
 Q.deficit_inflation_contrib = 0
 Q.crisis_program_timer = 0;
 Q.fundraising_timer = 0;
