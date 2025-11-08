@@ -233,61 +233,7 @@ Q.inflation += deficit_infl_adj;
 Q.deficit_inflation_contrib += deficit_infl_adj;
 // === AMERICAN RESCUE PLAN STIMULUS EFFECTS ===
 // Runs each turn only if stimulus_effects remain
-if (stimulus_effects > 0) {
 
-    // --- Determine stimulus strength ---
-    stimulus_strength = 0;
-    if (stimulus_1_month > 0) { stimulus_strength = 1; }
-    if (stimulus_2_month > 0) { stimulus_strength = 2; }
-    if (stimulus_3_month > 0) { stimulus_strength = 3; }
-
-    // --- Determine tax credit strength ---
-    tax_strength = 0;
-    if (tax_credit_3000 > 0) { tax_strength = 1; }
-    if (tax_credit_3600 > 0) { tax_strength = 2; }
-    if (tax_credit_4000 > 0) { tax_strength = 3; }
-    if (tax_credit_4500 > 0) { tax_strength = 4; }
-
-    // --- Determine local aid strength ---
-    aid_strength = 0;
-    if (local_aid_300 > 0) { aid_strength = 1; }
-    if (local_aid_400 > 0) { aid_strength = 2; }
-    if (local_aid_500 > 0) { aid_strength = 3; }
-    if (local_aid_600 > 0) { aid_strength = 4; }
-
-    // --- Economic impacts ---
-    // Each turn (2 weeks):
-    // Stimulus & tax credits boost consumer spending and wages
-    economic_growth     += 0.02 * stimulus_strength;
-    wage_growth         += 0.01 * (stimulus_strength + tax_strength);
-
-    // Stimulus & tax credits increase short-term demand → inflation
-    inflation           += 0.015 * stimulus_strength;
-    inflation           += 0.01 * tax_strength;
-
-    // Local aid stabilizes unemployment + consumer confidence
-    unemployment_rate   -= 0.025 * aid_strength;
-    consumer_confidence += 0.15 * (stimulus_strength + tax_strength + aid_strength);
-
-    // Government deficit expands due to spending
-    government_deficit  += (stimulus_strength * 35) + (tax_strength * 25) + (aid_strength * 40);
-
-    // Poverty reduction (strong & realistic)
-    poverty_rate        -= 0.04 * (stimulus_strength + tax_strength);
-
-    // Political effects
-    lower_income_dem    += 0.2 * (stimulus_strength + tax_strength);
-    lower_middle_income_dem += 0.1 * (stimulus_strength + tax_strength);
-
-    // Reduce remaining turns
-    stimulus_effects -= 1;
-
-    // Clamp inflation contribution cap (ARP shouldn't create runaway inflation)
-    // Max total ARP-added inflation = +5.1%
-    if (inflation > base_inflation + 5.1) {
-        inflation = base_inflation + 5.1;
-    }
-}
 // COVID-19 effects
 if (Q.covid_state > 0) {
     if (Q.covid_state <= 2) {
