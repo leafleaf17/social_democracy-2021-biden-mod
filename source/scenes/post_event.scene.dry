@@ -315,7 +315,7 @@ Q.right_radicalization = Math.min(51, Math.max(1, Q.right_radicalization));
 
 // enforcement effect adjusts undocumented/refugee numbers slowly
 const enforcement_effect = (Q.border_enforcement || 5) - 5;
-Q.undocumented_population += 0.1 * (-enforcement_effect);
+Q.undocumented_population += 0.05 * (-enforcement_effect);
 Q.refugee_intake += 0.05 * (-enforcement_effect);
 Q.undocumented_population = Math.max(0, Q.undocumented_population);
 Q.refugee_intake = Math.max(0, Q.refugee_intake);
