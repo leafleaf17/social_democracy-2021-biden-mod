@@ -478,6 +478,8 @@ Q.poverty_rate          = round(Q.poverty_rate);
 Q.consumer_confidence   = round(Q.consumer_confidence);
 Q.interest_rate         = round(Q.interest_rate);
 Q.government_deficit    = round(Q.government_deficit);
+Q.undocumented_population = round(Q.undocumented_population);
+Q.unionization_rate = round(Q.unionization_rate);
 
 // Display values (if separate UI vars exist)
 Q.approval_rating_display = Q.approval_rating;
