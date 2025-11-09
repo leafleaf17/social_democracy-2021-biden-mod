@@ -121,6 +121,8 @@ State of the Covid-19 pandemic: [+ covid_state : covid +].
 
 Bernie's actions to protect workers interests are currently seen as: [+ workers_progress : generic_progress +]
 
+Our anti monopoly action is: [+ monopoly_progress : generic_progress +]
+
 @polls
 on-arrival: {!
 Q.pro_republic_disp = Math.round(Q.pro_republic);

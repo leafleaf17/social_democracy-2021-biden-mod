@@ -10,8 +10,9 @@ card-image: img/muller_cabinet.jpg
 The unionization rate of American workers used to be very high, yet 40 years of neoliberal rule has caused immense harm to union power and unionization rates. We can attempt to once again strengthen unions.
 
 - @investigate_union_busting: Aggressively pursue cases against union busting
-- @neutrality_pledges_for_government_contracts: Use our party resources to support our allies.
-- @bring_down: Instead, we will bring down the government with a no-confidence vote, and call for new elections.
+- @neutrality_pledges_for_government_contracts: Neutrality pledges for companies in contract with the government
+- @criminalize_captive_audience: Criminalize captive audience meetings
+- @fast_track_elections: Speed up union elections
 - @no_change: Take none of these actions.
 - @easy_discard
 
@@ -29,13 +30,19 @@ on-arrival: pledges_signed += 1; unionization_rate += 1; economic_growth -= 0.3;
 
 We force key partners to sign the pledge, increasing the chance of union elections being sucessful in many major companies.
 
-@bring_down
-subtitle: Bring down this government before our opponents do.
-on-arrival: spd_in_government = 0; in_grand_coalition = 0; in_weimar_coalition = 0; chancellor = "Brüning"; chancellor_party = "Z"; next_election_time = time + 3 if next_election_time > time+3; next_election_month = month + 3 if next_election_time >= time+3; next_election_year = year if next_election_time >= time+3; next_election_year += 1 if next_election_month > 12; next_election_month -= 12 if next_election_month > 12; spd_toleration = 0; dove_strength += 8; pro_republic -= 5; new_middle_spd -= 3; rural_spd -= 3; old_middle_spd -= 3; catholics_spd -= 3; youth_dissent += 5
+@criminalize_captive_audience
+subtitle: Employers will no longer be able to force workers to attend anti-union meetings
+view-if: no_audience_capture = 0
+on-arrival: no_audience_capture += 1; unionization_rate += 1; economic_growth -= 0.3; wage_growth += 1; labor_strength += 10; labor_dissent -= 10; workers_progress += 5
 
-We have called for a vote of no confidence in ourselves, and have brought down this government. Chancellor [+ chancellor +] currently rules as acting chancellor.
+The National Labor Relations Board criminalizes captive audience meetings, earning praise from unions and helping ensure union elections are free from employee influence 
 
-New elections have been set for [+ next_election_month : month +] [+ next_election_year +].
+@fast_track_elections
+subtitle: Union elections must be scheduled within 10 days of when the workforce agrees to hold them.
+view-if: fast_track_elections_var = 0
+on-arrival: fast_track_elections_var += 1; unionization_rate += 1; wage_growth += 1; labor_strength += 10; labor_dissent -= 10; workers_progress += 5
+
+The National Labor Relations Board restores Obama era requirements to ensure union elections are speedy.
 
 @no_change
 

@@ -365,6 +365,8 @@ Q.workers_progress = 0;
 Q.extreme_weather_count = 0;
 Q.unionization_rate = 10.7;
 Q.pledges_signed = 0;
+Q.fast_track_elections_var = 0;
+Q.monopoly_progress = 0;
 Q.nsdap_in_government = 0;
 Q.fed_chair_hawk_dove = 3;         // 1 = most dovish, 2 = mildly dovish, 3 = mildly hawkish, 4 = most hawkish
 Q.weeks_since_last_fed = 0;
