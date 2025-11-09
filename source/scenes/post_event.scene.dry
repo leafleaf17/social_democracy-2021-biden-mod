@@ -98,9 +98,6 @@ Q.dissent_percent = Q.dissent * 100;
 if (Q.dissent < 0) Q.dissent = 0;
 else if (Q.dissent > 0.95) Q.dissent = 0.95;
 
-minority_dissent += 0.1
-labor_dissent += 0.2
-youth_dissent += 0.1
 
 
 // --------- DATE HANDLING (keeps your 2-week-per-turn system) ----------
